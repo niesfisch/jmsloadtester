@@ -104,33 +104,32 @@ public class DefaultConfigImpl implements Config {
     }
     
     private void initValues(final Properties properties){
-    	try {
-	    	subscribersToStart     	  = getIntValue(properties.get(SUBSCRIBERS_TO_START));
-	    	publishersToStart      	  = getIntValue(properties.get(PUBLISHERS_TO_START));
-	    	pubSleepMillis         	  = getIntValue(properties.get(PUB_SLEEP));
-	    	eachSubscriberWaitFor     = getIntValue(properties.get(SUBSCRIBER_WAIT_FOR));
-	    	pauseBetweenPrintProgress = getIntValue(properties.get(PAUSE_PROGRESS)) * Constants.MILLIS_FACTOR;
-	    	listenerRampup            = getIntValue(properties.get(LISTENER_RAMPUP));
-	    	senderRampup              = getIntValue(properties.get(SENDER_RAMPUP));
-	    	
-	    	subscriberWaitFor         = eachSubscriberWaitFor * subscribersToStart;
-	    	
-	    	connectionFactory      = getStringValue(properties.get(CONNECTION_FACTORY));
-	    	
-	    	listenToDestination    = getStringValue(properties.get(LISTEN_TO_DEST));
-	    	sendToDestination      = getStringValue(properties.get(SEND_TO_DEST));
-	    	
-	        debugOutputStrategy    = OutputStrategyFactory.getOutputStrategy(getStringValue(properties.get(DEBUG_OUT_STRATEGY)));
-	        resultOutputStrategy   = OutputStrategyFactory.getOutputStrategy(getStringValue(properties.get(RESULT_OUT_STRATEGY)));
-	        messageOutputStrategy  = OutputStrategyFactory.getOutputStrategy(getStringValue(properties.get(MESSAGE_OUT_STRATEGY)));
-	        
-	        messageContentStrategy = getStringValue(properties.get(MESSAGE_CONTENT_STRATEGY));
-	    	
-	        setMessagesToSend(getMessageContentStrategy().getMessageCount());
-	        
-    	} catch (IllegalStateException e){
-    	    Logger.error("the configuration file seems to be incorrect", e);
-    	}
+        try {
+            subscribersToStart     	  = getIntValue(properties.get(SUBSCRIBERS_TO_START));
+            publishersToStart      	  = getIntValue(properties.get(PUBLISHERS_TO_START));
+            pubSleepMillis         	  = getIntValue(properties.get(PUB_SLEEP));
+            eachSubscriberWaitFor     = getIntValue(properties.get(SUBSCRIBER_WAIT_FOR));
+            pauseBetweenPrintProgress = getIntValue(properties.get(PAUSE_PROGRESS)) * Constants.MILLIS_FACTOR;
+            listenerRampup            = getIntValue(properties.get(LISTENER_RAMPUP));
+            senderRampup              = getIntValue(properties.get(SENDER_RAMPUP));
+            
+            subscriberWaitFor         = eachSubscriberWaitFor * subscribersToStart;
+            
+            connectionFactory      = getStringValue(properties.get(CONNECTION_FACTORY));
+            
+            listenToDestination    = getStringValue(properties.get(LISTEN_TO_DEST));
+            sendToDestination      = getStringValue(properties.get(SEND_TO_DEST));
+            
+            debugOutputStrategy    = OutputStrategyFactory.getOutputStrategy(getStringValue(properties.get(DEBUG_OUT_STRATEGY)));
+            resultOutputStrategy   = OutputStrategyFactory.getOutputStrategy(getStringValue(properties.get(RESULT_OUT_STRATEGY)));
+            messageOutputStrategy  = OutputStrategyFactory.getOutputStrategy(getStringValue(properties.get(MESSAGE_OUT_STRATEGY)));
+            
+            messageContentStrategy = getStringValue(properties.get(MESSAGE_CONTENT_STRATEGY));
+            
+            setMessagesToSend(getMessageContentStrategy().getMessageCount());
+        } catch (IllegalStateException e){
+            Logger.error("the configuration file seems to be incorrect", e);
+        }
     }
     
     private void calculateExpectedMessageCounts(){
