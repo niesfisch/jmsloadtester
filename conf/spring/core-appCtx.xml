@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- 
 /**
  *   JMS Load Tester
@@ -19,8 +20,6 @@
  *   along with JMS Load Tester. If not, see <http://www.gnu.org/licenses/>.
  */
  -->
-<?xml version="1.0" encoding="UTF-8"?>
-
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
     "http://www.springframework.org/dtd/spring-beans.dtd">
 
