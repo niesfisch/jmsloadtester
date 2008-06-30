@@ -14,26 +14,26 @@ import de.marcelsauer.jmsloadtester.message.filter.PlaceHolderContentFilter;
 import de.marcelsauer.jmsloadtester.spring.SpringFactory;
 
 /**
- *   JMS Load Tester
- *   Copyright (C) 2008 Marcel Sauer <marcel[underscore]sauer[at]gmx.de>
- *   
- *   This file is part of JMS Load Tester.
- *
- *   JMS Load Tester is free software: you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation, either version 3 of the License, or
- *   (at your option) any later version.
- *
- *   JMS Load Tester is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with JMS Load Tester. If not, see <http://www.gnu.org/licenses/>.
+ * JMS Load Tester Copyright (C) 2008 Marcel Sauer
+ * <marcel[underscore]sauer[at]gmx.de>
+ * 
+ * This file is part of JMS Load Tester.
+ * 
+ * JMS Load Tester is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the Free
+ * Software Foundation, either version 3 of the License, or (at your option) any
+ * later version.
+ * 
+ * JMS Load Tester is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * JMS Load Tester. If not, see <http://www.gnu.org/licenses/>.
  */
 public class ThreadTrackerImpl implements ThreadTracker {
-    
+
     private static int subscribersCreated;
     private static int publishersCreated;
     private DestinationHandlerImpl destinationHandler;
@@ -42,20 +42,20 @@ public class ThreadTrackerImpl implements ThreadTracker {
     private MessageFactory messageFactory;
     private MessageParser messageParser;
     private Config config;
-    
-    public ThreadTrackerImpl(Config config){
+
+    public ThreadTrackerImpl(Config config) {
         this.config = config;
     }
-    
-    private MessageContentStrategy getMessageContentStrategy(){
+
+    private MessageContentStrategy getMessageContentStrategy() {
         MessageContentStrategy target = config.getMessageContentStrategy();
         // @todo dodgy, remove this?
         PlaceHolderContentFilter filter = SpringFactory.getBean("placeholderContentFilter");
         // a new one for each thread !
         return new MessageContentStrategyWrapper(target, filter);
     }
-    
-    public void createListenerThread(final String name){
+
+    public void createListenerThread(final String name) {
         Listener listener = new Listener();
         listener.setListenToDestination(config.getListenToDestination());
         listener.addMessageNotifyable(messageTracker);
@@ -69,8 +69,8 @@ public class ThreadTrackerImpl implements ThreadTracker {
         subscriberThread.start();
         subscribersCreated++;
     }
-    
-    public void createSenderThread(final String name){
+
+    public void createSenderThread(final String name) {
         Sender sender = new Sender();
         sender.setDestination(config.getSendToDestination());
         sender.setSleepMilliseconds(config.getPubSleepMillis());
@@ -79,7 +79,7 @@ public class ThreadTrackerImpl implements ThreadTracker {
         sender.setDestinationHandler(destinationHandler);
         sender.setMessageFactory(messageFactory);
         sender.setMessageContentStrategy(getMessageContentStrategy());
-        
+
         Thread senderThread = new Thread(sender);
         senderThread.setName(name + " [" + sender.hashCode() + "]");
         senderThread.start();
@@ -89,16 +89,16 @@ public class ThreadTrackerImpl implements ThreadTracker {
     public synchronized int subscriberCreated() {
         return subscribersCreated++;
     }
-    
+
     public synchronized int publisherCreated() {
         return publishersCreated++;
     }
-    
-    public synchronized int getListenersStarted(){
+
+    public synchronized int getListenersStarted() {
         return subscribersCreated;
     }
-    
-    public synchronized int getSendersStarted(){
+
+    public synchronized int getSendersStarted() {
         return publishersCreated;
     }
 

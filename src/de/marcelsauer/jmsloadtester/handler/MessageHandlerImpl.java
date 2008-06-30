@@ -18,38 +18,38 @@ import de.marcelsauer.jmsloadtester.message.MessageSentAware;
 import de.marcelsauer.jmsloadtester.tools.Logger;
 
 /**
- *   JMS Load Tester
- *   Copyright (C) 2008 Marcel Sauer <marcel[underscore]sauer[at]gmx.de>
- *   
- *   This file is part of JMS Load Tester.
- *
- *   JMS Load Tester is free software: you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation, either version 3 of the License, or
- *   (at your option) any later version.
- *
- *   JMS Load Tester is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with JMS Load Tester. If not, see <http://www.gnu.org/licenses/>.
+ * JMS Load Tester Copyright (C) 2008 Marcel Sauer
+ * <marcel[underscore]sauer[at]gmx.de>
+ * 
+ * This file is part of JMS Load Tester.
+ * 
+ * JMS Load Tester is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the Free
+ * Software Foundation, either version 3 of the License, or (at your option) any
+ * later version.
+ * 
+ * JMS Load Tester is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * JMS Load Tester. If not, see <http://www.gnu.org/licenses/>.
  */
 public class MessageHandlerImpl implements MessageHandler {
-    
-    private SessionHandler               sessionHandler;
-    private DestinationHandler           destinationHandler;
-    private MessageFactory               messageProducer;
-    private List<MessageInterceptor>     interceptors = new ArrayList<MessageInterceptor>();
-    private List<MessageSentAware>       sentAwares   = new ArrayList<MessageSentAware>();
+
+    private SessionHandler sessionHandler;
+    private DestinationHandler destinationHandler;
+    private MessageFactory messageProducer;
+    private List<MessageInterceptor> interceptors = new ArrayList<MessageInterceptor>();
+    private List<MessageSentAware> sentAwares = new ArrayList<MessageSentAware>();
     // one producer per Thread
     private ThreadLocal<MessageProducer> producer = new ThreadLocal<MessageProducer>();
-    
-    public void sendMessage(final JmsMessage message)  {
+
+    public void sendMessage(final JmsMessage message) {
         Message msg = getMessageFactory().toMessage(message.getMessage(), getSession());
         callMessageInterceptors(msg);
-        MessageProducer producer = getProducer(message.getDestination()); 
+        MessageProducer producer = getProducer(message.getDestination());
         try {
             producer.send(msg);
         } catch (JMSException e) {
@@ -57,23 +57,23 @@ public class MessageHandlerImpl implements MessageHandler {
         }
         informMessageSentAware(msg);
     }
-    
-    public void attachMessageListener(final String destination, final MessageListener listener)  {
+
+    public void attachMessageListener(final String destination, final MessageListener listener) {
         try {
             getConsumer(destination).setMessageListener(listener);
         } catch (JMSException e) {
             throw new JmsException("could not attach message listener to destination " + destination, e);
         }
     }
-    
-    public JmsMessage getMessage(final String text, final String destination){
+
+    public JmsMessage getMessage(final String text, final String destination) {
         return new JmsMessage(text, destination);
     }
 
     public void setSessionHandler(final SessionHandler sessionHandler) {
         this.sessionHandler = sessionHandler;
     }
-    
+
     public void setDestinationHandler(final DestinationHandler destinationHandler) {
         this.destinationHandler = destinationHandler;
     }
@@ -86,24 +86,24 @@ public class MessageHandlerImpl implements MessageHandler {
         this.sentAwares.add(sentAware);
     }
 
-	public void addMessageSentAware(final List<MessageSentAware> sentAwares) {
-		this.sentAwares.addAll(sentAwares);
-	}
+    public void addMessageSentAware(final List<MessageSentAware> sentAwares) {
+        this.sentAwares.addAll(sentAwares);
+    }
 
     public void setMessageFactory(final MessageFactory messageProducer) {
         this.messageProducer = messageProducer;
     }
 
-	public void sendMessage(final String text, final String destination) {
-		sendMessage(getMessage(text, destination));
-	}
+    public void sendMessage(final String text, final String destination) {
+        sendMessage(getMessage(text, destination));
+    }
 
     private DestinationHandler getDestinationHandler() {
         return destinationHandler;
     }
 
     private MessageProducer getProducer(final String destination) {
-        if(producer.get() == null){
+        if (producer.get() == null) {
             try {
                 producer.set(getSession().createProducer(getDestinationHandler().getDestination(destination)));
                 Logger.debug("returning newly created MessageProducer: [" + producer.get() + "]");
@@ -116,22 +116,22 @@ public class MessageHandlerImpl implements MessageHandler {
         return producer.get();
     }
 
-    private Session getSession(){
+    private Session getSession() {
         return getSessionHandler().getSession();
     }
 
-    private void informMessageSentAware(final Message message){
-        for(MessageSentAware aware : sentAwares){
+    private void informMessageSentAware(final Message message) {
+        for (MessageSentAware aware : sentAwares) {
             aware.messageSent(message);
         }
     }
 
-    private void callMessageInterceptors(final Message message){
-        for(MessageInterceptor interceptor : interceptors){
+    private void callMessageInterceptors(final Message message) {
+        for (MessageInterceptor interceptor : interceptors) {
             interceptor.intercept(message);
         }
     }
-    
+
     private MessageFactory getMessageFactory() {
         return messageProducer;
     }
@@ -140,7 +140,7 @@ public class MessageHandlerImpl implements MessageHandler {
         return sessionHandler;
     }
 
-    private MessageConsumer getConsumer(final String destination)  {
+    private MessageConsumer getConsumer(final String destination) {
         MessageConsumer consumer;
         try {
             consumer = getSession().createConsumer(getDestinationHandler().getDestination(destination));
