@@ -46,13 +46,16 @@ if [ ! -r "$JAVA_HOME"/bin/java ]; then
 	exit 1
 fi
 
+LIB_DIR="./lib"
+SPRING_JAR="$LIB_DIR/spring-framework-2.5.4/spring.jar"
+COMMONS_LOGGING_JAR="$LIB_DIR/commons-logging-1.1.1/commons-logging-1.1.1.jar"
+TESTER_JAR="$LIB_DIR/jmsloadtester_0.1.jar" 
 CLASS=de.marcelsauer.jmsloadtester.Main
-TESTER_JAR=jmsloadtester_0.1.jar 
 JAVA_EXE="$JAVA_HOME"/bin/java
 
 CONFIG_FILE=./conf/app.properties
-CP="$CLASSPATH":"$YOUR_CP":"$TESTER_JAR"
-CMD="$JAVA_EXE -classpath $CP $CLASS -Dapp.properties.file=$CONFIG_FILE"
+CP="$CLASSPATH":"$YOUR_CP":"$TESTER_JAR":"$SPRING_JAR":"$COMMONS_LOGGING_JAR":"./conf/"
+CMD="$JAVA_EXE -Dapp.properties.file=$CONFIG_FILE -classpath $CP $CLASS"
 
 echo "using JAVA_HOME:   $JAVA_HOME"
 echo "using YOUR_CP:     $YOUR_CP"

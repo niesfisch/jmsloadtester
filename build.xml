@@ -70,6 +70,7 @@
 		<mkdir dir="${build.test.dir}" />
 	    <mkdir dir="${dist.dir}"/>
 	    <mkdir dir="${dist.dir}/${fullname}"/>
+	    <mkdir dir="${dist.dir}/${fullname}/lib"/>
 	    <mkdir dir="${unit.test.results.dir}"/>
 	</target>
     
@@ -96,7 +97,7 @@
     </target>
     
 	<target name="jar" depends="compile">
-		<jar destfile="${dist.dir}/${fullname}/${fullname}.jar">
+		<jar destfile="${dist.dir}/${fullname}/lib/${fullname}.jar">
 			<fileset dir="${build.classes.dir}">
     			<include name="**/*" />
 			</fileset>
@@ -109,7 +110,16 @@
     			<include name="*.bat"/>
     			<include name="*.sh"/>
     			<include name="*.txt"/>
-    			<exclude name="COPYING.txt"/>
+    		</fileset>
+    		<fileset dir=".">
+    			<include name="COPYING.txt"/>
+    		</fileset>
+    	</copy>
+    	<!-- copy libs -->
+    	<copy todir="${dist.dir}/${fullname}/lib">
+    		<fileset dir="${lib.dir}">
+    			<include name="commons-logging-1.1.1/*"/>
+    			<include name="spring-framework-2.5.4/*"/>
     		</fileset>
     	</copy>
     	<copy todir="${dist.dir}/${fullname}/conf">

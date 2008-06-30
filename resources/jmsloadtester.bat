@@ -51,13 +51,16 @@ exit
 
 :start
 
+set LIB_DIR=./lib
+set SPRING_JAR=%LIB_DIR%/spring-framework-2.5.4/spring.jar
+set COMMONS_LOGGING_JAR=%LIB_DIR%/commons-logging-1.1.1/commons-logging-1.1.1.jar
+set TESTER_JAR=%LIB_DIR%/jmsloadtester_0.1.jar 
 set CLASS=de.marcelsauer.jmsloadtester.Main
-set TESTER_JAR=jmsloadtester_0.1.jar 
 set JAVA_EXE="%JAVA_HOME%\bin\java"
 
 set CONFIG_FILE=./conf/app.properties
-set CP=%CLASSPATH%;%YOUR_CP%;%TESTER_JAR%
-set CMD=%JAVA_EXE% -classpath "%CP%" %CLASS% -Dapp.properties.file=%CONFIG_FILE%
+set CP=%CLASSPATH%;%YOUR_CP%;%TESTER_JAR%;%SPRING_JAR%;%COMMONS_LOGGING_JAR%;./conf/
+set CMD=%JAVA_EXE% -Dapp.properties.file=%CONFIG_FILE% -classpath "%CP%" %CLASS%
 
 echo using JAVA_HOME:    %JAVA_HOME%
 echo using YOUR_CP:      %YOUR_CP%
