@@ -60,12 +60,11 @@ public class Listener extends JmsClient {
     }
     
     private void printMessageDetails(final Message message){
-	    StringBuffer sb = new StringBuffer();
-        sb.append("[" + ThreadTools.getCurrentThreadName() + "]" + Constants.EOL);
-        sb.append("    Received message: " + Constants.EOL);
-        sb.append(messageParser.getSummary(message));
-        
-        getMessageOutStrategy().output(sb.toString());
+		StringBuffer sb = new StringBuffer();
+		sb.append("[" + ThreadTools.getCurrentThreadName() + "]" + Constants.EOL);
+		sb.append("    Received message: " + Constants.EOL);
+		sb.append(messageParser.getSummary(message));
+		getMessageOutStrategy().output(sb.toString());
     }
     
     private void messageReceived(final Message message){
