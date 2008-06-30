@@ -54,12 +54,13 @@ public abstract class JmsClient implements Runnable {
         return messageHandler;
     }
     
-	public String getName() {
-		return this.toString();
-	}
 
     public void setConnectionFactory(ConnectionFactory connectionFactory) {
         this.connectionFactory = connectionFactory;
+    }
+    
+    public String getName() {
+    	return this.toString();
     }
 
     public void setDestinationHandler(DestinationHandlerImpl destinationHandler) {
