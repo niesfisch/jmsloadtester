@@ -26,29 +26,29 @@ import de.marcelsauer.jmsloadtester.output.OutputStrategy;
  *   along with JMS Load Tester. If not, see <http://www.gnu.org/licenses/>.
  */
 public interface Config {
-    void loadConfig(Properties config);
-    void loadConfig(String file);
-    
-    int getSubscribersToStart();
-    int getSendersToStart();
-    int getMessagesToSend();
-    int getExpectedMessageSentCount();
-    int getPubSleepMillis();
-    int getSubscriberWaitForTotalMessages();
-    int getEachSubscriberWaitFor();
-    int getPauseBetweenPrintProgress();
+	void loadConfig(Properties config);
+	void loadConfig(String file);
+	    
+	int getSubscribersToStart();
+	int getSendersToStart();
+	int getMessagesToSend();
+	int getExpectedMessageSentCount();
+	int getPubSleepMillis();
+	int getSubscriberWaitForTotalMessages();
+	int getEachSubscriberWaitFor();
+	int getPauseBetweenPrintProgress();
 	int getListenerRampup();
 	int getSenderRampup();
-    
+	    
 	boolean doCreateDestinationIfNotExistent();
-    
-    String getConnectionFactory();
-    String getListenToDestination();
-    String getSendToDestination();
-    
-    OutputStrategy getDebugOutputStrategy();
-    OutputStrategy getResultOutputStrategy();
-    OutputStrategy getMessageOutputStrategy();
-  
-    MessageContentStrategy getMessageContentStrategy();
+	    
+	String getConnectionFactory();
+	String getListenToDestination();
+	String getSendToDestination();
+	    
+	OutputStrategy getDebugOutputStrategy();
+	OutputStrategy getResultOutputStrategy();
+	OutputStrategy getMessageOutputStrategy();
+	  
+	MessageContentStrategy getMessageContentStrategy();
 }

@@ -46,18 +46,18 @@ public class Sender extends JmsClient implements MessageInterceptor {
         messageHandler.addMessageInterceptor(this);
         messageHandler.addMessageSentAware(messageSentAware);
         try {
-        	MessageContentStrategy messages = getMessageContentStrategy();
-        	for(String message : messages){
-                Logger.debug("sending message: " + message);
-                messageHandler.sendMessage(message, getDestination());
-                messagesSent++;
-                try {
-                    Thread.sleep(getSleepMilliseconds());
-                } catch (InterruptedException e) {
-                    Logger.error("could not sleep", e);
-                }
-        	}
-        	Logger.debug("done sending");
+		MessageContentStrategy messages = getMessageContentStrategy();
+		for (String message : messages) {
+			Logger.debug("sending message: " + message);
+			messageHandler.sendMessage(message, getDestination());
+			messagesSent++;
+			try {
+				Thread.sleep(getSleepMilliseconds());
+			} catch (InterruptedException e) {
+				Logger.error("could not sleep", e);
+			}
+		}
+		Logger.debug("done sending");
         } catch (Exception e){
             throw new JmsException("problems while sending message" , e);
         }

@@ -36,15 +36,15 @@ public class DefaultConfigImpl implements Config {
     private MessageContentStrategyFactory messageContentStrategyFactory;
     
     // propery keys
-	private static final String APP_PREFIX = "app.";
-	
-	private static final String SUBSCRIBERS_TO_START 		= APP_PREFIX + "listener.thread.count";
-    private static final String PUBLISHERS_TO_START  		= APP_PREFIX + "sender.threads.to.start";
+    private static final String APP_PREFIX = "app.";
+    
+    private static final String SUBSCRIBERS_TO_START        = APP_PREFIX + "listener.thread.count";
+    private static final String PUBLISHERS_TO_START         = APP_PREFIX + "sender.threads.to.start";
     private static final String SUBSCRIBER_WAIT_FOR         = APP_PREFIX + "listener.wait.for.message.count";
     private static final String MESSAGE_CONTENT_STRATEGY    = APP_PREFIX + "sender.message.content.strategy";
-    private static final String LISTEN_TO_DEST      		= APP_PREFIX + "listener.listen.to.destination";
-    private static final String SEND_TO_DEST      			= APP_PREFIX + "sender.send.to.destination";
-    private static final String PUB_SLEEP      				= APP_PREFIX + "sender.pause.millis.between.send";
+    private static final String LISTEN_TO_DEST              = APP_PREFIX + "listener.listen.to.destination";
+    private static final String SEND_TO_DEST                = APP_PREFIX + "sender.send.to.destination";
+    private static final String PUB_SLEEP                   = APP_PREFIX + "sender.pause.millis.between.send";
     private static final String DEBUG_OUT_STRATEGY          = APP_PREFIX + "output.debug.strategy";
     private static final String RESULT_OUT_STRATEGY         = APP_PREFIX + "output.result.strategy";
     private static final String MESSAGE_OUT_STRATEGY        = APP_PREFIX + "output.message.strategy";
@@ -53,9 +53,9 @@ public class DefaultConfigImpl implements Config {
     private static final String SENDER_RAMPUP               = APP_PREFIX + "sender.ramp.up.millis";
     
     // connection factory
-    private static final String CONNECTION_FACTORY   		= "javax.jms.ConnectionFactory";
+    private static final String CONNECTION_FACTORY          = "javax.jms.ConnectionFactory";
     
-	// set via config file
+    // set via config file
     private static int subscribersToStart;
     private static int publishersToStart;
     private static int messagesToSend;
@@ -68,7 +68,7 @@ public class DefaultConfigImpl implements Config {
     private static int expectedMessageSentCount;
     
     private static boolean createJndiDestinationIfNotFound;
-
+    
     private static String connectionFactory;
     private static String listenToDestination;
     private static String sendToDestination;
@@ -89,18 +89,18 @@ public class DefaultConfigImpl implements Config {
     }
     
     public void loadConfig(final String filename){
-    	Logger.info("using config file: " + filename);
-    	Properties config = PropertyUtils.loadProperties(filename);
-    	loadConfig(config);
+        Logger.info("using config file: " + filename);
+        Properties config = PropertyUtils.loadProperties(filename);
+        loadConfig(config);
     }
     
     public void loadConfig(final Properties config){
-    	Logger.info("using properties: " + config);
-    	try {
-    		initValues(config);
-    	} catch (NumberFormatException e){
-    		Logger.error("could not load all the values from the properties file. did you provide all values with valid values?", e);
-    	}
+        Logger.info("using properties: " + config);
+        try {
+            initValues(config);
+        } catch (NumberFormatException e){
+            Logger.error("could not load all the values from the properties file. did you provide all values with valid values?", e);
+        }
     }
     
     private void initValues(final Properties properties){
@@ -108,10 +108,10 @@ public class DefaultConfigImpl implements Config {
 	    	subscribersToStart     	  = getIntValue(properties.get(SUBSCRIBERS_TO_START));
 	    	publishersToStart      	  = getIntValue(properties.get(PUBLISHERS_TO_START));
 	    	pubSleepMillis         	  = getIntValue(properties.get(PUB_SLEEP));
-	    	eachSubscriberWaitFor  	  = getIntValue(properties.get(SUBSCRIBER_WAIT_FOR));
+	    	eachSubscriberWaitFor     = getIntValue(properties.get(SUBSCRIBER_WAIT_FOR));
 	    	pauseBetweenPrintProgress = getIntValue(properties.get(PAUSE_PROGRESS)) * Constants.MILLIS_FACTOR;
-	    	listenerRampup 			  = getIntValue(properties.get(LISTENER_RAMPUP));
-	    	senderRampup 			  = getIntValue(properties.get(SENDER_RAMPUP));
+	    	listenerRampup            = getIntValue(properties.get(LISTENER_RAMPUP));
+	    	senderRampup              = getIntValue(properties.get(SENDER_RAMPUP));
 	    	
 	    	subscriberWaitFor         = eachSubscriberWaitFor * subscribersToStart;
 	    	
@@ -129,7 +129,7 @@ public class DefaultConfigImpl implements Config {
 	        setMessagesToSend(getMessageContentStrategy().getMessageCount());
 	        
     	} catch (IllegalStateException e){
-    		Logger.error("the configuration file seems to be incorrect", e);
+    	    Logger.error("the configuration file seems to be incorrect", e);
     	}
     }
     
@@ -143,70 +143,70 @@ public class DefaultConfigImpl implements Config {
         }
     }
     
-    private boolean getBooleanValue(final Object value){
+    private boolean getBooleanValue(final Object value) {
         check(value);
-        return Boolean.valueOf((String)value);
+        return Boolean.valueOf((String) value);
     }
 
-    private int getIntValue(final Object value){
+    private int getIntValue(final Object value) {
         check(value);
-        return Integer.valueOf((String)value);
+        return Integer.valueOf((String) value);
     }
-    
-    private String getStringValue(final Object value){
+
+    private String getStringValue(final Object value) {
         check(value);
-    	return String.valueOf(value);
+        return String.valueOf(value);
     }
-    
-	public int getSubscribersToStart() {
-		return subscribersToStart;
-	}
 
-	public int getSendersToStart() {
-		return publishersToStart;
-	}
+    public int getSubscribersToStart() {
+        return subscribersToStart;
+    }
 
-	public int getMessagesToSend() {
-		return messagesToSend;
-	}
+    public int getSendersToStart() {
+        return publishersToStart;
+    }
 
-	public String getConnectionFactory() {
-		return connectionFactory;
-	}
-	
-	// TODO move this somewhere else?
-	// we always create a new one
-	public MessageContentStrategy getMessageContentStrategy() {
-		return messageContentStrategyFactory.getMessageContentStrategy(getStringValue(messageContentStrategy));
-	}
+    public int getMessagesToSend() {
+        return messagesToSend;
+    }
 
-	public String getListenToDestination() {
-		return listenToDestination;
-	}
+    public String getConnectionFactory() {
+        return connectionFactory;
+    }
 
-	public String getSendToDestination() {
-		return sendToDestination;
-	}
+    // TODO move this somewhere else?
+    // we always create a new one
+    public MessageContentStrategy getMessageContentStrategy() {
+        return messageContentStrategyFactory.getMessageContentStrategy(getStringValue(messageContentStrategy));
+    }
 
-	public int getPubSleepMillis() {
-		return pubSleepMillis;
-	}
+    public String getListenToDestination() {
+        return listenToDestination;
+    }
 
-	public OutputStrategy getDebugOutputStrategy() {
-		return debugOutputStrategy;
-	}
-	
-	public OutputStrategy getResultOutputStrategy() {
-		return resultOutputStrategy;
-	}
+    public String getSendToDestination() {
+        return sendToDestination;
+    }
+
+    public int getPubSleepMillis() {
+        return pubSleepMillis;
+    }
+
+    public OutputStrategy getDebugOutputStrategy() {
+        return debugOutputStrategy;
+    }
+
+    public OutputStrategy getResultOutputStrategy() {
+        return resultOutputStrategy;
+    }
 
     public OutputStrategy getMessageOutputStrategy() {
         return messageOutputStrategy;
     }
 
-	public int getExpectedMessageSentCount() {
-		return expectedMessageSentCount;
-	}
+    public int getExpectedMessageSentCount() {
+        return expectedMessageSentCount;
+    }
 
     public boolean doCreateDestinationIfNotExistent() {
         return createJndiDestinationIfNotFound;
@@ -220,24 +220,24 @@ public class DefaultConfigImpl implements Config {
         return eachSubscriberWaitFor;
     }
 
-	public int getPauseBetweenPrintProgress() {
-		return pauseBetweenPrintProgress;
-	}
+    public int getPauseBetweenPrintProgress() {
+        return pauseBetweenPrintProgress;
+    }
 
-	public int getListenerRampup() {
-		return listenerRampup;
-	}
+    public int getListenerRampup() {
+        return listenerRampup;
+    }
 
-	public int getSenderRampup() {
-		return senderRampup;
-	}
-	
-	public void setMessageContentStrategyFactory(MessageContentStrategyFactory messageContentStrategyFactory) {
+    public int getSenderRampup() {
+        return senderRampup;
+    }
+
+    public void setMessageContentStrategyFactory(MessageContentStrategyFactory messageContentStrategyFactory) {
         this.messageContentStrategyFactory = messageContentStrategyFactory;
     }
 
     private void setMessagesToSend(final int messagesToSend) {
-	    DefaultConfigImpl.messagesToSend = messagesToSend;
-	    calculateExpectedMessageCounts();
-	}
+        DefaultConfigImpl.messagesToSend = messagesToSend;
+        calculateExpectedMessageCounts();
+    }
 }
