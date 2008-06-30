@@ -34,6 +34,10 @@ public class FilterFactoryImpl implements FilterFactory {
 
     public List<ContentFilter> getFilters(String input) {
         List<ContentFilter> filters = new ArrayList<ContentFilter>();
+        // if we don't have ":" we are done
+        if (!StringUtils.contains(input, FilterConstants.START)) {
+            return filters;
+        }
         // replace ${messageCounter}
         if (isPresent(input, FilterConstants.MESSAGE_COUNTER)) {
             filters.add(messageCounterFilter);
