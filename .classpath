@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="test/unit"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
+	<classpathentry kind="lib" path="lib/easymock/2.3/easymock.jar"/>
+	<classpathentry kind="lib" path="lib/easymock/classextensions/easymockclassextension.jar"/>
+	<classpathentry kind="lib" path="lib/cglib/cglib-nodep-2.2.jar"/>
+	<classpathentry kind="lib" path="lib/spring-framework-2.5.4/dist/spring.jar" sourcepath="/llu-common/lib-src/spring-2.0-rc3-src.jar"/>
+	<classpathentry kind="lib" path="conf"/>
+	<classpathentry kind="lib" path="lib/openjms/jms-1.1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
