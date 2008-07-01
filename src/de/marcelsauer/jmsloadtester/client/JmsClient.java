@@ -35,9 +35,13 @@ import de.marcelsauer.jmsloadtester.spring.SpringFactory;
 public abstract class JmsClient implements Runnable {
 
     private Config config;
+    private MessageHandler messageHandler;
 
     protected MessageHandler getMessageHandler() {
-        return SpringFactory.getBean("messageHandler");
+        if (messageHandler == null) {
+            this.messageHandler = SpringFactory.getBean("messageHandler");
+        }
+        return messageHandler;
     }
 
     public String getName() {
@@ -46,6 +50,10 @@ public abstract class JmsClient implements Runnable {
 
     public void setConfig(Config config) {
         this.config = config;
+    }
+
+    public void setMessageHandler(MessageHandler messageHandler) {
+        this.messageHandler = messageHandler;
     }
 
     protected Config getConfig() {

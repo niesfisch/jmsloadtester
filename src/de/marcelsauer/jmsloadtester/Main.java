@@ -37,14 +37,24 @@ public class Main {
     private TimeTracker senderTimeTracker;
     private ThreadTracker threadTracker;
     private Config config;
-
+    private boolean exitGracefully;
+    
+    public Main(boolean exitGracefully){
+        this.exitGracefully = exitGracefully;
+    }
+    
+    public Main(){
+        this(true);
+    }
+    
     public static void main(String[] args) {
         Main main = new Main();
         main.setup();
         main.doRun();
     }
 
-    private void setup() {
+    // package private for testcase
+    void setup() {
         // default logging output strategy
         Logger.setOut(OutputStrategyFactory.getOutputStrategy(OutputStrategyFactory.STDOUT));
 
@@ -68,7 +78,8 @@ public class Main {
         Logger.setOut(config.getDebugOutputStrategy());
     }
 
-    private void doRun() {
+    // package private for testcase
+    void doRun() {
 
         checkState();
         printIntro();
@@ -152,7 +163,9 @@ public class Main {
     }
 
     private void exitGracefully() {
-        Runtime.getRuntime().exit(0);
+        if (exitGracefully) {
+            Runtime.getRuntime().exit(0);
+        }
     }
 
     private void checkState() {

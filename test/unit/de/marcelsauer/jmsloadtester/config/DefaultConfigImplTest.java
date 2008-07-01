@@ -30,7 +30,7 @@ import de.marcelsauer.jmsloadtester.output.StdoutOutputStrategy;
  */
 public class DefaultConfigImplTest extends AbstractJmsLoaderTest {
 
-    private static final String configFile = ".\\test\\resources\\config\\app.properties";
+    private static final String configFile = ".\\test\\resources\\config\\unittest.app.properties";
     private Config config;
     private MessageContentStrategyFactory messageContentStrategyFactoryMock;
     private MessageContentStrategy staticStrategyMock;
