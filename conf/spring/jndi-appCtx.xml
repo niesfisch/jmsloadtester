@@ -38,15 +38,5 @@
 	<bean id="connectionFactory" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName" value="${javax.jms.ConnectionFactory}" />
 	</bean>
-	
-	<!--   
-	<bean id="sendToDestination" class="org.springframework.jndi.JndiObjectFactoryBean">
-		<property name="jndiName" value="${app.sender.send.to.destination}" />
-	</bean>
-  
-	<bean id="listenToDestination" class="org.springframework.jndi.JndiObjectFactoryBean">
-		<property name="jndiName" value="${app.listener.listen.to.destination}" />
-	</bean>
-	 -->
   
 </beans>

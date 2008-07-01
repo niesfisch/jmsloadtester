@@ -34,10 +34,10 @@
 		<property name="senderTimeTracker"   ref="senderTimeTracker" />
 	</bean>
 	
-	<bean id="threadTracker" class="de.marcelsauer.jmsloadtester.tracker.ThreadTrackerImpl" lazy-init="true">
+	<bean id="threadTracker" class="de.marcelsauer.jmsloadtester.tracker.ThreadTrackerImpl">
 		<constructor-arg ref="config" />
-		<property name="messageTracker"      ref="messageTracker" />
-		<property name="messageParser"       ref="messageParser" />
+		<property name="messageTracker" ref="messageTracker" />
+		<property name="messageParser"  ref="messageParser" />
 	</bean>
 	
 </beans>

@@ -35,11 +35,12 @@ public class ConnectionHandlerImpl implements ConnectionHandler, ShutdownAware {
     private static Connection con;
     private ConnectionFactory connectionFactory;
 
-    public ConnectionHandlerImpl() {
+    private ConnectionHandlerImpl() {
         Runtime.getRuntime().addShutdownHook(new ShutdownHandler(this));
     }
 
     public ConnectionHandlerImpl(ConnectionFactory connectionFactory) {
+        this();
         this.connectionFactory = connectionFactory;
     }
 

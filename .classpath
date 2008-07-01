@@ -11,6 +11,11 @@
 	<classpathentry kind="lib" path="lib/commons-logging-1.1.1/commons-logging-1.1.1.jar"/>
 	<classpathentry kind="lib" path="conf"/>
 	<classpathentry kind="lib" path="lib/openjms/openjms-0.7.7-beta-1.jar"/>
-	<classpathentry kind="lib" path="lib/spring-framework-2.5.4/spring.jar"/>
+	<classpathentry kind="lib" path="lib/spring-framework-2.5.4/spring.jar" sourcepath="D:/marcel/java/spring-framework-2.5.5/src"/>
+	<classpathentry kind="lib" path="lib/sonic/mfcontext.jar"/>
+	<classpathentry kind="lib" path="lib/sonic/sonic_Client.jar"/>
+	<classpathentry kind="lib" path="lib/openmq/fscontext.jar"/>
+	<classpathentry kind="lib" path="lib/openmq/imq.jar"/>
+	<classpathentry kind="lib" path="lib/openmq/jms.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

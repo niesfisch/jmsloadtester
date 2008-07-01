@@ -1,14 +1,10 @@
 package de.marcelsauer.jmsloadtester.tracker;
 
-import javax.jms.ConnectionFactory;
-
 import de.marcelsauer.jmsloadtester.client.Listener;
 import de.marcelsauer.jmsloadtester.client.Sender;
 import de.marcelsauer.jmsloadtester.config.Config;
-import de.marcelsauer.jmsloadtester.handler.DestinationHandlerImpl;
 import de.marcelsauer.jmsloadtester.message.MessageContentStrategy;
 import de.marcelsauer.jmsloadtester.message.MessageContentStrategyWrapper;
-import de.marcelsauer.jmsloadtester.message.MessageFactory;
 import de.marcelsauer.jmsloadtester.message.MessageParser;
 import de.marcelsauer.jmsloadtester.message.filter.PlaceHolderContentFilter;
 import de.marcelsauer.jmsloadtester.spring.SpringFactory;

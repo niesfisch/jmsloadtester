@@ -34,6 +34,7 @@
 		</property>
 		<property name="locations">
 			<list>
+				<!-- provided during JVM arg -Dapp.properties.file=xxx.properties -->
 				<value>${app.properties.file}</value>
 			</list>
 		</property>

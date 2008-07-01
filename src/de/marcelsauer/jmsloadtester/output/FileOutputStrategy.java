@@ -32,12 +32,12 @@ public class FileOutputStrategy implements OutputStrategy, ShutdownAware {
     private String filename;
     private FileWriter writer;
 
-    // add shutdown hook
-    {
+    private FileOutputStrategy() {
         Runtime.getRuntime().addShutdownHook(new ShutdownHandler(this));
     }
-
+    
     public FileOutputStrategy(final String filename) {
+        this();
         this.filename = filename;
         try {
             writer = new FileWriter(filename, true);

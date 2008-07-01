@@ -38,12 +38,29 @@ public class MessageContentStrategyFactoryImplTest extends AbstractJmsLoaderTest
     }
 
     public void testExceptionBehaviour() {
+        testIllegalArgumentException("does not exist");
+        testIllegalArgumentException("");
+        testIllegalArgumentException("                   ");
+        testIllegalArgumentException(null);
+        testNumberFormatException("SIZE#aa#10");
+        testNumberFormatException("SIZE#aa#b");
+    }
+    
+    private void testNumberFormatException(final String toTest){
         try {
-            factory.getMessageContentStrategy("does not exist");
+            factory.getMessageContentStrategy(toTest);
+            fail("expected Exception");
+        } catch (NumberFormatException e) {
+            // expected
+        }
+    }
+
+    private void testIllegalArgumentException(final String toTest){
+        try {
+            factory.getMessageContentStrategy(toTest);
             fail("expected Exception");
         } catch (IllegalArgumentException e) {
             // expected
         }
     }
-
 }

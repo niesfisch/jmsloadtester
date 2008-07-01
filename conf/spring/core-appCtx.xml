@@ -40,4 +40,5 @@
 		<constructor-arg ref="applicationProperties"/>
 		<constructor-arg ref="messageContentStrategyFactory"/>
 	</bean>
+	
 </beans>

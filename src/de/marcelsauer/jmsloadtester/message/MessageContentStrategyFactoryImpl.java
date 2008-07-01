@@ -27,6 +27,9 @@ public class MessageContentStrategyFactoryImpl implements MessageContentStrategy
     private final String HASH = "#";
 
     public MessageContentStrategy getMessageContentStrategy(final String type) {
+        if (type == null) {
+            throw new IllegalArgumentException("the message content strategy was null");
+        }
         MessageContentStrategy strategy = null;
         if (type.indexOf(FOLDER) > -1) {
             strategy = new FolderMessageContentStrategy(getDirectory(type), getRegex(type), getFileSentAmount(type));
