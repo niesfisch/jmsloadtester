@@ -38,9 +38,6 @@
 		<constructor-arg ref="config" />
 		<property name="messageTracker"      ref="messageTracker" />
 		<property name="messageParser"       ref="messageParser" />
-		<property name="connectionFactory"   ref="connectionFactory" />
-		<property name="messageFactory"      ref="messageFactory" />
-		<property name="destinationHandler"  ref="destinationHandler" />
 	</bean>
 	
 </beans>

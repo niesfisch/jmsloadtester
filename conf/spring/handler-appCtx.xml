@@ -28,4 +28,19 @@
 	<bean id="destinationHandler" class="de.marcelsauer.jmsloadtester.handler.DestinationHandlerImpl">
 		<constructor-arg ref="jndiTemplate" />
 	</bean>
+	
+	<bean id="connectionHandler" class="de.marcelsauer.jmsloadtester.handler.ConnectionHandlerImpl" singleton="false">
+		<constructor-arg ref="connectionFactory" />
+	</bean>
+	
+	<bean id="sessionHandler" class="de.marcelsauer.jmsloadtester.handler.SessionHandlerImpl" singleton="false">
+		<constructor-arg ref="connectionHandler" />
+	</bean>
+	
+	<bean id="messageHandler" class="de.marcelsauer.jmsloadtester.handler.MessageHandlerImpl" singleton="false">
+		<property name="destinationHandler" ref="destinationHandler" />
+		<property name="sessionHandler" ref="sessionHandler" />
+		<property name="messageFactory" ref="messageFactory" />
+	</bean>
+	
 </beans>

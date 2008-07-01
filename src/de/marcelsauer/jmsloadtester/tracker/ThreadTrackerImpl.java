@@ -36,10 +36,7 @@ public class ThreadTrackerImpl implements ThreadTracker {
 
     private static int subscribersCreated;
     private static int publishersCreated;
-    private DestinationHandlerImpl destinationHandler;
-    private ConnectionFactory connectionFactory;
     private MessageTracker messageTracker;
-    private MessageFactory messageFactory;
     private MessageParser messageParser;
     private Config config;
 
@@ -59,11 +56,9 @@ public class ThreadTrackerImpl implements ThreadTracker {
         Listener listener = new Listener();
         listener.setListenToDestination(config.getListenToDestination());
         listener.addMessageNotifyable(messageTracker);
-        listener.setConnectionFactory(connectionFactory);
-        listener.setDestinationHandler(destinationHandler);
-        listener.setMessageFactory(messageFactory);
         listener.setMessageOutStrategy(config.getMessageOutputStrategy());
         listener.setMessageParser(messageParser);
+        
         Thread subscriberThread = new Thread(listener);
         subscriberThread.setName(name + " [" + listener.hashCode() + "]");
         subscriberThread.start();
@@ -75,9 +70,6 @@ public class ThreadTrackerImpl implements ThreadTracker {
         sender.setDestination(config.getSendToDestination());
         sender.setSleepMilliseconds(config.getPubSleepMillis());
         sender.addMessageSentAware(messageTracker);
-        sender.setConnectionFactory(connectionFactory);
-        sender.setDestinationHandler(destinationHandler);
-        sender.setMessageFactory(messageFactory);
         sender.setMessageContentStrategy(getMessageContentStrategy());
 
         Thread senderThread = new Thread(sender);
@@ -108,17 +100,5 @@ public class ThreadTrackerImpl implements ThreadTracker {
 
     public void setMessageParser(MessageParser messageParser) {
         this.messageParser = messageParser;
-    }
-
-    public void setConnectionFactory(ConnectionFactory connectionFactory) {
-        this.connectionFactory = connectionFactory;
-    }
-
-    public void setDestinationHandler(DestinationHandlerImpl destinationHandler) {
-        this.destinationHandler = destinationHandler;
-    }
-
-    public void setMessageFactory(MessageFactory messageFactory) {
-        this.messageFactory = messageFactory;
     }
 }

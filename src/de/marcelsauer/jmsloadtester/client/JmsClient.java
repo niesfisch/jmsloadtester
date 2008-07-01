@@ -11,6 +11,7 @@ import de.marcelsauer.jmsloadtester.handler.MessageHandlerImpl;
 import de.marcelsauer.jmsloadtester.handler.SessionHandler;
 import de.marcelsauer.jmsloadtester.handler.SessionHandlerImpl;
 import de.marcelsauer.jmsloadtester.message.MessageFactory;
+import de.marcelsauer.jmsloadtester.spring.SpringFactory;
 
 /**
  * JMS Load Tester Copyright (C) 2008 Marcel Sauer
@@ -33,57 +34,18 @@ import de.marcelsauer.jmsloadtester.message.MessageFactory;
  */
 public abstract class JmsClient implements Runnable {
 
-    private ConnectionFactory connectionFactory;
-    private DestinationHandlerImpl destinationHandler;
-    private MessageFactory messageFactory;
     private Config config;
 
     protected MessageHandler getMessageHandler() {
-        // connection handler
-        ConnectionHandler connectionHandler = new ConnectionHandlerImpl(getConnectionFactory());
-
-        // session handler
-        SessionHandler sessionHandler = new SessionHandlerImpl(connectionHandler);
-
-        // message handler
-        MessageHandlerImpl messageHandler = new MessageHandlerImpl();
-        messageHandler.setDestinationHandler(getDestinationHandler());
-        messageHandler.setSessionHandler(sessionHandler);
-        messageHandler.setMessageFactory(getMessageFactory());
-
-        return messageHandler;
-    }
-
-    public void setConnectionFactory(ConnectionFactory connectionFactory) {
-        this.connectionFactory = connectionFactory;
+        return SpringFactory.getBean("messageHandler");
     }
 
     public String getName() {
         return this.toString();
     }
 
-    public void setDestinationHandler(DestinationHandlerImpl destinationHandler) {
-        this.destinationHandler = destinationHandler;
-    }
-
-    public void setMessageFactory(MessageFactory messageFactory) {
-        this.messageFactory = messageFactory;
-    }
-
     public void setConfig(Config config) {
         this.config = config;
-    }
-
-    private MessageFactory getMessageFactory() {
-        return messageFactory;
-    }
-
-    private DestinationHandlerImpl getDestinationHandler() {
-        return destinationHandler;
-    }
-
-    private ConnectionFactory getConnectionFactory() {
-        return connectionFactory;
     }
 
     protected Config getConfig() {
