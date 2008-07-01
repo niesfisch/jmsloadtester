@@ -19,6 +19,10 @@
 # WEBLOGIC_LIBS=/media/hda2/backup/projects/_private/JMSLoadTester/lib/weblogic/
 # WEBLOGIC_CLASSPATH="$WEBLOGIC_LIBS"/weblogic.jar;
 
+# OpenMQ example
+# OPENMQ_LIBS=/media/hda2/backup/projects/_private/JMSLoadTester/lib/openmq/
+# OPENMQ_CLASSPATH="$OPENMQ_LIBS"/fscontext.jar;"$OPENMQ_LIBS"/jms.jar;"$OPENMQ_LIBS"/ims.jar;
+
 # YOUR_CP needs to point to the classpath you just setup
 # e.g.
 # YOUR_CP="$OPENJMS_CLASSPATH"
@@ -26,6 +30,8 @@
 # YOUR_CP="$SONICMQ_CLASSPATH"
 # or
 # YOUR_CP="$WEBLOGIC_CLASSPATH"
+# or
+# YOUR_CP="$OPENMQ_CLASSPATH"
 
 # **************************************************************************
 #

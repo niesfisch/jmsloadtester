@@ -21,6 +21,10 @@ REM Bea Weblogic example
 REM set WEBLOGIC_LIBS=D:\dev\eclipse\workspace_TRUNK\JMSLoadTester\lib\weblogic\
 REM set WEBLOGIC_CLASSPATH=%WEBLOGIC_LIBS%\weblogic.jar;
 
+REM OpenMQ example
+REM set OPENMQ_LIBS=D:\dev\eclipse\workspace_TRUNK\JMSLoadTester\lib\openmq\
+REM set OPENMQ_CLASSPATH=%OPENMQ_LIBS%\fscontext.jar;%OPENMQ_LIBS%\jms.jar;%OPENMQ_LIBS%\imq.jar;
+
 REM YOUR_CP needs to point to the classpath you just setup
 REM e.g.
 REM set YOUR_CP=%OPENJMS_CLASSPATH%
@@ -28,7 +32,8 @@ REM or
 REM set YOUR_CP=%SONICMQ_CLASSPATH%
 REM or
 REM set YOUR_CP=%WEBLOGIC_CLASSPATH%
-
+REM or
+REM set YOUR_CP=%OPENMQ_CLASSPATH%
 
 REM **************************************************************************
 REM
