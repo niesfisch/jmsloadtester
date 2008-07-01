@@ -17,5 +17,7 @@
 	<classpathentry kind="lib" path="lib/openmq/fscontext.jar"/>
 	<classpathentry kind="lib" path="lib/openmq/imq.jar"/>
 	<classpathentry kind="lib" path="lib/openmq/jms.jar"/>
+	<classpathentry kind="lib" path="lib/jakarta/commons-net-1.4.1/commons-net-1.4.1.jar"/>
+	<classpathentry kind="lib" path="lib/jakarta/jakarta-oro-2.0.8/jakarta-oro-2.0.8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
