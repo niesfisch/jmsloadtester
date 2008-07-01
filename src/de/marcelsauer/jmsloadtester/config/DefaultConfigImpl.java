@@ -55,27 +55,27 @@ public class DefaultConfigImpl implements Config {
     private static final String CONNECTION_FACTORY = "javax.jms.ConnectionFactory";
 
     // set via config file
-    private static int subscribersToStart;
-    private static int publishersToStart;
-    private static int messagesToSend;
-    private static int pubSleepMillis;
-    private static int subscriberWaitFor;
-    private static int eachSubscriberWaitFor;
-    private static int pauseBetweenPrintProgress;
-    private static int listenerRampup;
-    private static int senderRampup;
-    private static int expectedMessageSentCount;
+    private int subscribersToStart;
+    private int publishersToStart;
+    private int messagesToSend;
+    private int pubSleepMillis;
+    private int subscriberWaitFor;
+    private int eachSubscriberWaitFor;
+    private int pauseBetweenPrintProgress;
+    private int listenerRampup;
+    private int senderRampup;
+    private int expectedMessageSentCount;
 
-    private static boolean createJndiDestinationIfNotFound;
+    private boolean createJndiDestinationIfNotFound;
 
-    private static String connectionFactory;
-    private static String listenToDestination;
-    private static String sendToDestination;
-    private static String messageContentStrategy;
+    private String connectionFactory;
+    private String listenToDestination;
+    private String sendToDestination;
+    private String messageContentStrategy;
 
-    private static OutputStrategy debugOutputStrategy;
-    private static OutputStrategy resultOutputStrategy;
-    private static OutputStrategy messageOutputStrategy;
+    private OutputStrategy debugOutputStrategy;
+    private OutputStrategy resultOutputStrategy;
+    private OutputStrategy messageOutputStrategy;
 
     public DefaultConfigImpl(Properties applicationProperties, MessageContentStrategyFactory messageContentStrategyFactory) {
         this.messageContentStrategyFactory = messageContentStrategyFactory;
@@ -235,7 +235,7 @@ public class DefaultConfigImpl implements Config {
     }
 
     private void setMessagesToSend(final int messagesToSend) {
-        DefaultConfigImpl.messagesToSend = messagesToSend;
+        this.messagesToSend = messagesToSend;
         calculateExpectedMessageCounts();
     }
 }
