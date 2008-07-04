@@ -133,7 +133,7 @@
 	<target name="upload">
 		<ftp server="ftp.marcel-sauer.de"
 		       remotedir="/tech.marcel-sauer.de/htdocs/wp-content/uploads/2008/05/"
-		       userid="marcel-sauer.de"
+		       userid="xxx"
 		       password="xxx"
 		       depends="yes"
 		       binary="yes"
