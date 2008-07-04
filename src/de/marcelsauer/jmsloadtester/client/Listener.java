@@ -12,7 +12,6 @@ import de.marcelsauer.jmsloadtester.handler.MessageHandler;
 import de.marcelsauer.jmsloadtester.message.MessageNotifyable;
 import de.marcelsauer.jmsloadtester.message.MessageParser;
 import de.marcelsauer.jmsloadtester.output.OutputStrategy;
-import de.marcelsauer.jmsloadtester.tools.Logger;
 import de.marcelsauer.jmsloadtester.tools.ThreadTools;
 
 /**
