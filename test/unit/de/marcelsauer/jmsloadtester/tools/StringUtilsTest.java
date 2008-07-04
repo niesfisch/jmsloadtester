@@ -28,8 +28,8 @@ public class StringUtilsTest extends AbstractJmsLoaderTest {
     };
 
     public void testIsEmpty() {
-        ENUMS a = null;
-        ENUMS b = ENUMS.A;
+        final ENUMS a = null;
+        final ENUMS b = ENUMS.A;
         assertTrue(StringUtils.isEmpty(""));
         assertTrue(StringUtils.isEmpty(" "));
         assertTrue(StringUtils.isEmpty("     "));

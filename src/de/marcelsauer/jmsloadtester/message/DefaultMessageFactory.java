@@ -29,7 +29,7 @@ import de.marcelsauer.jmsloadtester.tools.Logger;
  */
 public class DefaultMessageFactory implements MessageFactory {
 
-    public Message toMessage(Object object, Session session) {
+    public Message toMessage(final Object object, final Session session) {
         try {
             if (object instanceof String) {
                 return createMessage((String) object, session);
@@ -44,11 +44,11 @@ public class DefaultMessageFactory implements MessageFactory {
         return null;
     }
 
-    private TextMessage createMessage(String text, Session session) throws JMSException {
+    private TextMessage createMessage(final String text, final Session session) throws JMSException {
         return session.createTextMessage(text);
     }
 
-    private BytesMessage createMessage(byte[] bytes, Session session) throws JMSException {
+    private BytesMessage createMessage(final byte[] bytes, final Session session) throws JMSException {
         BytesMessage message = session.createBytesMessage();
         message.writeBytes(bytes);
         return message;

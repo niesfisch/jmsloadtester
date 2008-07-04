@@ -32,7 +32,7 @@ import de.marcelsauer.jmsloadtester.tools.Logger;
  */
 public class DefaultMessageParser implements MessageParser {
 
-    public String getSummary(Message message) {
+    public String getSummary(final Message message) {
         StringBuffer sb = new StringBuffer();
         try {
             // all other if-else
@@ -47,7 +47,7 @@ public class DefaultMessageParser implements MessageParser {
         return sb.toString();
     }
 
-    private void extractHeaders(Message message, StringBuffer sb) throws JMSException {
+    private void extractHeaders(final Message message, final StringBuffer sb) throws JMSException {
         add("JMSDestination", message.getJMSDestination(), sb);
         add("getJMSDeliveryMode", message.getJMSDeliveryMode(), sb);
         add("JMSMessageID", message.getJMSMessageID(), sb);
@@ -60,11 +60,11 @@ public class DefaultMessageParser implements MessageParser {
         add("JMSPriority", message.getJMSPriority(), sb);
     }
 
-    private void add(String key, Object value, StringBuffer sb) {
+    private void add(final String key, final Object value, final StringBuffer sb) {
         sb.append("          " + key + ": " + value + Constants.EOL);
     }
 
-    private void extractProperties(Message message, StringBuffer sb) throws JMSException {
+    private void extractProperties(final Message message, final StringBuffer sb) throws JMSException {
         Enumeration<?> propNames = message.getPropertyNames();
         while (propNames.hasMoreElements()) {
             String key = (String) propNames.nextElement();
@@ -73,7 +73,7 @@ public class DefaultMessageParser implements MessageParser {
         }
     }
 
-    private String get(Message message) throws JMSException {
+    private String get(final Message message) throws JMSException {
         String content = "";
         if (message instanceof TextMessage) {
             content = getPayload((TextMessage) message);
@@ -82,15 +82,15 @@ public class DefaultMessageParser implements MessageParser {
         return content;
     }
 
-    private String getPayload(TextMessage message) throws JMSException {
+    private String getPayload(final TextMessage message) throws JMSException {
         return message.getText();
     }
 
-    private String getPayload(BytesMessage message) {
+    private String getPayload(final BytesMessage message) {
         return null;
     }
 
-    private String getPayload(ObjectMessage message) {
+    private String getPayload(final ObjectMessage message) {
         return null;
     }
 

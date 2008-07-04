@@ -25,7 +25,7 @@ public class MessageCounterFilter extends AbstractFilter {
 
     private MessageTracker messageTracker;
 
-    public MessageCounterFilter(MessageTracker messageTracker) {
+    public MessageCounterFilter(final MessageTracker messageTracker) {
         this.messageTracker = messageTracker;
     }
 

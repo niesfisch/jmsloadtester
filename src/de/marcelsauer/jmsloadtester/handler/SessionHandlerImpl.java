@@ -33,11 +33,11 @@ public class SessionHandlerImpl implements SessionHandler {
     private ConnectionHandler connectionHandler;
     private ACK_MODE ackMode;
 
-    public SessionHandlerImpl(ConnectionHandler connectionHandler) {
+    public SessionHandlerImpl(final ConnectionHandler connectionHandler) {
         this(connectionHandler, ACK_MODE.AUTO_ACKNOWLEDGE);
     }
 
-    public SessionHandlerImpl(ConnectionHandler connectionHandler, ACK_MODE ackMode) {
+    public SessionHandlerImpl(final ConnectionHandler connectionHandler, final ACK_MODE ackMode) {
         this.connectionHandler = connectionHandler;
         this.ackMode = ackMode;
     }

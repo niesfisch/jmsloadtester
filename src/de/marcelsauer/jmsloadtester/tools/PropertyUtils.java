@@ -29,8 +29,8 @@ import de.marcelsauer.jmsloadtester.core.JmsException;
 public class PropertyUtils {
 
     public static Properties loadProperties(final String filename) {
-        Properties tmp = new Properties();
-        Properties prop = new Properties();
+        final Properties tmp = new Properties();
+        final Properties prop = new Properties();
         try {
             tmp.load(new FileInputStream(filename));
             for (Object key : tmp.keySet()) {

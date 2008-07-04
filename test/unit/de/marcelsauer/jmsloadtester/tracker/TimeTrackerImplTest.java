@@ -38,9 +38,9 @@ public class TimeTrackerImplTest extends AbstractJmsLoaderTest {
         Thread.sleep(sleepDurationMillis);
         tracker.stop();
 
-        double nanos = tracker.getDurationInNanoSeconds();
-        double expectedMillis = nanos / (1000 * 1000);
-        double expectedSeconds = expectedMillis / 1000;
+        final double nanos = tracker.getDurationInNanoSeconds();
+        final double expectedMillis = nanos / (1000 * 1000);
+        final double expectedSeconds = expectedMillis / 1000;
 
         assertTrue(inDeltaRange(nanos, sleepDurationMillis * 1000 * 1000, (1000 * 1000) * 10));
         assertTrue(expectedMillis == tracker.getDurationInMilliSeconds());

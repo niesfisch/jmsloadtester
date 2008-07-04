@@ -34,19 +34,30 @@ public class MainTest extends TestCase {
     private static Set<String> uniqMessagesSent = new HashSet<String>();
     private static Set<String> uniqMessagesReceived = new HashSet<String>();
 
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
+    /**
+     * not really an integration test, but cool for the moment needs a running
+     * openmq broker see integrationtest.app.properties for details sends and
+     * receives messages, then asserts if we sent and received everything a bit
+     * unperfect, i know :)
+     */
     public void testAll() {
+        // spring needs to know where to find the properties file
         System.setProperty("app.properties.file", ".\\test\\resources\\config\\integrationtest.app.properties");
-        Config config = SpringFactory.getBean("config");
-        Main main = new Main(false);
-        main.setup();
+
+        final Main main = new Main(false);
+
+        // here we overwrite to capture the output that would otherwise be
+        // ignored or printed to a file
         Logger.setOut(new SenderCapture());
+
         main.doRun();
+
+        final Config config = SpringFactory.getBean("config");
+
         assertEquals(config.getExpectedMessageSentCount(), uniqMessagesSent.size());
-        assertTrue(config.getSubscriberWaitForTotalMessages() <= uniqMessagesSent.size());
+        assertTrue(config.getSubscriberWaitForTotalMessages() == uniqMessagesReceived.size());
+
+        System.out.println(uniqMessagesReceived.size());
     }
 
     private class SenderCapture implements OutputStrategy {
@@ -55,7 +66,7 @@ public class MainTest extends TestCase {
             if (StringUtils.contains(line, "sending message")) {
                 uniqMessagesSent.add(line);
             }
-            if (StringUtils.contains(line, "total messages received so far")) {
+            if (StringUtils.contains(line, "MessageTracker was informed of incoming message")) {
                 uniqMessagesReceived.add(line);
             }
         }

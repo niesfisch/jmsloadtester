@@ -23,11 +23,11 @@ import de.marcelsauer.jmsloadtester.message.ContentFilter;
  */
 public abstract class AbstractFilter implements ContentFilter {
 
-    protected String getFullPlaceHolder(String what) {
+    protected String getFullPlaceHolder(final String what) {
         return FilterConstants.START + what + FilterConstants.END;
     }
 
-    public String filter(String input) {
+    public String filter(final String input) {
         return input.replaceAll(getFullPlaceHolder(getPlaceHolder()), String.valueOf(getReplacement()));
     }
 

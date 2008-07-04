@@ -26,7 +26,7 @@ public class PlaceHolderContentFilter implements ContentFilter {
 
     private FilterFactory filterFactory;
 
-    public PlaceHolderContentFilter(FilterFactory filterFactory) {
+    public PlaceHolderContentFilter(final FilterFactory filterFactory) {
         this.filterFactory = filterFactory;
     }
 

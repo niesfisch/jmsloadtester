@@ -29,7 +29,7 @@ import de.marcelsauer.jmsloadtester.core.Constants;
  */
 public class FileUtils {
 
-    public static String getFileContents(File file) {
+    public static String getFileContents(final File file) {
         BufferedReader reader = null;
         StringBuffer sb = new StringBuffer();
         try {

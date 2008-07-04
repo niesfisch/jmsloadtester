@@ -48,8 +48,8 @@ public class DestinationHandlerImplTest extends AbstractJmsLoaderTest {
         expect(mockJndiTemplate.lookup("dummy1")).andReturn(mockDestination1).times(1);
         expect(mockJndiTemplate.lookup("dummy2")).andReturn(mockDestination2).times(1);
         replay();
-        Destination dest1 = handler.getDestination("dummy1");
-        Destination dest2 = handler.getDestination("dummy2");
+        final Destination dest1 = handler.getDestination("dummy1");
+        final Destination dest2 = handler.getDestination("dummy2");
         assertTrue(dest1 != null);
         assertTrue(dest2 != null);
         assertTrue(dest1 != dest2);

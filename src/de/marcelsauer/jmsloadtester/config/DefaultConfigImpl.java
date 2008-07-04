@@ -77,12 +77,12 @@ public class DefaultConfigImpl implements Config {
     private OutputStrategy resultOutputStrategy;
     private OutputStrategy messageOutputStrategy;
 
-    public DefaultConfigImpl(Properties applicationProperties, MessageContentStrategyFactory messageContentStrategyFactory) {
+    public DefaultConfigImpl(final Properties applicationProperties, final MessageContentStrategyFactory messageContentStrategyFactory) {
         this.messageContentStrategyFactory = messageContentStrategyFactory;
         loadConfig(applicationProperties);
     }
 
-    public DefaultConfigImpl(String filename, MessageContentStrategyFactory messageContentStrategyFactory) {
+    public DefaultConfigImpl(final String filename, final MessageContentStrategyFactory messageContentStrategyFactory) {
         this.messageContentStrategyFactory = messageContentStrategyFactory;
         loadConfig(filename);
     }
@@ -230,7 +230,7 @@ public class DefaultConfigImpl implements Config {
         return senderRampup;
     }
 
-    public void setMessageContentStrategyFactory(MessageContentStrategyFactory messageContentStrategyFactory) {
+    public void setMessageContentStrategyFactory(final MessageContentStrategyFactory messageContentStrategyFactory) {
         this.messageContentStrategyFactory = messageContentStrategyFactory;
     }
 

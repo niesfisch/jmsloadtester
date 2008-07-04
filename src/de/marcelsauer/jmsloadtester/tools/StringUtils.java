@@ -48,7 +48,7 @@ public class StringUtils {
         return (input != null && regex != null && !"".equals(input) && input.contains(regex));
     }
 
-    public static void printFormattedColumns(PrintStream stream, Map<String, ? extends Object> map, String divider) {
+    public static void printFormattedColumns(final PrintStream stream, final Map<String, ? extends Object> map, String divider) {
         int longest = 0;
         for (String key : map.keySet()) {
             if (key.length() > longest) {

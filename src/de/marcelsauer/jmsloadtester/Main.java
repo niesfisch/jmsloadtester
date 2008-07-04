@@ -39,8 +39,9 @@ public class Main {
     private Config config;
     private boolean exitGracefully;
     
-    public Main(boolean exitGracefully){
+    public Main(final boolean exitGracefully){
         this.exitGracefully = exitGracefully;
+        setup();
     }
     
     public Main(){
@@ -49,12 +50,10 @@ public class Main {
     
     public static void main(String[] args) {
         Main main = new Main();
-        main.setup();
         main.doRun();
     }
 
-    // package private for testcase
-    void setup() {
+    private void setup() {
         // default logging output strategy
         Logger.setOut(OutputStrategyFactory.getOutputStrategy(OutputStrategyFactory.STDOUT));
 
@@ -176,8 +175,8 @@ public class Main {
     }
 
     private void printProgress() {
-        String senderProgress = getSenderProgress();
-        String listenerProgess = getListenerProgress();
+        final String senderProgress = getSenderProgress();
+        final String listenerProgess = getListenerProgress();
         if (!StringUtils.isEmpty(senderProgress)) {
             Logger.info(senderProgress);
         }
@@ -187,7 +186,7 @@ public class Main {
     }
 
     private String getSenderProgress() {
-        StringBuffer sb = new StringBuffer();
+        final StringBuffer sb = new StringBuffer();
         if (config.getExpectedMessageSentCount() > 0) {
             sb.append("[SENDER] " + messageTracker.getTotalMessagesSent() + " of " + config.getExpectedMessageSentCount() + " messages sent so far to [" + config.getSendToDestination() + "] => ");
             sb.append(String.format("%2.4f msg/s, ", messageTracker.getTotalMessagesSent() / senderTimeTracker.getDurationInSeconds()));
@@ -197,7 +196,7 @@ public class Main {
     }
 
     private String getListenerProgress() {
-        StringBuffer sb = new StringBuffer();
+        final StringBuffer sb = new StringBuffer();
         if (config.getSubscriberWaitForTotalMessages() > 0) {
             sb.append("[LISTENER] received " + messageTracker.getTotalMessagesReceived() + " of " + config.getSubscriberWaitForTotalMessages() + " expected messages on [" + config.getListenToDestination() + "], ");
             sb.append(String.format("%2.4f msg/s, ", messageTracker.getTotalMessagesReceived() / listenerTimeTracker.getDurationInSeconds()));

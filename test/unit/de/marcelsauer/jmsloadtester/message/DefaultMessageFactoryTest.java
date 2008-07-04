@@ -46,7 +46,7 @@ public class DefaultMessageFactoryTest extends AbstractJmsLoaderTest {
     }
 
     public void testFactoryBehaviour() throws JMSException {
-        byte[] bytes = new byte[3];
+        final byte[] bytes = new byte[3];
         expect(mockSession.createTextMessage("the message")).andReturn(mockTextMessage);
         expect(mockSession.createBytesMessage()).andReturn(mockByteMessage);
         mockByteMessage.writeBytes(bytes);

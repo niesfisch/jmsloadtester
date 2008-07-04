@@ -49,26 +49,26 @@ public class ThreadTrackerImpl implements ThreadTracker {
     }
 
     public void createListenerThread(final String name) {
-        Listener listener = new Listener();
+        final Listener listener = new Listener();
         listener.setListenToDestination(config.getListenToDestination());
         listener.addMessageNotifyable(messageTracker);
         listener.setMessageOutStrategy(config.getMessageOutputStrategy());
         listener.setMessageParser(messageParser);
         
-        Thread subscriberThread = new Thread(listener);
+        final Thread subscriberThread = new Thread(listener);
         subscriberThread.setName(name + " [" + listener.hashCode() + "]");
         subscriberThread.start();
         subscribersCreated++;
     }
 
     public void createSenderThread(final String name) {
-        Sender sender = new Sender();
+        final Sender sender = new Sender();
         sender.setDestination(config.getSendToDestination());
         sender.setSleepMilliseconds(config.getPubSleepMillis());
         sender.addMessageSentAware(messageTracker);
         sender.setMessageContentStrategy(getMessageContentStrategy());
 
-        Thread senderThread = new Thread(sender);
+        final Thread senderThread = new Thread(sender);
         senderThread.setName(name + " [" + sender.hashCode() + "]");
         senderThread.start();
         publishersCreated++;
@@ -94,7 +94,7 @@ public class ThreadTrackerImpl implements ThreadTracker {
         this.messageTracker = messageTracker;
     }
 
-    public void setMessageParser(MessageParser messageParser) {
+    public void setMessageParser(final MessageParser messageParser) {
         this.messageParser = messageParser;
     }
 }

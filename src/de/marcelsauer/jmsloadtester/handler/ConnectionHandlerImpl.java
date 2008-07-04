@@ -59,7 +59,7 @@ public class ConnectionHandlerImpl implements ConnectionHandler, ShutdownAware {
         return con;
     }
 
-    private synchronized String getSummary(Connection con) {
+    private synchronized String getSummary(final Connection con) {
         StringBuffer sb = new StringBuffer();
         try {
             ConnectionMetaData meta = con.getMetaData();

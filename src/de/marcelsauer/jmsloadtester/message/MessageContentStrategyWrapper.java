@@ -26,7 +26,7 @@ public class MessageContentStrategyWrapper implements MessageContentStrategy {
     private MessageContentStrategy target;
     private ContentFilter filter;
 
-    public MessageContentStrategyWrapper(MessageContentStrategy target, ContentFilter filter) {
+    public MessageContentStrategyWrapper(final MessageContentStrategy target, final ContentFilter filter) {
         this.target = target;
         this.filter = filter;
     }

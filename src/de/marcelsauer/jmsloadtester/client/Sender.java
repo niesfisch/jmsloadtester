@@ -42,7 +42,7 @@ public class Sender extends JmsClient implements MessageInterceptor {
     private List<MessageSentAware> messageSentAware = new ArrayList<MessageSentAware>();
 
     public void run() {
-        MessageHandler messageHandler = getMessageHandler();
+        final MessageHandler messageHandler = getMessageHandler();
         messageHandler.addMessageInterceptor(this);
         messageHandler.addMessageSentAware(messageSentAware);
         try {
@@ -85,7 +85,7 @@ public class Sender extends JmsClient implements MessageInterceptor {
         this.messageSentAware.add(messageSentAware);
     }
 
-    public void setMessageContentStrategy(MessageContentStrategy messageContentStrategy) {
+    public void setMessageContentStrategy(final MessageContentStrategy messageContentStrategy) {
         this.messageContentStrategy = messageContentStrategy;
     }
 

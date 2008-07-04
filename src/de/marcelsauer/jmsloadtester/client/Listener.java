@@ -12,6 +12,7 @@ import de.marcelsauer.jmsloadtester.handler.MessageHandler;
 import de.marcelsauer.jmsloadtester.message.MessageNotifyable;
 import de.marcelsauer.jmsloadtester.message.MessageParser;
 import de.marcelsauer.jmsloadtester.output.OutputStrategy;
+import de.marcelsauer.jmsloadtester.tools.Logger;
 import de.marcelsauer.jmsloadtester.tools.ThreadTools;
 
 /**
@@ -59,12 +60,16 @@ public class Listener extends JmsClient {
         }
     }
 
-    private void printMessageDetails(final Message message) {
+    private String getMessageDetails(final Message message) {
         StringBuffer sb = new StringBuffer();
         sb.append("[" + ThreadTools.getCurrentThreadName() + "]" + Constants.EOL);
         sb.append("    Received message: " + Constants.EOL);
         sb.append(messageParser.getSummary(message));
-        getMessageOutStrategy().output(sb.toString());
+        return sb.toString();
+    }
+    
+    private void printMessageDetails(final Message message) {
+        getMessageOutStrategy().output(getMessageDetails(message));
     }
 
     private void messageReceived(final Message message) {

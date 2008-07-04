@@ -32,8 +32,8 @@ public class FilterFactoryImpl implements FilterFactory {
     private ContentFilter nanoFilter;
     private ContentFilter randFilter;
 
-    public List<ContentFilter> getFilters(String input) {
-        List<ContentFilter> filters = new ArrayList<ContentFilter>();
+    public List<ContentFilter> getFilters(final String input) {
+        final List<ContentFilter> filters = new ArrayList<ContentFilter>();
         // if we don't have ":" we are done
         if (!StringUtils.contains(input, FilterConstants.START)) {
             return filters;
@@ -61,23 +61,23 @@ public class FilterFactoryImpl implements FilterFactory {
         return StringUtils.contains(input, getFullPlaceHolder(placeholder));
     }
 
-    private String getFullPlaceHolder(String what) {
+    private String getFullPlaceHolder(final String what) {
         return FilterConstants.START + what + FilterConstants.END;
     }
 
-    public void setMessageCounterFilter(ContentFilter messageCounterFilter) {
+    public void setMessageCounterFilter(final ContentFilter messageCounterFilter) {
         this.messageCounterFilter = messageCounterFilter;
     }
 
-    public void setDateFilter(ContentFilter dateFilter) {
+    public void setDateFilter(final ContentFilter dateFilter) {
         this.dateFilter = dateFilter;
     }
 
-    public void setNanoFilter(ContentFilter nanoFilter) {
+    public void setNanoFilter(final ContentFilter nanoFilter) {
         this.nanoFilter = nanoFilter;
     }
 
-    public void setRandFilter(ContentFilter randFilter) {
+    public void setRandFilter(final ContentFilter randFilter) {
         this.randFilter = randFilter;
     }
 }

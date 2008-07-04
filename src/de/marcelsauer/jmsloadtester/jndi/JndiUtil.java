@@ -31,11 +31,11 @@ import de.marcelsauer.jmsloadtester.tools.StringUtils;
  */
 public class JndiUtil {
 
-    public static void getBindings(Context context, Map<String, String> results) {
+    public static void getBindings(final Context context, final Map<String, String> results) {
         getBindings(context, "", "", results);
     }
 
-    public static void getBindings(Context context, String name, String spacer, Map<String, String> results) {
+    public static void getBindings(final Context context, String name, String spacer, final Map<String, String> results) {
         name = (name == null) ? "" : name;
         spacer = (spacer == null) ? "" : spacer;
         try {
@@ -51,7 +51,7 @@ public class JndiUtil {
         }
     }
 
-    public static void printBindings(Context context) {
+    public static void printBindings(final Context context) {
         Map<String, String> bindings = new TreeMap<String, String>();
         getBindings(context, bindings);
         Logger.info("the following bindings were found in the repository:");
