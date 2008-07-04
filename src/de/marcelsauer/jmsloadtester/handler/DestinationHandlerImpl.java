@@ -56,7 +56,7 @@ public class DestinationHandlerImpl implements DestinationHandler {
         return dest;
     }
 
-    public void setJndiTemplate(JndiTemplate jndiTemplate) {
+    public synchronized void setJndiTemplate(JndiTemplate jndiTemplate) {
         this.jndiTemplate = jndiTemplate;
     }
 

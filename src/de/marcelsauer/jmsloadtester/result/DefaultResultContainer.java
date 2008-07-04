@@ -43,7 +43,7 @@ public class DefaultResultContainer implements ResultContainer {
         outputStrategy.output(sb.toString());
     }
 
-    private class Pair {
+    private static class Pair {
         String key;
         Object value;
 

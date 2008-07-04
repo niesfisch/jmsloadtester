@@ -60,7 +60,7 @@ public class DefaultMessageFactoryTest extends AbstractJmsLoaderTest {
 
     public void testExceptionBehaviour() {
         try {
-            factory.toMessage(new Integer(2), mockSession);
+            factory.toMessage(2, mockSession);
             fail("expected exception");
         } catch (IllegalArgumentException e) {
             // expected

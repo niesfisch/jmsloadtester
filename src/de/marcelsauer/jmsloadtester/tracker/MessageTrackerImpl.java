@@ -93,11 +93,11 @@ public class MessageTrackerImpl implements MessageTracker {
         this.totalMessagesToBeReceived = totalMessagesToBeReceived;
     }
 
-    public void setSenderTimeTracker(final TimeTracker senderTimeTracker) {
+    public synchronized void setSenderTimeTracker(final TimeTracker senderTimeTracker) {
         this.senderTimeTracker = senderTimeTracker;
     }
 
-    public void setListenerTimeTracker(final TimeTracker listenerTimeTracker) {
+    public synchronized void setListenerTimeTracker(final TimeTracker listenerTimeTracker) {
         this.listenerTimeTracker = listenerTimeTracker;
     }
 

@@ -21,10 +21,10 @@ package de.marcelsauer.jmsloadtester.message;
  */
 public class MessageContentStrategyFactoryImpl implements MessageContentStrategyFactory {
 
-    private final String FOLDER = "FOLDER";
-    private final String STATIC = "STATIC";
-    private final String SIZE = "SIZE";
-    private final String HASH = "#";
+    private final static String FOLDER = "FOLDER";
+    private final static String STATIC = "STATIC";
+    private final static String SIZE = "SIZE";
+    private final static String HASH = "#";
 
     public MessageContentStrategy getMessageContentStrategy(final String type) {
         if (type == null) {

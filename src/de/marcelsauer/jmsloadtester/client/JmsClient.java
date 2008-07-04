@@ -1,16 +1,7 @@
 package de.marcelsauer.jmsloadtester.client;
 
-import javax.jms.ConnectionFactory;
-
 import de.marcelsauer.jmsloadtester.config.Config;
-import de.marcelsauer.jmsloadtester.handler.ConnectionHandler;
-import de.marcelsauer.jmsloadtester.handler.ConnectionHandlerImpl;
-import de.marcelsauer.jmsloadtester.handler.DestinationHandlerImpl;
 import de.marcelsauer.jmsloadtester.handler.MessageHandler;
-import de.marcelsauer.jmsloadtester.handler.MessageHandlerImpl;
-import de.marcelsauer.jmsloadtester.handler.SessionHandler;
-import de.marcelsauer.jmsloadtester.handler.SessionHandlerImpl;
-import de.marcelsauer.jmsloadtester.message.MessageFactory;
 import de.marcelsauer.jmsloadtester.spring.SpringFactory;
 
 /**
