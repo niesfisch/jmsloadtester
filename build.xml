@@ -148,7 +148,7 @@
 		<junit dir="." forkmode="perBatch" printsummary="yes" haltonfailure="true" haltonerror="false">
 			<classpath location="${coverage.classes.dir}" />
 			<classpath refid="test.path" />
-			<formatter type="plain" />
+			<formatter type="xml" />
 			<batchtest fork="yes" todir="${unit.test.results.dir}">
 				<fileset dir="${build.test.dir}">
 					<include name="**/*Test.class"/>
@@ -156,6 +156,14 @@
 				</fileset>
 			</batchtest>
 		</junit>
+		
+		<junitreport todir="${unit.test.results.dir}">
+			<fileset dir="${unit.test.results.dir}">
+				<include name="TEST-*.xml"/>
+			</fileset>
+			<report format="frames" todir="${unit.test.results.dir}/html"/>
+		</junitreport>
+		
 		
 	    <grobo-report logdir="${coverage.dir}/logs">
 	        <simple destdir="${coverage.dir}" removeempty="true" />
