@@ -1,5 +1,6 @@
 package de.marcelsauer.jmsloadtester.handler;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.jms.MessageListener;
@@ -36,6 +37,8 @@ public interface MessageHandler {
     void attachMessageListener(String destination, MessageListener listener);
 
     void addMessageInterceptor(MessageInterceptor interceptor);
+    
+    void addMessageInterceptors(Collection<MessageInterceptor> interceptors);
 
     void addMessageSentAware(MessageSentAware sentAware);
 

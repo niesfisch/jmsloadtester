@@ -1,8 +1,4 @@
-package de.marcelsauer.jmsloadtester.client;
-
-import de.marcelsauer.jmsloadtester.config.Config;
-import de.marcelsauer.jmsloadtester.handler.MessageHandler;
-import de.marcelsauer.jmsloadtester.spring.SpringFactory;
+package de.marcelsauer.jmsloadtester.tools;
 
 /**
  * JMS Load Tester Copyright (C) 2008 Marcel Sauer
@@ -23,22 +19,12 @@ import de.marcelsauer.jmsloadtester.spring.SpringFactory;
  * You should have received a copy of the GNU General Public License along with
  * JMS Load Tester. If not, see <http://www.gnu.org/licenses/>.
  */
-public abstract class JmsClient implements Runnable {
+public class ReflectionUtils {
 
-    private MessageHandler messageHandler;
-
-    protected MessageHandler getMessageHandler() {
-        if (messageHandler == null) {
-            this.messageHandler = SpringFactory.getBean("messageHandler");
-        }
-        return messageHandler;
+    @SuppressWarnings("unchecked")
+    public static <T> T newInstance(String classname) throws Exception {
+        Class<?> cls = Class.forName(classname);
+        return (T) cls.newInstance();
     }
 
-    public String getName() {
-        return this.toString();
-    }
-
-    public void setMessageHandler(MessageHandler messageHandler) {
-        this.messageHandler = messageHandler;
-    }
 }

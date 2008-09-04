@@ -1,6 +1,6 @@
 package de.marcelsauer.jmsloadtester.tools;
 
-import junit.framework.TestCase;
+import de.marcelsauer.jmsloadtester.AbstractJmsLoaderTest;
 
 /**
  * JMS Load Tester Copyright (C) 2008 Marcel Sauer
@@ -21,7 +21,7 @@ import junit.framework.TestCase;
  * You should have received a copy of the GNU General Public License along with
  * JMS Load Tester. If not, see <http://www.gnu.org/licenses/>.
  */
-public class ArrayUtilsTest extends TestCase {
+public class ArrayUtilsTest extends AbstractJmsLoaderTest {
 
     public void testFindByteArrayByteArray() {
         byte[] a = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ".getBytes();

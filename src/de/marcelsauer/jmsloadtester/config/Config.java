@@ -1,8 +1,9 @@
 package de.marcelsauer.jmsloadtester.config;
 
 import java.util.Properties;
-
+import java.util.List;
 import de.marcelsauer.jmsloadtester.message.MessageContentStrategy;
+import de.marcelsauer.jmsloadtester.message.MessageInterceptor;
 import de.marcelsauer.jmsloadtester.output.OutputStrategy;
 
 /**
@@ -64,4 +65,6 @@ public interface Config {
     OutputStrategy getMessageOutputStrategy();
 
     MessageContentStrategy getMessageContentStrategy();
+    
+    List<MessageInterceptor> getMessageInterceptors();
 }

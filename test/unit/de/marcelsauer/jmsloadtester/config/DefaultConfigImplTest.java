@@ -69,5 +69,7 @@ public class DefaultConfigImplTest extends AbstractJmsLoaderTest {
         assertTrue(config.getDebugOutputStrategy() instanceof StdoutOutputStrategy);
         assertTrue(config.getResultOutputStrategy() instanceof StderrOutputStrategy);
         assertTrue(config.getMessageOutputStrategy() instanceof FileOutputStrategy);
+        
+        assertTrue(config.getMessageInterceptors().size() == 1);
     }
 }

@@ -15,6 +15,7 @@ import de.marcelsauer.jmsloadtester.message.Payload;
 import de.marcelsauer.jmsloadtester.tools.Logger;
 import de.marcelsauer.jmsloadtester.tools.ThreadTools;
 import de.marcelsauer.jmsloadtester.tracker.MessageTracker;
+import de.marcelsauer.jmsloadtester.tracker.ThreadTracker;
 
 /**
  * JMS Load Tester Copyright (C) 2008 Marcel Sauer
@@ -43,10 +44,11 @@ public class Sender extends JmsClient implements MessageInterceptor {
     private MessageContentStrategy messageContentStrategy;
     private List<MessageSentAware> messageSentAware = new ArrayList<MessageSentAware>();
     private MessageTracker messageTracker;
+    private List<MessageInterceptor> messageInterceptors = new ArrayList<MessageInterceptor>();
 
     public void run() {
         final MessageHandler messageHandler = getMessageHandler();
-        messageHandler.addMessageInterceptor(this);
+        messageHandler.addMessageInterceptors(getMessageInterceptors());
         messageHandler.addMessageSentAware(messageSentAware);
         try {
             MessageContentStrategy messages = getMessageContentStrategy();
@@ -74,15 +76,10 @@ public class Sender extends JmsClient implements MessageInterceptor {
         this.sleepMilliseconds = sleepMilliseconds;
     }
 
-    public Message intercept(final Message message) {
-        try {
-            message.setObjectProperty("currentThreadName", ThreadTools.getCurrentThreadName());
-            message.setObjectProperty("threadMessagesSent", messagesSent + 1);
-            message.setObjectProperty("totalMessagesSent", messageTracker.getTotalMessagesSent() + 1);
-        } catch (JMSException e) {
-            throw new JmsException("could not intercept outgoing message", e);
-        }
-        return message;
+    public void intercept(final Message message, final ThreadTracker threadTracker, final MessageTracker messageTracker) throws JMSException {
+        message.setObjectProperty("currentThreadName", ThreadTools.getCurrentThreadName());
+        message.setObjectProperty("threadMessagesSent", messagesSent + 1);
+        message.setObjectProperty("totalMessagesSent", messageTracker.getTotalMessagesSent() + 1);
     }
 
     public void addMessageSentAware(final MessageSentAware messageSentAware) {
@@ -104,8 +101,16 @@ public class Sender extends JmsClient implements MessageInterceptor {
     private int getSleepMilliseconds() {
         return sleepMilliseconds;
     }
+    
+    private List<MessageInterceptor> getMessageInterceptors() {
+        return messageInterceptors;
+    }
 
     public void setMessageTracker(MessageTracker messageTracker) {
         this.messageTracker = messageTracker;
+    }
+
+    public void setMessageInterceptors(List<MessageInterceptor> messageInterceptors) {
+        this.messageInterceptors = messageInterceptors;
     }
 }

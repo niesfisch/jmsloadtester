@@ -1,6 +1,10 @@
 package de.marcelsauer.jmsloadtester.message;
 
+import javax.jms.JMSException;
 import javax.jms.Message;
+
+import de.marcelsauer.jmsloadtester.tracker.MessageTracker;
+import de.marcelsauer.jmsloadtester.tracker.ThreadTracker;
 
 /**
  * JMS Load Tester Copyright (C) 2008 Marcel Sauer
@@ -22,5 +26,5 @@ import javax.jms.Message;
  * JMS Load Tester. If not, see <http://www.gnu.org/licenses/>.
  */
 public interface MessageInterceptor {
-    Message intercept(Message message);
+    void intercept(Message message, ThreadTracker threadTracker, MessageTracker messageTracker) throws JMSException;
 }

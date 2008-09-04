@@ -1,10 +1,14 @@
 package de.marcelsauer.jmsloadtester.config;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import de.marcelsauer.jmsloadtester.core.Constants;
+import de.marcelsauer.jmsloadtester.core.JmsException;
 import de.marcelsauer.jmsloadtester.message.MessageContentStrategy;
 import de.marcelsauer.jmsloadtester.message.MessageContentStrategyFactory;
+import de.marcelsauer.jmsloadtester.message.MessageInterceptor;
 import de.marcelsauer.jmsloadtester.output.OutputStrategy;
 import de.marcelsauer.jmsloadtester.output.OutputStrategyFactory;
 import de.marcelsauer.jmsloadtester.tools.Logger;
@@ -36,6 +40,8 @@ public class DefaultConfigImpl implements Config {
 
     // propery keys
     private static final String APP_PREFIX = "app.";
+    
+    private static final String SPLITTER = ",";
 
     private static final String SUBSCRIBERS_TO_START = APP_PREFIX + "listener.thread.count";
     private static final String PUBLISHERS_TO_START = APP_PREFIX + "sender.threads.to.start";
@@ -50,6 +56,7 @@ public class DefaultConfigImpl implements Config {
     private static final String PAUSE_PROGRESS = APP_PREFIX + "output.pause.seconds.between.printing.progress";
     private static final String LISTENER_RAMPUP = APP_PREFIX + "listener.ramp.up.millis";
     private static final String SENDER_RAMPUP = APP_PREFIX + "sender.ramp.up.millis";
+    private static final String MESSAGE_INTERCEPTORS = APP_PREFIX + "message.interceptors";
 
     // connection factory
     private static final String CONNECTION_FACTORY = "javax.jms.ConnectionFactory";
@@ -76,6 +83,8 @@ public class DefaultConfigImpl implements Config {
     private OutputStrategy debugOutputStrategy;
     private OutputStrategy resultOutputStrategy;
     private OutputStrategy messageOutputStrategy;
+    
+    private List<MessageInterceptor> messageInterceptors = new ArrayList<MessageInterceptor>();
 
     public DefaultConfigImpl(final Properties applicationProperties, final MessageContentStrategyFactory messageContentStrategyFactory) {
         this.messageContentStrategyFactory = messageContentStrategyFactory;
@@ -114,23 +123,36 @@ public class DefaultConfigImpl implements Config {
 
             subscriberWaitFor = eachSubscriberWaitFor * subscribersToStart;
 
-            connectionFactory = getStringValue(properties.get(CONNECTION_FACTORY));
+            connectionFactory = getMandatoryStringValue(properties.get(CONNECTION_FACTORY));
 
-            listenToDestination = getStringValue(properties.get(LISTEN_TO_DEST));
-            sendToDestination = getStringValue(properties.get(SEND_TO_DEST));
+            listenToDestination = getMandatoryStringValue(properties.get(LISTEN_TO_DEST));
+            sendToDestination = getMandatoryStringValue(properties.get(SEND_TO_DEST));
 
-            debugOutputStrategy = OutputStrategyFactory.getOutputStrategy(getStringValue(properties.get(DEBUG_OUT_STRATEGY)));
-            resultOutputStrategy = OutputStrategyFactory.getOutputStrategy(getStringValue(properties.get(RESULT_OUT_STRATEGY)));
-            messageOutputStrategy = OutputStrategyFactory.getOutputStrategy(getStringValue(properties.get(MESSAGE_OUT_STRATEGY)));
+            debugOutputStrategy = OutputStrategyFactory.getOutputStrategy(getMandatoryStringValue(properties.get(DEBUG_OUT_STRATEGY)));
+            resultOutputStrategy = OutputStrategyFactory.getOutputStrategy(getMandatoryStringValue(properties.get(RESULT_OUT_STRATEGY)));
+            messageOutputStrategy = OutputStrategyFactory.getOutputStrategy(getMandatoryStringValue(properties.get(MESSAGE_OUT_STRATEGY)));
 
-            messageContentStrategy = getStringValue(properties.get(MESSAGE_CONTENT_STRATEGY));
+            messageContentStrategy = getMandatoryStringValue(properties.get(MESSAGE_CONTENT_STRATEGY));
 
             setMessagesToSend(getMessageContentStrategy().getMessageCount());
+            
+            parseInterceptors(getStringValue(properties.get(MESSAGE_INTERCEPTORS)));
+            
         } catch (IllegalStateException e) {
             Logger.error("the configuration file seems to be incorrect", e);
         }
     }
 
+    private void parseInterceptors(String interceptors){
+        if(!StringUtils.isEmpty(interceptors)){
+            try {
+                messageInterceptors = ClassParser.parseToInstances(interceptors, SPLITTER);
+            } catch (Exception e) {
+                throw new JmsException("could not parse interceptors: " + interceptors);
+            }
+        }
+    }
+    
     private void calculateExpectedMessageCounts() {
         expectedMessageSentCount = publishersToStart * messagesToSend;
     }
@@ -151,11 +173,15 @@ public class DefaultConfigImpl implements Config {
         return Integer.valueOf((String) value);
     }
 
-    private String getStringValue(final Object value) {
+    private String getMandatoryStringValue(final Object value) {
         check(value);
         return String.valueOf(value);
     }
 
+    private String getStringValue(final Object value) {
+        return value == null ? null : String.valueOf(value);
+    }
+    
     public int getSubscribersToStart() {
         return subscribersToStart;
     }
@@ -175,7 +201,7 @@ public class DefaultConfigImpl implements Config {
     // TODO move this somewhere else?
     // we always create a new one
     public MessageContentStrategy getMessageContentStrategy() {
-        return messageContentStrategyFactory.getMessageContentStrategy(getStringValue(messageContentStrategy));
+        return messageContentStrategyFactory.getMessageContentStrategy(getMandatoryStringValue(messageContentStrategy));
     }
 
     public String getListenToDestination() {
@@ -237,5 +263,9 @@ public class DefaultConfigImpl implements Config {
     private void setMessagesToSend(final int messagesToSend) {
         this.messagesToSend = messagesToSend;
         calculateExpectedMessageCounts();
+    }
+
+    public List<MessageInterceptor> getMessageInterceptors() {
+        return messageInterceptors;
     }
 }

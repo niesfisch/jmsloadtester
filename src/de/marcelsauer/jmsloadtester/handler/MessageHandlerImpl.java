@@ -1,6 +1,7 @@
 package de.marcelsauer.jmsloadtester.handler;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.jms.JMSException;
@@ -17,6 +18,8 @@ import de.marcelsauer.jmsloadtester.message.MessageInterceptor;
 import de.marcelsauer.jmsloadtester.message.MessageSentAware;
 import de.marcelsauer.jmsloadtester.message.Payload;
 import de.marcelsauer.jmsloadtester.tools.Logger;
+import de.marcelsauer.jmsloadtester.tracker.MessageTracker;
+import de.marcelsauer.jmsloadtester.tracker.ThreadTracker;
 
 /**
  * JMS Load Tester Copyright (C) 2008 Marcel Sauer
@@ -46,6 +49,8 @@ public class MessageHandlerImpl implements MessageHandler {
     private List<MessageSentAware> sentAwares = new ArrayList<MessageSentAware>();
     // one producer per Thread
     private ThreadLocal<MessageProducer> producer = new ThreadLocal<MessageProducer>();
+    private MessageTracker messageTracker;
+    private ThreadTracker threadTracker;
 
     public void sendMessage(final JmsMessage message) {
         Message msg = getMessageFactory().toMessage(message.getMessage(), getSession());
@@ -99,6 +104,23 @@ public class MessageHandlerImpl implements MessageHandler {
         sendMessage(getMessage(message, destination));
     }
 
+    public void addMessageInterceptors(Collection<MessageInterceptor> interceptors) {
+        this.interceptors.addAll(interceptors);
+    }
+    
+    private ThreadTracker getThreadTracker() {
+        return threadTracker;
+    }
+    
+    public void setMessageTracker(MessageTracker messageTracker) {
+        this.messageTracker = messageTracker;
+    }
+    
+    
+    public void setThreadTracker(ThreadTracker threadTracker) {
+        this.threadTracker = threadTracker;
+    }
+    
     private DestinationHandler getDestinationHandler() {
         return destinationHandler;
     }
@@ -129,7 +151,11 @@ public class MessageHandlerImpl implements MessageHandler {
 
     private void callMessageInterceptors(final Message message) {
         for (MessageInterceptor interceptor : interceptors) {
-            interceptor.intercept(message);
+            try {
+                interceptor.intercept(message, getThreadTracker(), getMessageTracker());
+            } catch (JMSException e) {
+                throw new JmsException("could not intercept message with interceptor " + interceptor);
+            }
         }
     }
 
@@ -151,4 +177,7 @@ public class MessageHandlerImpl implements MessageHandler {
         return consumer;
     }
 
+    private MessageTracker getMessageTracker() {
+        return messageTracker;
+    }
 }

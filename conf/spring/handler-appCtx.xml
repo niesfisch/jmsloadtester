@@ -41,6 +41,8 @@
 		<property name="destinationHandler" ref="destinationHandler" />
 		<property name="sessionHandler" ref="sessionHandler" />
 		<property name="messageFactory" ref="messageFactory" />
+		<property name="messageTracker" ref="messageTracker" />
+		<property name="threadTracker" ref="threadTracker" />
 	</bean>
 	
 </beans>
