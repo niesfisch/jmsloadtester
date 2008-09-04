@@ -23,5 +23,5 @@ import javax.jms.Session;
  * JMS Load Tester. If not, see <http://www.gnu.org/licenses/>.
  */
 public interface MessageFactory {
-    Message toMessage(Object object, Session session);
+    Message toMessage(Payload payload, Session session);
 }

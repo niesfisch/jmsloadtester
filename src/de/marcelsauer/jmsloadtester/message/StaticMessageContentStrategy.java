@@ -24,15 +24,15 @@ import java.util.Iterator;
 public class StaticMessageContentStrategy implements MessageContentStrategy {
 
     private int messageCount;
-    private String message;
+    private Payload message;
     private int count;
 
     public StaticMessageContentStrategy(final String message, final int messageCount) {
         this.messageCount = messageCount;
-        this.message = message;
+        this.message = new Payload(message);
     }
 
-    public String next() {
+    public Payload next() {
         return message;
     }
 
@@ -57,7 +57,7 @@ public class StaticMessageContentStrategy implements MessageContentStrategy {
         throw new UnsupportedOperationException("not supported");
     }
 
-    public Iterator<String> iterator() {
+    public Iterator<Payload> iterator() {
         return this;
     }
 }

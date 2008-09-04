@@ -2,6 +2,7 @@ package de.marcelsauer.jmsloadtester.message.filter;
 
 import de.marcelsauer.jmsloadtester.AbstractJmsLoaderTest;
 import de.marcelsauer.jmsloadtester.message.ContentFilter;
+import de.marcelsauer.jmsloadtester.message.Payload;
 
 /**
  * JMS Load Tester Copyright (C) 2008 Marcel Sauer
@@ -43,21 +44,21 @@ public abstract class AbstractFilterTest extends AbstractJmsLoaderTest {
     }
 
     public void testFilterReplacesNothing() {
-        assertTrue("test 1 1 1 1 1".equals(filter.filter("test 1 1 1 1 1")));
-        assertTrue("     test 1 1 1 1 1        ".equals(filter.filter("     test 1 1 1 1 1        ")));
-        assertTrue(placeholder.equals(filter.filter(placeholder)));
-        assertTrue("::".equals(filter.filter("::")));
-        assertTrue((":" + placeholder).equals(filter.filter(":" + placeholder)));
-        assertTrue((placeholder + ":").equals(filter.filter((placeholder + ":"))));
-        assertTrue((": " + placeholder + " :").equals(filter.filter((": " + placeholder + " :"))));
+        assertTrue("test 1 1 1 1 1".equals(filter.filter(new Payload("test 1 1 1 1 1")).asString()));
+        assertTrue("     test 1 1 1 1 1        ".equals(filter.filter(new Payload("     test 1 1 1 1 1        ")).asString()));
+        assertTrue(placeholder.equals(filter.filter(new Payload(placeholder)).asString()));
+        assertTrue("::".equals(filter.filter(new Payload("::")).asString()));
+        assertTrue((":" + placeholder).equals(filter.filter(new Payload(":" + placeholder)).asString()));
+        assertTrue((placeholder + ":").equals(filter.filter((new Payload(placeholder + ":"))).asString()));
+        assertTrue((": " + placeholder + " :").equals(filter.filter((new Payload(": " + placeholder + " :"))).asString()));
     }
 
     public void testFilterReplacesCorrectly() {
-        assertTrue(filter.filter(":" + placeholder + ":").matches(testRegex));
-        assertTrue(filter.filter("     :" + placeholder + ":").matches(testRegex));
-        assertTrue(filter.filter(":" + placeholder + ":     ").matches(testRegex));
-        assertTrue(filter.filter("    :" + placeholder + ":   ").matches(testRegex));
-        assertTrue(filter.filter("test:" + placeholder + ":test").matches(testRegex));
-        assertTrue(filter.filter(":::" + placeholder + ":::").matches(testRegex));
+        assertTrue(filter.filter(new Payload(":" + placeholder + ":")).asString().matches(testRegex));
+        assertTrue(filter.filter(new Payload("     :" + placeholder + ":")).asString().matches(testRegex));
+        assertTrue(filter.filter(new Payload(":" + placeholder + ":     ")).asString().matches(testRegex));
+        assertTrue(filter.filter(new Payload("    :" + placeholder + ":   ")).asString().matches(testRegex));
+        assertTrue(filter.filter(new Payload("test:" + placeholder + ":test")).asString().matches(testRegex));
+        assertTrue(filter.filter(new Payload(":::" + placeholder + ":::")).asString().matches(testRegex));
     }
 }

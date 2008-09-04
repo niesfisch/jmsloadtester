@@ -15,6 +15,7 @@ import de.marcelsauer.jmsloadtester.message.JmsMessage;
 import de.marcelsauer.jmsloadtester.message.MessageFactory;
 import de.marcelsauer.jmsloadtester.message.MessageInterceptor;
 import de.marcelsauer.jmsloadtester.message.MessageSentAware;
+import de.marcelsauer.jmsloadtester.message.Payload;
 import de.marcelsauer.jmsloadtester.tools.Logger;
 
 /**
@@ -66,8 +67,8 @@ public class MessageHandlerImpl implements MessageHandler {
         }
     }
 
-    public JmsMessage getMessage(final String text, final String destination) {
-        return new JmsMessage(text, destination);
+    public JmsMessage getMessage(final Payload message, final String destination) {
+        return new JmsMessage(message, destination);
     }
 
     public void setSessionHandler(final SessionHandler sessionHandler) {
@@ -94,8 +95,8 @@ public class MessageHandlerImpl implements MessageHandler {
         this.messageProducer = messageProducer;
     }
 
-    public void sendMessage(final String text, final String destination) {
-        sendMessage(getMessage(text, destination));
+    public void sendMessage(final Payload message, final String destination) {
+        sendMessage(getMessage(message, destination));
     }
 
     private DestinationHandler getDestinationHandler() {

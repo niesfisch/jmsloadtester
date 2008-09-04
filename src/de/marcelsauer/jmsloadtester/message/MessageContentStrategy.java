@@ -21,7 +21,7 @@ import java.util.Iterator;
  * You should have received a copy of the GNU General Public License along with
  * JMS Load Tester. If not, see <http://www.gnu.org/licenses/>.
  */
-public interface MessageContentStrategy extends Iterator<String>, Iterable<String> {
+public interface MessageContentStrategy extends Iterator<Payload>, Iterable<Payload> {
     String getDescription();
 
     int getMessageCount();

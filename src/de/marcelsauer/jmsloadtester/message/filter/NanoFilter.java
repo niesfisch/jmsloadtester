@@ -26,7 +26,7 @@ public class NanoFilter extends AbstractFilter {
     }
 
     @Override
-    protected Object getReplacement() {
-        return System.nanoTime();
+    protected String getReplacement() {
+        return String.valueOf(System.nanoTime());
     }
 }

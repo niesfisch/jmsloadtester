@@ -30,7 +30,7 @@ public class RandomFilter extends AbstractFilter {
     }
 
     @Override
-    protected Object getReplacement() {
-        return generator.nextLong();
+    protected String getReplacement() {
+        return String.valueOf(generator.nextLong());
     }
 }

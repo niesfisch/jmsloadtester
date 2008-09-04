@@ -32,7 +32,7 @@ import de.marcelsauer.jmsloadtester.tools.StringUtils;
  */
 public class FolderMessageContentStrategy implements MessageContentStrategy {
 
-    private static Map<String, String> cache = new HashMap<String, String>();
+    private static Map<String, Payload> cache = new HashMap<String, Payload>();
     private String directory;
     private String regex;
     private File[] files;
@@ -52,13 +52,13 @@ public class FolderMessageContentStrategy implements MessageContentStrategy {
         }
     }
 
-    public String next() {
-        String nextMessage = getCached(files[counter].getName());
+    public Payload next() {
+        Payload nextMessage = getCached(files[counter].getName());
         if (!StringUtils.isEmpty(nextMessage)) {
             Logger.debug("returning cached file: " + cache);
             increaseCounter();
         } else {
-            nextMessage = FileUtils.getFileContents(files[counter]);
+            nextMessage = new Payload(FileUtils.getBytesFromFile(files[counter]));
             putCached(files[counter].getName(), nextMessage);
             increaseCounter();
         }
@@ -86,7 +86,7 @@ public class FolderMessageContentStrategy implements MessageContentStrategy {
         throw new UnsupportedOperationException("not supported");
     }
 
-    public Iterator<String> iterator() {
+    public Iterator<Payload> iterator() {
         return this;
     }
 
@@ -97,11 +97,11 @@ public class FolderMessageContentStrategy implements MessageContentStrategy {
         }
     }
 
-    private synchronized String getCached(final String filename) {
+    private synchronized Payload getCached(final String filename) {
         return cache.get(filename);
     }
 
-    private synchronized void putCached(final String filename, final String content) {
+    private synchronized void putCached(final String filename, final Payload content) {
         cache.put(filename, content);
     }
 

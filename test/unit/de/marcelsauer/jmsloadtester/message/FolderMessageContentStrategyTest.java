@@ -77,9 +77,9 @@ public class FolderMessageContentStrategyTest extends AbstractJmsLoaderTest {
 
     private void executeIterator(final MessageContentStrategy strategy, final int expectedAmount, final int fileCount) {
         int amount = 0;
-        String oldMessage = null;
-        for (String message : strategy) {
-            assertTrue("message is empty", message != null && !"".equals(message.trim()));
+        Payload oldMessage = null;
+        for (Payload message : strategy) {
+            assertTrue("message is empty", message != null && !"".equals(message.asString().trim()));
             // as soon as we switch files they should be unequal
             if (amount != expectedAmount / fileCount) {
                 assertTrue("messages should be equal", (oldMessage != null) ? message.equals(oldMessage) : true);

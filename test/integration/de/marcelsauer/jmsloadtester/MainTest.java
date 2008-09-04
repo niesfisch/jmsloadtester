@@ -43,7 +43,7 @@ public class MainTest extends TestCase {
     public void testAll() {
         // spring needs to know where to find the properties file
         System.setProperty("app.properties.file", ".\\test\\resources\\config\\integrationtest.app.properties");
-
+        
         final Main main = new Main(false);
 
         // here we overwrite to capture the output that would otherwise be
@@ -60,7 +60,7 @@ public class MainTest extends TestCase {
         System.out.println(uniqMessagesReceived.size());
     }
 
-    private class SenderCapture implements OutputStrategy {
+    private static class SenderCapture implements OutputStrategy {
         public synchronized void output(String line) {
             // System.out.println(line);
             if (StringUtils.contains(line, "sending message")) {

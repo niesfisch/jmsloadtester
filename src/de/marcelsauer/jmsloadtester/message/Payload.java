@@ -1,6 +1,4 @@
-package de.marcelsauer.jmsloadtester.message.filter;
-
-import de.marcelsauer.jmsloadtester.tracker.MessageTracker;
+package de.marcelsauer.jmsloadtester.message;
 
 /**
  * JMS Load Tester Copyright (C) 2008 Marcel Sauer
@@ -21,21 +19,28 @@ import de.marcelsauer.jmsloadtester.tracker.MessageTracker;
  * You should have received a copy of the GNU General Public License along with
  * JMS Load Tester. If not, see <http://www.gnu.org/licenses/>.
  */
-public class MessageCounterFilter extends AbstractFilter {
-
-    private MessageTracker messageTracker;
-
-    public MessageCounterFilter(final MessageTracker messageTracker) {
-        this.messageTracker = messageTracker;
+public final class Payload {
+    
+    final private byte[] payload;
+    
+    public Payload(final byte[] payload){
+        this.payload = payload;
+    }
+    
+    public Payload(final String payload){
+        this.payload = payload.getBytes();
+    }
+    
+    public String asString(){
+        return new String(payload);
+    }
+    
+    public byte[] asBytes(){
+        return payload;
     }
 
     @Override
-    protected String getPlaceHolder() {
-        return FilterConstants.MESSAGE_COUNTER;
-    }
-
-    @Override
-    protected String getReplacement() {
-        return String.valueOf(messageTracker.getTotalMessagesSent());
+    public String toString() {
+        return asString();
     }
 }

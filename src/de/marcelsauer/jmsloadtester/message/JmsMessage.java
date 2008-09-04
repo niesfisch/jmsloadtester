@@ -21,10 +21,10 @@ package de.marcelsauer.jmsloadtester.message;
  */
 public class JmsMessage {
 
-    private String message;
+    private Payload message;
     private String destination;
 
-    public JmsMessage(final String message, final String destination) {
+    public JmsMessage(final Payload message, final String destination) {
         this.message = message;
         this.destination = destination;
     }
@@ -37,11 +37,11 @@ public class JmsMessage {
         this.destination = destination;
     }
 
-    public String getMessage() {
+    public Payload getMessage() {
         return message;
     }
 
-    public void setMessage(final String message) {
+    public void setMessage(final Payload message) {
         this.message = message;
     }
 

@@ -27,4 +27,8 @@ public class JmsException extends RuntimeException {
     public JmsException(String msg, Exception e) {
         super(msg, e);
     }
+    
+    public JmsException(String msg) {
+        super(msg);
+    }
 }

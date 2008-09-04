@@ -1,13 +1,11 @@
-package de.marcelsauer.jmsloadtester.handler;
+package de.marcelsauer.jmsloadtester.message;
 
-import java.util.List;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
+import javax.jms.TextMessage;
 
-import javax.jms.MessageListener;
-
-import de.marcelsauer.jmsloadtester.message.JmsMessage;
-import de.marcelsauer.jmsloadtester.message.MessageInterceptor;
-import de.marcelsauer.jmsloadtester.message.MessageSentAware;
-import de.marcelsauer.jmsloadtester.message.Payload;
+import de.marcelsauer.jmsloadtester.core.JmsException;
 
 /**
  * JMS Load Tester Copyright (C) 2008 Marcel Sauer
@@ -28,18 +26,17 @@ import de.marcelsauer.jmsloadtester.message.Payload;
  * You should have received a copy of the GNU General Public License along with
  * JMS Load Tester. If not, see <http://www.gnu.org/licenses/>.
  */
-public interface MessageHandler {
-    void sendMessage(JmsMessage message);
+public class TextMessageFactory implements MessageFactory {
 
-    void sendMessage(Payload message, String destination);
+    public Message toMessage(final Payload payload, final Session session) {
+        try {
+            return createMessage(payload.asString(), session);
+        } catch (JMSException e) {
+            throw new JmsException(e);
+        }
+    }
 
-    void attachMessageListener(String destination, MessageListener listener);
-
-    void addMessageInterceptor(MessageInterceptor interceptor);
-
-    void addMessageSentAware(MessageSentAware sentAware);
-
-    void addMessageSentAware(List<MessageSentAware> sentAwares);
-
-    JmsMessage getMessage(Payload text, String destination);
+    private TextMessage createMessage(final String text, final Session session) throws JMSException {
+        return session.createTextMessage(text);
+    }
 }

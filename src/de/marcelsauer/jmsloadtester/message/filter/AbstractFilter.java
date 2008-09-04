@@ -1,6 +1,8 @@
 package de.marcelsauer.jmsloadtester.message.filter;
 
 import de.marcelsauer.jmsloadtester.message.ContentFilter;
+import de.marcelsauer.jmsloadtester.message.Payload;
+import de.marcelsauer.jmsloadtester.tools.ArrayUtils;
 
 /**
  * JMS Load Tester Copyright (C) 2008 Marcel Sauer
@@ -27,11 +29,15 @@ public abstract class AbstractFilter implements ContentFilter {
         return FilterConstants.START + what + FilterConstants.END;
     }
 
-    public String filter(final String input) {
-        return input.replaceAll(getFullPlaceHolder(getPlaceHolder()), String.valueOf(getReplacement()));
+    public Payload filter(final Payload payload) {
+        byte[] input = payload.asBytes();
+        byte[] replace = getReplacement().getBytes();
+        byte[] search = getFullPlaceHolder(getPlaceHolder()).getBytes();
+
+        return new Payload(ArrayUtils.replaceAll(input, search, replace));
     }
 
     protected abstract String getPlaceHolder();
 
-    protected abstract Object getReplacement();
+    protected abstract String getReplacement();
 }

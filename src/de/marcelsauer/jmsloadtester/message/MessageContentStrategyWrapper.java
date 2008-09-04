@@ -39,7 +39,7 @@ public class MessageContentStrategyWrapper implements MessageContentStrategy {
         return target.getMessageCount();
     }
 
-    public String next() {
+    public Payload next() {
         return filter.filter(target.next());
     }
 
@@ -56,7 +56,7 @@ public class MessageContentStrategyWrapper implements MessageContentStrategy {
         throw new UnsupportedOperationException("not supported");
     }
 
-    public Iterator<String> iterator() {
+    public Iterator<Payload> iterator() {
         return this;
     }
 

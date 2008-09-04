@@ -44,9 +44,9 @@ public class StaticMessageContentStrategyTest extends AbstractJmsLoaderTest {
 
     private void executeIterator(final MessageContentStrategy strategy, final int expectedAmount) {
         int amount = 0;
-        String oldMessage = null;
-        for (String message : strategy) {
-            assertTrue("message is empty", message != null && !"".equals(message.trim()));
+        Payload oldMessage = null;
+        for (Payload message : strategy) {
+            assertTrue("message is empty", message != null && !"".equals(message.asString().trim()));
             assertTrue("messages should be equal", (oldMessage != null) ? message.equals(oldMessage) : true);
             oldMessage = message;
             amount++;

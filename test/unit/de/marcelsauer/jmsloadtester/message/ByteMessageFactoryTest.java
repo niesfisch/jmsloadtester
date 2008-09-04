@@ -6,7 +6,6 @@ import javax.jms.BytesMessage;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Session;
-import javax.jms.TextMessage;
 
 import de.marcelsauer.jmsloadtester.AbstractJmsLoaderTest;
 
@@ -29,41 +28,27 @@ import de.marcelsauer.jmsloadtester.AbstractJmsLoaderTest;
  * You should have received a copy of the GNU General Public License along with
  * JMS Load Tester. If not, see <http://www.gnu.org/licenses/>.
  */
-public class DefaultMessageFactoryTest extends AbstractJmsLoaderTest {
+public class ByteMessageFactoryTest extends AbstractJmsLoaderTest {
 
     private MessageFactory factory;
     private Session mockSession;
-    private TextMessage mockTextMessage;
     private BytesMessage mockByteMessage;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        factory = new DefaultMessageFactory();
+        factory = new ByteMessageFactory();
         mockSession = createMockOfType(Session.class);
-        mockTextMessage = createMockOfType(TextMessage.class);
         mockByteMessage = createMockOfType(BytesMessage.class);
     }
 
     public void testFactoryBehaviour() throws JMSException {
         final byte[] bytes = new byte[3];
-        expect(mockSession.createTextMessage("the message")).andReturn(mockTextMessage);
         expect(mockSession.createBytesMessage()).andReturn(mockByteMessage);
         mockByteMessage.writeBytes(bytes);
         replay();
-        Message textMessage = factory.toMessage("the message", mockSession);
-        Message byteMessage = factory.toMessage(bytes, mockSession);
-        assertTrue(textMessage instanceof TextMessage);
+        Message byteMessage = factory.toMessage(new Payload(bytes), mockSession);
         assertTrue(byteMessage instanceof BytesMessage);
         verify();
-    }
-
-    public void testExceptionBehaviour() {
-        try {
-            factory.toMessage(2, mockSession);
-            fail("expected exception");
-        } catch (IllegalArgumentException e) {
-            // expected
-        }
     }
 }

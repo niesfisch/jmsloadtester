@@ -1,8 +1,7 @@
 package de.marcelsauer.jmsloadtester.message;
 
-import java.nio.ByteBuffer;
+import java.util.Arrays;
 import java.util.Iterator;
-import java.util.Random;
 
 /**
  * JMS Load Tester Copyright (C) 2008 Marcel Sauer
@@ -28,15 +27,18 @@ public class SizeMessageContentStrategy implements MessageContentStrategy {
     private int messageCount;
     private int bytes;
     private int count;
-    private String message;
+    private Payload message;
 
     public SizeMessageContentStrategy(final int bytes, final int messageCount) {
+        if(bytes < 0){
+            throw new IllegalArgumentException("the bytes must be greater than zero");
+        }
         this.messageCount = messageCount;
         this.bytes = bytes;
         generateMessage();
     }
 
-    public String next() {
+    public Payload next() {
         return message;
     }
 
@@ -58,27 +60,16 @@ public class SizeMessageContentStrategy implements MessageContentStrategy {
     }
 
     private void generateMessage() {
-        Random r = new Random();
         byte[] data = new byte[bytes];
-        r.nextBytes(data);
-
-        // System.out.println(data.length);
-        // System.out.println(data);
-
-        // System.out.write(data,0,data.length);
-
-        ByteBuffer bb1 = ByteBuffer.allocate(100);
-        System.out.println(bb1);
-
-        // this.message = String(bytes);
-
+        Arrays.fill(data, "1".getBytes()[0]);     
+        this.message = new Payload(data);
     }
 
     public void remove() {
         throw new UnsupportedOperationException("not supported");
     }
 
-    public Iterator<String> iterator() {
+    public Iterator<Payload> iterator() {
         return this;
     }
 }

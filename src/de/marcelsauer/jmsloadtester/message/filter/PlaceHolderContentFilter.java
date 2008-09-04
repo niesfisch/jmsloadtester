@@ -1,7 +1,8 @@
 package de.marcelsauer.jmsloadtester.message.filter;
 
 import de.marcelsauer.jmsloadtester.message.ContentFilter;
-import de.marcelsauer.jmsloadtester.tools.StringUtils;
+import de.marcelsauer.jmsloadtester.message.Payload;
+import de.marcelsauer.jmsloadtester.tools.ArrayUtils;
 
 /**
  * JMS Load Tester Copyright (C) 2008 Marcel Sauer
@@ -30,13 +31,13 @@ public class PlaceHolderContentFilter implements ContentFilter {
         this.filterFactory = filterFactory;
     }
 
-    public String filter(final String input) {
+    public Payload filter(final Payload input) {
         // no need to replace
-        if (!StringUtils.contains(input, ":")) {
+        if (!ArrayUtils.contains(input.asBytes(), FilterConstants.START.getBytes()[0])) {
             return input;
         }
-        String message = input;
-        for (ContentFilter filter : filterFactory.getFilters(input)) {
+        Payload message = input;
+        for (ContentFilter filter : filterFactory.getFilters(input.asString())) {
             message = filter.filter(message);
         }
         return message;

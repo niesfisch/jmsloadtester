@@ -4,9 +4,8 @@ import javax.jms.BytesMessage;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Session;
-import javax.jms.TextMessage;
 
-import de.marcelsauer.jmsloadtester.tools.Logger;
+import de.marcelsauer.jmsloadtester.core.JmsException;
 
 /**
  * JMS Load Tester Copyright (C) 2008 Marcel Sauer
@@ -27,25 +26,14 @@ import de.marcelsauer.jmsloadtester.tools.Logger;
  * You should have received a copy of the GNU General Public License along with
  * JMS Load Tester. If not, see <http://www.gnu.org/licenses/>.
  */
-public class DefaultMessageFactory implements MessageFactory {
+public class ByteMessageFactory implements MessageFactory {
 
-    public Message toMessage(final Object object, final Session session) {
+    public Message toMessage(final Payload payload, final Session session) {
         try {
-            if (object instanceof String) {
-                return createMessage((String) object, session);
-            } else if (object instanceof byte[]) {
-                return createMessage((byte[]) object, session);
-            } else {
-                throw new IllegalArgumentException("the provided object can not be converted to a jms message");
-            }
+            return createMessage(payload.asBytes(), session);
         } catch (JMSException e) {
-            Logger.error("could not create message", e);
+            throw new JmsException(e);
         }
-        return null;
-    }
-
-    private TextMessage createMessage(final String text, final Session session) throws JMSException {
-        return session.createTextMessage(text);
     }
 
     private BytesMessage createMessage(final byte[] bytes, final Session session) throws JMSException {

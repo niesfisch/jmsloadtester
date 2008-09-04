@@ -20,5 +20,5 @@ package de.marcelsauer.jmsloadtester.message;
  * JMS Load Tester. If not, see <http://www.gnu.org/licenses/>.
  */
 public interface ContentFilter {
-    String filter(String input);
+    Payload filter(Payload input);
 }

@@ -28,7 +28,7 @@ public class DateFilter extends AbstractFilter {
     }
 
     @Override
-    protected Object getReplacement() {
+    protected String getReplacement() {
         return new Date().toString();
     }
 }
