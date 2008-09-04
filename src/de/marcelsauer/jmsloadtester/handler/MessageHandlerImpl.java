@@ -152,6 +152,7 @@ public class MessageHandlerImpl implements MessageHandler {
     private void callMessageInterceptors(final Message message) {
         for (MessageInterceptor interceptor : interceptors) {
             try {
+                Logger.debug("calling interceptor [" + interceptor + "] on message");
                 interceptor.intercept(message, getThreadTracker(), getMessageTracker());
             } catch (JMSException e) {
                 throw new JmsException("could not intercept message with interceptor " + interceptor);
