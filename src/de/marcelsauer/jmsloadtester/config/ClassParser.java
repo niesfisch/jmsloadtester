@@ -36,7 +36,7 @@ public class ClassParser {
         String[] parsed = classes.split(separator);
         if(parsed.length > 0){
             for(String classname : parsed){
-                T instance = ReflectionUtils.newInstance(classname);
+                T instance = ReflectionUtils.<T>newInstance(classname);
                 instances.add(instance);
             }
         }

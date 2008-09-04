@@ -1,4 +1,4 @@
-JMS Load Tester 0.1
+JMS Load Tester 1.0
 
 please look at the online User Guide
 
