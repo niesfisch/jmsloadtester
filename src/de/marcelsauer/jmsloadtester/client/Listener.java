@@ -3,6 +3,7 @@ package de.marcelsauer.jmsloadtester.client;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 
@@ -12,6 +13,7 @@ import de.marcelsauer.jmsloadtester.handler.MessageHandler;
 import de.marcelsauer.jmsloadtester.message.MessageNotifyable;
 import de.marcelsauer.jmsloadtester.message.MessageParser;
 import de.marcelsauer.jmsloadtester.output.OutputStrategy;
+import de.marcelsauer.jmsloadtester.tools.Logger;
 import de.marcelsauer.jmsloadtester.tools.ThreadTools;
 
 /**
@@ -39,7 +41,8 @@ public class Listener extends JmsClient {
     private OutputStrategy messageOutStrategy;
     private MessageParser messageParser;
     private List<MessageNotifyable> messageNotifyables = new ArrayList<MessageNotifyable>();
-
+    private boolean explicitAckMessage;
+    
     public void run() {
         try {
             MessageHandler messageHandler = getMessageHandler();
@@ -56,6 +59,15 @@ public class Listener extends JmsClient {
         public void onMessage(Message message) {
             printMessageDetails(message);
             messageReceived(message);
+            if(isExplicitAckMessage()){
+                try {
+                    Logger.debug("trying to acknowledge message" + message.getJMSMessageID());
+                    message.acknowledge();
+                    Logger.debug("successfully acknowledged message" + message.getJMSMessageID());
+                } catch (JMSException e) {
+                    throw new JmsException("could not acknowledge message", e);
+                }
+            }
         }
     }
 
@@ -93,6 +105,14 @@ public class Listener extends JmsClient {
         this.messageParser = messageParser;
     }
 
+    public void setExplicitAckMessage(boolean explicitAckMessage){
+        this.explicitAckMessage = explicitAckMessage;
+    }
+    
+    public boolean isExplicitAckMessage(){
+        return explicitAckMessage;
+    }
+    
     private OutputStrategy getMessageOutStrategy() {
         return messageOutStrategy;
     }

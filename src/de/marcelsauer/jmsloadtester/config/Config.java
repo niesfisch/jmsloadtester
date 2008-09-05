@@ -51,7 +51,9 @@ public interface Config {
     int getSenderRampup();
 
     boolean doCreateDestinationIfNotExistent();
-
+    
+    boolean isAcknowledgeMessage();
+    
     String getConnectionFactory();
 
     String getListenToDestination();
@@ -67,4 +69,5 @@ public interface Config {
     MessageContentStrategy getMessageContentStrategy();
     
     List<MessageInterceptor> getMessageInterceptors();
+    
 }

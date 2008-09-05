@@ -57,6 +57,7 @@ public class DefaultConfigImpl implements Config {
     private static final String LISTENER_RAMPUP = APP_PREFIX + "listener.ramp.up.millis";
     private static final String SENDER_RAMPUP = APP_PREFIX + "sender.ramp.up.millis";
     private static final String MESSAGE_INTERCEPTORS = APP_PREFIX + "message.interceptors";
+    private static final String LISTENER_ACK_MESSAGE = APP_PREFIX + "listener.explicit.acknowledge.message";
 
     // connection factory
     private static final String CONNECTION_FACTORY = "javax.jms.ConnectionFactory";
@@ -74,6 +75,7 @@ public class DefaultConfigImpl implements Config {
     private int expectedMessageSentCount;
 
     private boolean createJndiDestinationIfNotFound;
+    private boolean listenerAckMessage;
 
     private String connectionFactory;
     private String listenToDestination;
@@ -133,7 +135,9 @@ public class DefaultConfigImpl implements Config {
             messageOutputStrategy = OutputStrategyFactory.getOutputStrategy(getMandatoryStringValue(properties.get(MESSAGE_OUT_STRATEGY)));
 
             messageContentStrategy = getMandatoryStringValue(properties.get(MESSAGE_CONTENT_STRATEGY));
-
+            
+            listenerAckMessage = getBooleanValue(properties.get(LISTENER_ACK_MESSAGE));
+            
             setMessagesToSend(getMessageContentStrategy().getMessageCount());
             
             parseInterceptors(getStringValue(properties.get(MESSAGE_INTERCEPTORS)));
@@ -267,5 +271,9 @@ public class DefaultConfigImpl implements Config {
 
     public List<MessageInterceptor> getMessageInterceptors() {
         return messageInterceptors;
+    }
+
+    public boolean isAcknowledgeMessage() {
+        return listenerAckMessage;
     }
 }

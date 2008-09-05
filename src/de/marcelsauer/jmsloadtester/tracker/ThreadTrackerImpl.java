@@ -54,6 +54,7 @@ public class ThreadTrackerImpl implements ThreadTracker {
         listener.addMessageNotifyable(messageTracker);
         listener.setMessageOutStrategy(config.getMessageOutputStrategy());
         listener.setMessageParser(messageParser);
+        listener.setExplicitAckMessage(config.isAcknowledgeMessage());
         
         final Thread subscriberThread = new Thread(listener);
         subscriberThread.setName(name + " [" + listener.hashCode() + "]");
