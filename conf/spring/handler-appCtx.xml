@@ -33,8 +33,8 @@
 		<constructor-arg ref="connectionFactory" />
 	</bean>
 	
-	<bean id="sessionHandler" class="de.marcelsauer.jmsloadtester.handler.SessionHandlerImpl" singleton="false">
-		<constructor-arg ref="connectionHandler" />
+	<bean id="sessionHandler" class="${javax.jms.session.handler}" singleton="false">
+		<constructor-arg type="java.lang.String" value="${javax.jms.session.acknowledge.mode}"/>
 	</bean>
 	
 	<bean id="messageHandler" class="de.marcelsauer.jmsloadtester.handler.MessageHandlerImpl" singleton="false">
@@ -43,6 +43,7 @@
 		<property name="messageFactory" ref="messageFactory" />
 		<property name="messageTracker" ref="messageTracker" />
 		<property name="threadTracker" ref="threadTracker" />
+		<property name="connectionHandler" ref="connectionHandler" />
 	</bean>
 	
 </beans>

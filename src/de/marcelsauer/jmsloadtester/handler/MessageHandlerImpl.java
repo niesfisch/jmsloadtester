@@ -51,6 +51,7 @@ public class MessageHandlerImpl implements MessageHandler {
     private ThreadLocal<MessageProducer> producer = new ThreadLocal<MessageProducer>();
     private MessageTracker messageTracker;
     private ThreadTracker threadTracker;
+    private ConnectionHandler connectionHandler;
 
     public void sendMessage(final JmsMessage message) {
         Message msg = getMessageFactory().toMessage(message.getMessage(), getSession());
@@ -108,10 +109,10 @@ public class MessageHandlerImpl implements MessageHandler {
         this.interceptors.addAll(interceptors);
     }
     
-    private ThreadTracker getThreadTracker() {
-        return threadTracker;
+    public void setConnectionHandler(ConnectionHandler connectionHandler) {
+        this.connectionHandler = connectionHandler;
     }
-    
+
     public void setMessageTracker(MessageTracker messageTracker) {
         this.messageTracker = messageTracker;
     }
@@ -119,6 +120,14 @@ public class MessageHandlerImpl implements MessageHandler {
     
     public void setThreadTracker(ThreadTracker threadTracker) {
         this.threadTracker = threadTracker;
+    }
+    
+    private ConnectionHandler getConnectionHandler() {
+        return connectionHandler;
+    }
+
+    private ThreadTracker getThreadTracker() {
+        return threadTracker;
     }
     
     private DestinationHandler getDestinationHandler() {
@@ -140,7 +149,7 @@ public class MessageHandlerImpl implements MessageHandler {
     }
 
     private Session getSession() {
-        return getSessionHandler().getSession();
+        return getSessionHandler().getSession(getConnectionHandler().getConnection());
     }
 
     private void informMessageSentAware(final Message message) {

@@ -32,7 +32,7 @@
 	</bean>
 	
 	<bean id="resultContainer" class="de.marcelsauer.jmsloadtester.result.DefaultResultContainer"/>
-	<bean id="messageFactory"  class="${app.message.factory}"/>
+	<bean id="messageFactory"  class="${javax.jms.message.factory}"/>
 	<bean id="messageParser"   class="de.marcelsauer.jmsloadtester.message.DefaultMessageParser"/>
 	<bean id="messageContentStrategyFactory" class="de.marcelsauer.jmsloadtester.message.MessageContentStrategyFactoryImpl"/>
 	

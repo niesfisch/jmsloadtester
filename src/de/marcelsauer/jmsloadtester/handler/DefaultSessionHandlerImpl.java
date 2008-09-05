@@ -1,6 +1,7 @@
 package de.marcelsauer.jmsloadtester.handler;
 
 import javax.jms.Connection;
+import javax.jms.JMSException;
 import javax.jms.Session;
 
 /**
@@ -22,21 +23,16 @@ import javax.jms.Session;
  * You should have received a copy of the GNU General Public License along with
  * JMS Load Tester. If not, see <http://www.gnu.org/licenses/>.
  */
-public interface SessionHandler {
+public class DefaultSessionHandlerImpl extends AbstractThreadAwareSessionHandler {
 
-    Session getSession(Connection connection);
+    private String ackMode;
+    
+    public DefaultSessionHandlerImpl(String ackMode){
+        this.ackMode = ackMode;
+    }
 
-    static enum ACK_MODE {
-        AUTO_ACKNOWLEDGE(Session.AUTO_ACKNOWLEDGE), CLIENT_ACKNOWLEDGE(Session.CLIENT_ACKNOWLEDGE), DUPS_OK_ACKNOWLEDGE(Session.DUPS_OK_ACKNOWLEDGE);
-
-        int mode = -1;
-
-        ACK_MODE(int mode) {
-            this.mode = mode;
-        }
-
-        public int getMode() {
-            return mode;
-        }
+    @Override
+    final Session getThreadSession(Connection connection) throws JMSException {
+        return connection.createSession(false, ACK_MODE.valueOf(ackMode).getMode());
     }
 }

@@ -26,26 +26,17 @@ import de.marcelsauer.jmsloadtester.tools.Logger;
  * You should have received a copy of the GNU General Public License along with
  * JMS Load Tester. If not, see <http://www.gnu.org/licenses/>.
  */
-public class SessionHandlerImpl implements SessionHandler {
+public abstract class AbstractThreadAwareSessionHandler implements SessionHandler {
 
     // one session per Thread
     private static ThreadLocal<Session> sess = new ThreadLocal<Session>();
-    private ConnectionHandler connectionHandler;
-    private ACK_MODE ackMode;
 
-    public SessionHandlerImpl(final ConnectionHandler connectionHandler) {
-        this(connectionHandler, ACK_MODE.AUTO_ACKNOWLEDGE);
-    }
+    abstract Session getThreadSession(final Connection connection) throws JMSException;
 
-    public SessionHandlerImpl(final ConnectionHandler connectionHandler, final ACK_MODE ackMode) {
-        this.connectionHandler = connectionHandler;
-        this.ackMode = ackMode;
-    }
-
-    public Session getSession() {
+    public final Session getSession(final Connection connection) {
         if (sess.get() == null) {
             try {
-                sess.set(getConnection().createSession(false, getAckMode().getMode()));
+                sess.set(getThreadSession(connection));
                 Logger.debug("returning newly created session: [" + sess.get() + "] for this thread");
             } catch (JMSException e) {
                 throw new JmsException("could not create session", e);
@@ -55,25 +46,4 @@ public class SessionHandlerImpl implements SessionHandler {
         }
         return sess.get();
     }
-
-    public synchronized void setConnectionHandler(final ConnectionHandler connectionHandler) {
-        this.connectionHandler = connectionHandler;
-    }
-
-    public synchronized void setAckMode(final ACK_MODE ackMode) {
-        this.ackMode = ackMode;
-    }
-
-    private synchronized ConnectionHandler getConnectionHandler() {
-        return connectionHandler;
-    }
-
-    private synchronized Connection getConnection() {
-        return getConnectionHandler().getConnection();
-    }
-
-    private synchronized ACK_MODE getAckMode() {
-        return ackMode;
-    }
-
 }
