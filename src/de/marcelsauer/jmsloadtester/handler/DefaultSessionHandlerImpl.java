@@ -4,6 +4,8 @@ import javax.jms.Connection;
 import javax.jms.JMSException;
 import javax.jms.Session;
 
+import de.marcelsauer.jmsloadtester.config.Config;
+
 /**
  * JMS Load Tester Copyright (C) 2008 Marcel Sauer
  * <marcel[underscore]sauer[at]gmx.de>
@@ -25,14 +27,12 @@ import javax.jms.Session;
  */
 public class DefaultSessionHandlerImpl extends AbstractThreadAwareSessionHandler {
 
-    private String ackMode;
-    
-    public DefaultSessionHandlerImpl(String ackMode){
-        this.ackMode = ackMode;
+    public DefaultSessionHandlerImpl(final String ackMode){
+        super(ackMode);
     }
 
     @Override
-    final Session getThreadSession(Connection connection) throws JMSException {
-        return connection.createSession(false, ACK_MODE.valueOf(ackMode).getMode());
+    final Session getThreadSession(final Connection connection, final Config config) throws JMSException {
+        return connection.createSession(false, ACK_MODE.valueOf(getAckMode()).getMode());
     }
 }

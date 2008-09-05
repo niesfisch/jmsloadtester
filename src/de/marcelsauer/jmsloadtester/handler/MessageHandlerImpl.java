@@ -11,6 +11,7 @@ import javax.jms.MessageListener;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
 
+import de.marcelsauer.jmsloadtester.config.Config;
 import de.marcelsauer.jmsloadtester.core.JmsException;
 import de.marcelsauer.jmsloadtester.message.JmsMessage;
 import de.marcelsauer.jmsloadtester.message.MessageFactory;
@@ -52,6 +53,7 @@ public class MessageHandlerImpl implements MessageHandler {
     private MessageTracker messageTracker;
     private ThreadTracker threadTracker;
     private ConnectionHandler connectionHandler;
+    private Config config;
 
     public void sendMessage(final JmsMessage message) {
         Message msg = getMessageFactory().toMessage(message.getMessage(), getSession());
@@ -121,7 +123,11 @@ public class MessageHandlerImpl implements MessageHandler {
     public void setThreadTracker(ThreadTracker threadTracker) {
         this.threadTracker = threadTracker;
     }
-    
+
+    public void setConfig(Config config) {
+        this.config = config;
+    }
+
     private ConnectionHandler getConnectionHandler() {
         return connectionHandler;
     }
@@ -149,7 +155,7 @@ public class MessageHandlerImpl implements MessageHandler {
     }
 
     private Session getSession() {
-        return getSessionHandler().getSession(getConnectionHandler().getConnection());
+        return getSessionHandler().getSession(getConnectionHandler().getConnection(), getConfig());
     }
 
     private void informMessageSentAware(final Message message) {
@@ -189,5 +195,9 @@ public class MessageHandlerImpl implements MessageHandler {
 
     private MessageTracker getMessageTracker() {
         return messageTracker;
+    }
+
+    private Config getConfig() {
+        return config;
     }
 }

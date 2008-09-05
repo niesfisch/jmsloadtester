@@ -4,6 +4,7 @@ import javax.jms.Connection;
 import javax.jms.JMSException;
 import javax.jms.Session;
 
+import de.marcelsauer.jmsloadtester.config.Config;
 import de.marcelsauer.jmsloadtester.core.JmsException;
 import de.marcelsauer.jmsloadtester.tools.Logger;
 
@@ -28,15 +29,21 @@ import de.marcelsauer.jmsloadtester.tools.Logger;
  */
 public abstract class AbstractThreadAwareSessionHandler implements SessionHandler {
 
+    private String ackMode;
+    
     // one session per Thread
     private static ThreadLocal<Session> sess = new ThreadLocal<Session>();
 
-    abstract Session getThreadSession(final Connection connection) throws JMSException;
+    public AbstractThreadAwareSessionHandler (final String ackMode){
+        this.ackMode = ackMode;
+    }
+    
+    abstract Session getThreadSession(final Connection connection, Config config) throws JMSException;
 
-    public final Session getSession(final Connection connection) {
+    public final Session getSession(final Connection connection, final Config config) {
         if (sess.get() == null) {
             try {
-                sess.set(getThreadSession(connection));
+                sess.set(getThreadSession(connection, config));
                 Logger.debug("returning newly created session: [" + sess.get() + "] for this thread");
             } catch (JMSException e) {
                 throw new JmsException("could not create session", e);
@@ -45,5 +52,9 @@ public abstract class AbstractThreadAwareSessionHandler implements SessionHandle
             Logger.debug("returning cached session: [" + sess.get() + "] for this thread");
         }
         return sess.get();
+    }
+    
+    protected String getAckMode() {
+        return ackMode;
     }
 }

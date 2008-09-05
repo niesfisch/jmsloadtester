@@ -3,6 +3,8 @@ package de.marcelsauer.jmsloadtester.handler;
 import javax.jms.Connection;
 import javax.jms.Session;
 
+import de.marcelsauer.jmsloadtester.config.Config;
+
 /**
  * JMS Load Tester Copyright (C) 2008 Marcel Sauer
  * <marcel[underscore]sauer[at]gmx.de>
@@ -24,7 +26,7 @@ import javax.jms.Session;
  */
 public interface SessionHandler {
 
-    Session getSession(Connection connection);
+    Session getSession(Connection connection, Config config);
 
     static enum ACK_MODE {
         AUTO_ACKNOWLEDGE(Session.AUTO_ACKNOWLEDGE), CLIENT_ACKNOWLEDGE(Session.CLIENT_ACKNOWLEDGE), DUPS_OK_ACKNOWLEDGE(Session.DUPS_OK_ACKNOWLEDGE);

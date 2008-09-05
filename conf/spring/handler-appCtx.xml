@@ -44,6 +44,7 @@
 		<property name="messageTracker" ref="messageTracker" />
 		<property name="threadTracker" ref="threadTracker" />
 		<property name="connectionHandler" ref="connectionHandler" />
+		<property name="config" ref="config" />
 	</bean>
 	
 </beans>
