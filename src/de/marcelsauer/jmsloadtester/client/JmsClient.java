@@ -1,6 +1,5 @@
 package de.marcelsauer.jmsloadtester.client;
 
-import de.marcelsauer.jmsloadtester.config.Config;
 import de.marcelsauer.jmsloadtester.handler.MessageHandler;
 import de.marcelsauer.jmsloadtester.spring.SpringFactory;
 
