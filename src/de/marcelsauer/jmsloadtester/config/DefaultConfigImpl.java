@@ -75,7 +75,7 @@ public class DefaultConfigImpl implements Config {
     private int expectedMessageSentCount;
 
     private boolean createJndiDestinationIfNotFound;
-    private boolean listenerAckMessage;
+    private boolean listenerExplicitAckMessage;
 
     private String connectionFactory;
     private String listenToDestination;
@@ -136,7 +136,7 @@ public class DefaultConfigImpl implements Config {
 
             messageContentStrategy = getMandatoryStringValue(properties.get(MESSAGE_CONTENT_STRATEGY));
             
-            listenerAckMessage = getBooleanValue(properties.get(LISTENER_ACK_MESSAGE));
+            listenerExplicitAckMessage = getBooleanValue(properties.get(LISTENER_ACK_MESSAGE));
             
             setMessagesToSend(getMessageContentStrategy().getMessageCount());
             
@@ -273,7 +273,7 @@ public class DefaultConfigImpl implements Config {
         return messageInterceptors;
     }
 
-    public boolean isAcknowledgeMessage() {
-        return listenerAckMessage;
+    public boolean isExplicitAcknowledgeMessage() {
+        return listenerExplicitAckMessage;
     }
 }

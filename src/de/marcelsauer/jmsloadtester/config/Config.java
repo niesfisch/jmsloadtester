@@ -52,7 +52,7 @@ public interface Config {
 
     boolean doCreateDestinationIfNotExistent();
     
-    boolean isAcknowledgeMessage();
+    boolean isExplicitAcknowledgeMessage();
     
     String getConnectionFactory();
 
