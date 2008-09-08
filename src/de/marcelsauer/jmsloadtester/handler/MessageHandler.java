@@ -3,6 +3,7 @@ package de.marcelsauer.jmsloadtester.handler;
 import java.util.Collection;
 import java.util.List;
 
+import javax.jms.DeliveryMode;
 import javax.jms.MessageListener;
 
 import de.marcelsauer.jmsloadtester.message.JmsMessage;
@@ -37,7 +38,7 @@ public interface MessageHandler {
     void attachMessageListener(String destination, MessageListener listener);
 
     void addMessageInterceptor(MessageInterceptor interceptor);
-    
+
     void addMessageInterceptors(Collection<MessageInterceptor> interceptors);
 
     void addMessageSentAware(MessageSentAware sentAware);
@@ -45,4 +46,17 @@ public interface MessageHandler {
     void addMessageSentAware(List<MessageSentAware> sentAwares);
 
     JmsMessage getMessage(Payload text, String destination);
+
+    
+    static enum DELIVERY_MODE {
+        PERSISTENT(DeliveryMode.PERSISTENT), NON_PERSISTENT(DeliveryMode.NON_PERSISTENT), ;
+        int mode = -1;
+        
+        DELIVERY_MODE(int mode) {
+            this.mode = mode;
+        }
+        public int getMode() {
+            return mode;
+        }
+    }
 }

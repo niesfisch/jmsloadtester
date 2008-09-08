@@ -68,7 +68,6 @@ public class ThreadTrackerImpl implements ThreadTracker {
         sender.setSleepMilliseconds(config.getPubSleepMillis());
         sender.addMessageSentAware(messageTracker);
         sender.setMessageContentStrategy(getMessageContentStrategy());
-        sender.setMessageTracker(messageTracker);
         sender.setMessageInterceptors(config.getMessageInterceptors());
         
         final Thread senderThread = new Thread(sender);

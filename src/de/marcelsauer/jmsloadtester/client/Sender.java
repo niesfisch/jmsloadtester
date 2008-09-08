@@ -43,7 +43,6 @@ public class Sender extends JmsClient implements MessageInterceptor {
     private String destination;
     private MessageContentStrategy messageContentStrategy;
     private List<MessageSentAware> messageSentAware = new ArrayList<MessageSentAware>();
-    private MessageTracker messageTracker;
     private List<MessageInterceptor> messageInterceptors = new ArrayList<MessageInterceptor>();
 
     public void run() {
@@ -104,10 +103,6 @@ public class Sender extends JmsClient implements MessageInterceptor {
     
     private List<MessageInterceptor> getMessageInterceptors() {
         return messageInterceptors;
-    }
-
-    public void setMessageTracker(MessageTracker messageTracker) {
-        this.messageTracker = messageTracker;
     }
 
     public void setMessageInterceptors(List<MessageInterceptor> messageInterceptors) {

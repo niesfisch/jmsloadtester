@@ -40,7 +40,7 @@ public class DefaultConfigImpl implements Config {
 
     // propery keys
     private static final String APP_PREFIX = "app.";
-    
+
     private static final String SPLITTER = ",";
 
     private static final String SUBSCRIBERS_TO_START = APP_PREFIX + "listener.thread.count";
@@ -62,6 +62,10 @@ public class DefaultConfigImpl implements Config {
     // connection factory
     private static final String CONNECTION_FACTORY = "javax.jms.ConnectionFactory";
 
+    private static final String DELIVERY_MODE = "javax.jms.delivery.mode";
+    private static final String PRIORITY = "javax.jms.message.producer.priority";
+    private static final String TIME_TO_LIVE = "javax.jms.message.producer.time.to.live";
+
     // set via config file
     private int subscribersToStart;
     private int publishersToStart;
@@ -73,6 +77,8 @@ public class DefaultConfigImpl implements Config {
     private int listenerRampup;
     private int senderRampup;
     private int expectedMessageSentCount;
+    private int priority;
+    private long timeToLive;
 
     private boolean createJndiDestinationIfNotFound;
     private boolean listenerExplicitAckMessage;
@@ -81,12 +87,15 @@ public class DefaultConfigImpl implements Config {
     private String listenToDestination;
     private String sendToDestination;
     private String messageContentStrategy;
+    private String deliveryMode;
 
     private OutputStrategy debugOutputStrategy;
     private OutputStrategy resultOutputStrategy;
     private OutputStrategy messageOutputStrategy;
-    
+
     private List<MessageInterceptor> messageInterceptors = new ArrayList<MessageInterceptor>();
+
+    private Properties properties;
 
     public DefaultConfigImpl(final Properties applicationProperties, final MessageContentStrategyFactory messageContentStrategyFactory) {
         this.messageContentStrategyFactory = messageContentStrategyFactory;
@@ -100,55 +109,81 @@ public class DefaultConfigImpl implements Config {
 
     public void loadConfig(final String filename) {
         Logger.info("using config file: " + filename);
-        Properties config = PropertyUtils.loadProperties(filename);
-        loadConfig(config);
+        Properties properties = PropertyUtils.loadProperties(filename);
+        loadConfig(properties);
     }
 
     public void loadConfig(final Properties config) {
         Logger.info("using properties: " + config);
+        this.properties = config;
         try {
-            initValues(config);
+            initValues();
         } catch (NumberFormatException e) {
             Logger.error("could not load all the values from the properties file. did you provide all values with valid values?", e);
         }
     }
 
-    private void initValues(final Properties properties) {
+    private void initValues() {
         try {
-            subscribersToStart = getIntValue(properties.get(SUBSCRIBERS_TO_START));
-            publishersToStart = getIntValue(properties.get(PUBLISHERS_TO_START));
-            pubSleepMillis = getIntValue(properties.get(PUB_SLEEP));
-            eachSubscriberWaitFor = getIntValue(properties.get(SUBSCRIBER_WAIT_FOR));
-            pauseBetweenPrintProgress = getIntValue(properties.get(PAUSE_PROGRESS)) * Constants.MILLIS_FACTOR;
-            listenerRampup = getIntValue(properties.get(LISTENER_RAMPUP));
-            senderRampup = getIntValue(properties.get(SENDER_RAMPUP));
+            // straight forward stuff
+            subscribersToStart = parseInt(SUBSCRIBERS_TO_START);
+            publishersToStart = parseInt(PUBLISHERS_TO_START);
+            pubSleepMillis = parseInt(PUB_SLEEP);
+            eachSubscriberWaitFor = parseInt(SUBSCRIBER_WAIT_FOR);
+            listenerRampup = parseInt(LISTENER_RAMPUP);
+            senderRampup = parseInt(SENDER_RAMPUP);
+            priority = parseInt(PRIORITY);
+            timeToLive = parseLong(TIME_TO_LIVE);
+
+            connectionFactory = parseString(CONNECTION_FACTORY);
+            listenToDestination = parseString(LISTEN_TO_DEST);
+            sendToDestination = parseString(SEND_TO_DEST);
+            messageContentStrategy = parseString(MESSAGE_CONTENT_STRATEGY);
+            deliveryMode = parseString(DELIVERY_MODE);
+
+            listenerExplicitAckMessage = parseBoolean(LISTENER_ACK_MESSAGE);
+
+            // more "logic" parts
+            pauseBetweenPrintProgress = parseInt(PAUSE_PROGRESS) * Constants.MILLIS_FACTOR;
 
             subscriberWaitFor = eachSubscriberWaitFor * subscribersToStart;
-
-            connectionFactory = getMandatoryStringValue(properties.get(CONNECTION_FACTORY));
-
-            listenToDestination = getMandatoryStringValue(properties.get(LISTEN_TO_DEST));
-            sendToDestination = getMandatoryStringValue(properties.get(SEND_TO_DEST));
-
-            debugOutputStrategy = OutputStrategyFactory.getOutputStrategy(getMandatoryStringValue(properties.get(DEBUG_OUT_STRATEGY)));
-            resultOutputStrategy = OutputStrategyFactory.getOutputStrategy(getMandatoryStringValue(properties.get(RESULT_OUT_STRATEGY)));
-            messageOutputStrategy = OutputStrategyFactory.getOutputStrategy(getMandatoryStringValue(properties.get(MESSAGE_OUT_STRATEGY)));
-
-            messageContentStrategy = getMandatoryStringValue(properties.get(MESSAGE_CONTENT_STRATEGY));
-            
-            listenerExplicitAckMessage = getBooleanValue(properties.get(LISTENER_ACK_MESSAGE));
             
             setMessagesToSend(getMessageContentStrategy().getMessageCount());
-            
+
+            debugOutputStrategy = OutputStrategyFactory.getOutputStrategy(parseString(DEBUG_OUT_STRATEGY));
+            resultOutputStrategy = OutputStrategyFactory.getOutputStrategy(parseString(RESULT_OUT_STRATEGY));
+            messageOutputStrategy = OutputStrategyFactory.getOutputStrategy(parseString(MESSAGE_OUT_STRATEGY));
+
             parseInterceptors(getStringValue(properties.get(MESSAGE_INTERCEPTORS)));
-            
+
         } catch (IllegalStateException e) {
             Logger.error("the configuration file seems to be incorrect", e);
         }
     }
 
-    private void parseInterceptors(String interceptors){
-        if(!StringUtils.isEmpty(interceptors)){
+    private int parseInt(String key) {
+        return getMandatoryIntValue(properties.get(key));
+    }
+
+    private String parseString(String key) {
+        return getMandatoryStringValue(properties.get(key));
+    }
+
+    private long parseLong(String key) {
+        return getMandatoryLongValue(properties.get(key));
+    }
+
+    private boolean parseBoolean(String key) {
+        return getMandatoryBooleanValue(properties.get(key));
+    }
+
+    private long getMandatoryLongValue(final Object value) {
+        check(value);
+        return Long.valueOf((String) value);
+    }
+
+    private void parseInterceptors(String interceptors) {
+        if (!StringUtils.isEmpty(interceptors)) {
             try {
                 messageInterceptors = ClassParser.parseToInstances(interceptors, SPLITTER);
             } catch (Exception e) {
@@ -156,7 +191,7 @@ public class DefaultConfigImpl implements Config {
             }
         }
     }
-    
+
     private void calculateExpectedMessageCounts() {
         expectedMessageSentCount = publishersToStart * messagesToSend;
     }
@@ -167,12 +202,12 @@ public class DefaultConfigImpl implements Config {
         }
     }
 
-    private boolean getBooleanValue(final Object value) {
+    private boolean getMandatoryBooleanValue(final Object value) {
         check(value);
         return Boolean.valueOf((String) value);
     }
 
-    private int getIntValue(final Object value) {
+    private int getMandatoryIntValue(final Object value) {
         check(value);
         return Integer.valueOf((String) value);
     }
@@ -185,7 +220,7 @@ public class DefaultConfigImpl implements Config {
     private String getStringValue(final Object value) {
         return value == null ? null : String.valueOf(value);
     }
-    
+
     public int getSubscribersToStart() {
         return subscribersToStart;
     }
@@ -205,7 +240,7 @@ public class DefaultConfigImpl implements Config {
     // TODO move this somewhere else?
     // we always create a new one
     public MessageContentStrategy getMessageContentStrategy() {
-        return messageContentStrategyFactory.getMessageContentStrategy(getMandatoryStringValue(messageContentStrategy));
+        return messageContentStrategyFactory.getMessageContentStrategy(messageContentStrategy);
     }
 
     public String getListenToDestination() {
@@ -275,5 +310,17 @@ public class DefaultConfigImpl implements Config {
 
     public boolean isExplicitAcknowledgeMessage() {
         return listenerExplicitAckMessage;
+    }
+
+    public String getDeliveryMode() {
+        return deliveryMode;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public long getTimeToLive() {
+        return timeToLive;
     }
 }

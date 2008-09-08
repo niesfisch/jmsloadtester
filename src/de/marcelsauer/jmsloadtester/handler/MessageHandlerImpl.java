@@ -60,6 +60,14 @@ public class MessageHandlerImpl implements MessageHandler {
         callMessageInterceptors(msg);
         MessageProducer producer = getProducer(message.getDestination());
         try {
+            
+            producer.setDeliveryMode(DELIVERY_MODE.valueOf(config.getDeliveryMode()).getMode());
+            
+            producer.setPriority(config.getPriority());
+            // millis
+            producer.setTimeToLive(config.getTimeToLive());
+            
+            
             producer.send(msg);
         } catch (JMSException e) {
             throw new JmsException("could not send message", e);

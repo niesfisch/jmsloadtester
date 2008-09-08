@@ -69,5 +69,11 @@ public interface Config {
     MessageContentStrategy getMessageContentStrategy();
     
     List<MessageInterceptor> getMessageInterceptors();
+
+    String getDeliveryMode();
+
+    int getPriority();
+
+    long getTimeToLive();
     
 }
