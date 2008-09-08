@@ -42,7 +42,7 @@ public class DefaultConfigImplTest extends AbstractJmsLoaderTest {
         staticStrategyMock = createMockOfType(StaticMessageContentStrategy.class);
 
         expect(messageContentStrategyFactoryMock.getMessageContentStrategy("STATIC#100#the static test message:random: :datetime: :nanotime:")).andReturn(staticStrategyMock).anyTimes();
-        expect(staticStrategyMock.getMessageCount()).andReturn(10);
+        expect(staticStrategyMock.getMessageCount()).andReturn(100);
 
         replay();
 
@@ -61,6 +61,8 @@ public class DefaultConfigImplTest extends AbstractJmsLoaderTest {
         assertTrue(config.getSenderRampup() == 6);
         assertTrue(config.getSendToDestination().equals("7"));
         assertTrue(config.getPubSleepMillis() == 8);
+        assertTrue(config.getExpectedMessageSentCount() == 5 * 100);
+        assertTrue(config.getMessagesToSend() == 100);
 
         assertTrue(config.getPauseBetweenPrintProgress() == 9000);
 
@@ -71,5 +73,7 @@ public class DefaultConfigImplTest extends AbstractJmsLoaderTest {
         assertTrue(config.getMessageOutputStrategy() instanceof FileOutputStrategy);
         
         assertTrue(config.getMessageInterceptors().size() == 1);
+        assertTrue(config.isExplicitAcknowledgeMessage());
+        assertTrue(config.getEachSubscriberWaitFor() == 3);
     }
 }

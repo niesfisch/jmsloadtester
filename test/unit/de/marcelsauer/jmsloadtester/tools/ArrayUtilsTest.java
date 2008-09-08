@@ -83,6 +83,9 @@ public class ArrayUtilsTest extends AbstractJmsLoaderTest {
         assertTrue(ArrayUtils.contains(a, "[".getBytes()[0]));
         assertFalse(ArrayUtils.contains(a, "@".getBytes()[0]));
         
+        assertTrue(ArrayUtils.contains(b, "[".getBytes()[0]));
+        assertFalse(ArrayUtils.contains(b, " ".getBytes()[0]));
+        
         assertFalse(ArrayUtils.contains(c, "[".getBytes()[0]));
         assertFalse(ArrayUtils.contains(c, "]".getBytes()[0]));
     }
