@@ -29,16 +29,16 @@ import de.marcelsauer.jmsloadtester.tools.Logger;
  */
 public abstract class AbstractThreadAwareSessionHandler implements SessionHandler {
 
-    private String ackMode;
+    private ACK_MODE ackMode;
     
     // one session per Thread
     private static ThreadLocal<Session> sess = new ThreadLocal<Session>();
 
     public AbstractThreadAwareSessionHandler (final String ackMode){
-        this.ackMode = ackMode;
+        this.ackMode = ACK_MODE.valueOf(ackMode);
     }
     
-    abstract Session getThreadSession(final Connection connection, Config config) throws JMSException;
+    protected abstract Session getThreadSession(final Connection connection, Config config) throws JMSException;
 
     public final Session getSession(final Connection connection, final Config config) {
         if (sess.get() == null) {
@@ -54,7 +54,7 @@ public abstract class AbstractThreadAwareSessionHandler implements SessionHandle
         return sess.get();
     }
     
-    protected String getAckMode() {
+    protected ACK_MODE getAckMode() {
         return ackMode;
     }
 }

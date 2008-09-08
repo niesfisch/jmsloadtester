@@ -32,7 +32,7 @@ public class DefaultSessionHandlerImpl extends AbstractThreadAwareSessionHandler
     }
 
     @Override
-    final Session getThreadSession(final Connection connection, final Config config) throws JMSException {
-        return connection.createSession(false, ACK_MODE.valueOf(getAckMode()).getMode());
+    protected final Session getThreadSession(final Connection connection, final Config config) throws JMSException {
+        return connection.createSession(false, getAckMode().getMode());
     }
 }
