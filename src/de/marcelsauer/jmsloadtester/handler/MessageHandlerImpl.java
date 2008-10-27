@@ -60,14 +60,10 @@ public class MessageHandlerImpl implements MessageHandler {
         callMessageInterceptors(msg);
         MessageProducer producer = getProducer(message.getDestination());
         try {
-            
             producer.setDeliveryMode(DELIVERY_MODE.valueOf(config.getDeliveryMode()).getMode());
-            
             producer.setPriority(config.getPriority());
             // millis
             producer.setTimeToLive(config.getTimeToLive());
-            
-            
             producer.send(msg);
         } catch (JMSException e) {
             throw new JmsException("could not send message", e);
@@ -118,7 +114,7 @@ public class MessageHandlerImpl implements MessageHandler {
     public void addMessageInterceptors(Collection<MessageInterceptor> interceptors) {
         this.interceptors.addAll(interceptors);
     }
-    
+
     public void setConnectionHandler(ConnectionHandler connectionHandler) {
         this.connectionHandler = connectionHandler;
     }
@@ -126,8 +122,7 @@ public class MessageHandlerImpl implements MessageHandler {
     public void setMessageTracker(MessageTracker messageTracker) {
         this.messageTracker = messageTracker;
     }
-    
-    
+
     public void setThreadTracker(ThreadTracker threadTracker) {
         this.threadTracker = threadTracker;
     }
@@ -143,7 +138,7 @@ public class MessageHandlerImpl implements MessageHandler {
     private ThreadTracker getThreadTracker() {
         return threadTracker;
     }
-    
+
     private DestinationHandler getDestinationHandler() {
         return destinationHandler;
     }

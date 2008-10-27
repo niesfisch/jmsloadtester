@@ -29,7 +29,9 @@ public interface SessionHandler {
     Session getSession(Connection connection, Config config);
 
     static enum ACK_MODE {
-        AUTO_ACKNOWLEDGE(Session.AUTO_ACKNOWLEDGE), CLIENT_ACKNOWLEDGE(Session.CLIENT_ACKNOWLEDGE), DUPS_OK_ACKNOWLEDGE(Session.DUPS_OK_ACKNOWLEDGE);
+        AUTO_ACKNOWLEDGE(Session.AUTO_ACKNOWLEDGE), 
+        CLIENT_ACKNOWLEDGE(Session.CLIENT_ACKNOWLEDGE), 
+        DUPS_OK_ACKNOWLEDGE(Session.DUPS_OK_ACKNOWLEDGE);
 
         int mode = -1;
 
