@@ -60,10 +60,6 @@ public class MessageHandlerImpl implements MessageHandler {
         callMessageInterceptors(msg);
         MessageProducer producer = getProducer(message.getDestination());
         try {
-            producer.setDeliveryMode(DELIVERY_MODE.valueOf(config.getDeliveryMode()).getMode());
-            producer.setPriority(config.getPriority());
-            // millis
-            producer.setTimeToLive(config.getTimeToLive());
             producer.send(msg);
         } catch (JMSException e) {
             throw new JmsException("could not send message", e);
@@ -144,10 +140,16 @@ public class MessageHandlerImpl implements MessageHandler {
     }
 
     private MessageProducer getProducer(final String destination) {
-        if (producer.get() == null) {
+        MessageProducer messageProducer = producer.get(); 
+        if (messageProducer == null) {
             try {
-                producer.set(getSession().createProducer(getDestinationHandler().getDestination(destination)));
-                Logger.debug("returning newly created MessageProducer: [" + producer.get() + "]");
+                messageProducer = getSession().createProducer(getDestinationHandler().getDestination(destination));
+                messageProducer.setDeliveryMode(DELIVERY_MODE.valueOf(config.getDeliveryMode()).getMode());
+                messageProducer.setPriority(config.getPriority());
+                // millis
+                messageProducer.setTimeToLive(config.getTimeToLive());
+                producer.set(messageProducer);
+                Logger.debug("returning newly created MessageProducer: [" + messageProducer + "]");
             } catch (JMSException e) {
                 throw new JmsException("could not create message producer", e);
             }
