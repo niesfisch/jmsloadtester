@@ -19,7 +19,7 @@ package de.marcelsauer.jmsloadtester.message.filter;
  * You should have received a copy of the GNU General Public License along with
  * JMS Load Tester. If not, see <http://www.gnu.org/licenses/>.
  */
-public class FilterConstants {
+public final class FilterConstants {
     public final static String MESSAGE_COUNTER = "messageCounter";
     public final static String DATE = "datetime";
     public final static String NANO = "nanotime";
