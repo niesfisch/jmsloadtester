@@ -59,7 +59,7 @@ exit
 set LIB_DIR=./lib
 set SPRING_JAR=%LIB_DIR%/spring-framework-2.5.4/spring.jar
 set COMMONS_LOGGING_JAR=%LIB_DIR%/commons-logging-1.1.1/commons-logging-1.1.1.jar
-set TESTER_JAR=%LIB_DIR%/jmsloadtester_0.1.jar 
+set TESTER_JAR=%LIB_DIR%/jmsloadtester_1.0.jar 
 set CLASS=de.marcelsauer.jmsloadtester.Main
 set JAVA_EXE="%JAVA_HOME%\bin\java"
 

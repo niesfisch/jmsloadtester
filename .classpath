@@ -13,37 +13,8 @@
 	<classpathentry kind="lib" path="conf"/>
 	<classpathentry kind="lib" path="lib/openjms/openjms-0.7.7-beta-1.jar"/>
 	<classpathentry kind="lib" path="lib/spring-framework-2.5.4/spring.jar" sourcepath="D:/marcel/java/spring-framework-2.5.5/src"/>
-	<classpathentry kind="lib" path="lib/sonic/mfcontext.jar"/>
-	<classpathentry kind="lib" path="lib/sonic/sonic_Client.jar"/>
 	<classpathentry kind="lib" path="lib/openmq/fscontext.jar"/>
 	<classpathentry kind="lib" path="lib/openmq/imq.jar"/>
 	<classpathentry kind="lib" path="lib/openmq/jms.jar"/>
-	<classpathentry kind="lib" path="lib/sonic/sonic_SSL.jar"/>
-	<classpathentry kind="lib" path="lib/sonic/smq_install.jar"/>
-	<classpathentry kind="lib" path="lib/sonic/smq_tools.jar"/>
-	<classpathentry kind="lib" path="lib/sonic/smq_upgrade.jar"/>
-	<classpathentry kind="lib" path="lib/sonic/sonic_ASPI.jar"/>
-	<classpathentry kind="lib" path="lib/sonic/sonic_Channel.jar"/>
-	<classpathentry kind="lib" path="lib/sonic/sonic_Crypto.jar"/>
-	<classpathentry kind="lib" path="lib/sonic/sonic_mgmt_client.jar"/>
-	<classpathentry kind="lib" path="lib/sonic/sonic_Selector.jar"/>
-	<classpathentry kind="lib" path="lib/sonic/sonic_SF.jar"/>
-	<classpathentry kind="lib" path="lib/sonic/sonic_XA.jar"/>
-	<classpathentry kind="lib" path="lib/sonic/sonic_XMessage.jar"/>
-	<classpathentry kind="lib" path="lib/sonic/certj.jar"/>
-	<classpathentry kind="lib" path="lib/sonic/sslj.jar"/>
-	<classpathentry kind="lib" path="lib/sonic/jsafe.jar"/>
-	<classpathentry kind="lib" path="lib/sonic/asn1.jar"/>
-	<classpathentry kind="lib" path="lib/glassfish/appserv-admin.jar"/>
-	<classpathentry kind="lib" path="lib/glassfish/appserv-rt.jar"/>
-	<classpathentry kind="lib" path="lib/glassfish/imq.jar"/>
-	<classpathentry kind="lib" path="lib/glassfish/imqbroker.jar"/>
-	<classpathentry kind="lib" path="lib/glassfish/imqjmsra.jar"/>
-	<classpathentry kind="lib" path="lib/glassfish/javaee.jar"/>
-	<classpathentry kind="lib" path="lib/glassfish/jms.jar"/>
-	<classpathentry kind="lib" path="lib/glassfish/appserv-deployment-client.jar"/>
-	<classpathentry kind="lib" path="lib/glassfish/appserv-launch.jar"/>
-	<classpathentry kind="lib" path="lib/glassfish/appserv-ext.jar"/>
-	<classpathentry kind="lib" path="lib/glassfish/j2ee.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

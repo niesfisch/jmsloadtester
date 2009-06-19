@@ -22,7 +22,7 @@
 <project basedir="." default="all" name="JMS Load Tester">
 	
 	<!-- common properties -->
-	<property name="version" value="0.1"/>
+	<property name="version" value="1.0"/>
 	<property name="fullname" value="jmsloadtester_${version}"/>
 	
 	<property name="src.dir" value="./src" />

@@ -55,7 +55,7 @@ fi
 LIB_DIR="./lib"
 SPRING_JAR="$LIB_DIR/spring-framework-2.5.4/spring.jar"
 COMMONS_LOGGING_JAR="$LIB_DIR/commons-logging-1.1.1/commons-logging-1.1.1.jar"
-TESTER_JAR="$LIB_DIR/jmsloadtester_0.1.jar" 
+TESTER_JAR="$LIB_DIR/jmsloadtester_1.0.jar" 
 CLASS=de.marcelsauer.jmsloadtester.Main
 JAVA_EXE="$JAVA_HOME"/bin/java
 
