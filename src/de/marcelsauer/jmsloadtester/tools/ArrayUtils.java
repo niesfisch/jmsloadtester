@@ -3,8 +3,6 @@ package de.marcelsauer.jmsloadtester.tools;
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
 
-import javax.faces.validator.LengthValidator;
-
 /**
  * JMS Load Tester Copyright (C) 2008 Marcel Sauer
  * <marcel[underscore]sauer[at]gmx.de>
