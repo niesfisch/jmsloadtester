@@ -13,4 +13,4 @@ or clone the repository and build from scratch with maven
     mvn clean package
     cd target/dist
 
-the rest is explained http://jmsloadtester.marcel-sauer.de
+the rest is explained here: http://jmsloadtester.marcel-sauer.de
