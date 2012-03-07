@@ -1,13 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.marcelsauer</groupId>
     <artifactId>jmsloadtester</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
     <name>jmsloadtester</name>
-    <description></description>
+    <description />
     <url>http://github.com/niesfisch/jmsloadtester</url>
     <developers>
         <developer>
@@ -136,27 +135,26 @@
                             <target>
                                 <copy todir="${dist.directoy}">
                                     <fileset dir="${assembly.directory}/resources">
-                                        <include name="*.bat"/>
-                                        <include name="*.sh"/>
-                                        <include name="*.txt"/>
+                                        <include name="*.bat" />
+                                        <include name="*.sh" />
+                                        <include name="*.txt" />
                                     </fileset>
                                     <fileset dir=".">
-                                        <include name="COPYING.txt"/>
+                                        <include name="COPYING.txt" />
                                     </fileset>
                                 </copy>
                                 <!-- copy libs -->
                                 <copy todir="${dist.directoy}/lib">
                                     <fileset dir="${build.directory}">
-                                        <include name="*.jar"/>
+                                        <include name="*.jar" />
                                     </fileset>
                                 </copy>
                                 <copy todir="${dist.directoy}/conf">
                                     <fileset dir="${assembly.directory}/conf">
-                                        <include name="**/*"/>
+                                        <include name="**/*" />
                                     </fileset>
                                 </copy>
-                                <zip destfile="${dist.directoy}/../${build.finalName}.zip"
-                                     basedir="${dist.directoy}"/>
+                                <zip destfile="${dist.directoy}/../${build.finalName}.zip" basedir="${dist.directoy}" />
                             </target>
                         </configuration>
                         <goals>
