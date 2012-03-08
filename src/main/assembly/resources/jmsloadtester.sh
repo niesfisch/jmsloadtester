@@ -6,7 +6,16 @@
 #    a subfolder called "bin" containing "java.exe"
 # *********************************************************************************
 
-#your classpath with the jar files goes here
+# your classpath with the jar files goes here
+
+# HornetQ example
+# HORNET_CLASSPATH=/home/msauer/.m2/repository/org/hornetq/hornetq-jms-client/2.1.2.Final/hornetq-jms-client-2.1.2.Final.jar
+# HORNET_CLASSPATH=$HORNET_CLASSPATH:/home/msauer/.m2/repository/org/hornetq/hornetq-core-client/2.1.2.Final/hornetq-core-client-2.1.2.Final.jar
+# HORNET_CLASSPATH=$HORNET_CLASSPATH:/home/msauer/.m2/repository/javax/jms/jms/1.1/jms-1.1.jar
+# HORNET_CLASSPATH=$HORNET_CLASSPATH:/home/msauer/.m2/repository/jboss/jnp-client/4.0.2/jnp-client-4.0.2.jar
+# HORNET_CLASSPATH=$HORNET_CLASSPATH:/home/msauer/.m2/repository/org/jboss/logging/jboss-logging-spi/2.0.5.GA/jboss-logging-spi-2.0.5.GA.jar
+# HORNET_CLASSPATH=$HORNET_CLASSPATH:/home/msauer/.m2/repository/org/jboss/netty/netty/3.2.0.Final/netty-3.2.0.Final.jar
+
 # OpenJMS example
 # OPENJMS_LIBS=/media/hda2/backup/projects/_private/JMSLoadTester/lib/openjms/
 # OPENJMS_CLASSPATH="$OPENJMS_LIBS"/openjms-0.7.7-beta-1.jar:"$OPENJMS_LIBS"/jms-1.1.jar
@@ -24,6 +33,8 @@
 # OPENMQ_CLASSPATH="$OPENMQ_LIBS"/fscontext.jar;"$OPENMQ_LIBS"/jms.jar;"$OPENMQ_LIBS"/ims.jar;
 
 # YOUR_CP needs to point to the classpath you just setup
+# e.g.
+# YOUR_CP="$HORNET_CLASSPATH"
 # e.g.
 # YOUR_CP="$OPENJMS_CLASSPATH"
 # or
