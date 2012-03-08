@@ -1,9 +1,5 @@
 package de.marcelsauer.jmsloadtester.config;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-
 import de.marcelsauer.jmsloadtester.core.Constants;
 import de.marcelsauer.jmsloadtester.core.JmsException;
 import de.marcelsauer.jmsloadtester.message.MessageContentStrategy;
@@ -15,22 +11,26 @@ import de.marcelsauer.jmsloadtester.tools.Logger;
 import de.marcelsauer.jmsloadtester.tools.PropertyUtils;
 import de.marcelsauer.jmsloadtester.tools.StringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
 /**
  * JMS Load Tester Copyright (C) 2008 Marcel Sauer
  * <marcel[underscore]sauer[at]gmx.de>
- * 
+ * <p/>
  * This file is part of JMS Load Tester.
- * 
+ * <p/>
  * JMS Load Tester is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
  * Software Foundation, either version 3 of the License, or (at your option) any
  * later version.
- * 
+ * <p/>
  * JMS Load Tester is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ * <p/>
  * You should have received a copy of the GNU General Public License along with
  * JMS Load Tester. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -61,6 +61,8 @@ public class DefaultConfigImpl implements Config {
 
     // connection factory
     private static final String CONNECTION_FACTORY = "javax.jms.ConnectionFactory";
+    private static final String CONNECTION_FACTORY_USERNAME = "javax.jms.ConnectionFactory.username";
+    private static final String CONNECTION_FACTORY_PASSWORD = "javax.jms.ConnectionFactory.password";
 
     private static final String DELIVERY_MODE = "javax.jms.delivery.mode";
     private static final String PRIORITY = "javax.jms.message.producer.priority";
@@ -84,6 +86,8 @@ public class DefaultConfigImpl implements Config {
     private boolean listenerExplicitAckMessage;
 
     private String connectionFactory;
+    private String connectionFactoryUsername;
+    private String connectionFactoryPassword;
     private String listenToDestination;
     private String sendToDestination;
     private String messageContentStrategy;
@@ -97,22 +101,19 @@ public class DefaultConfigImpl implements Config {
 
     private Properties properties;
 
-    public DefaultConfigImpl(final Properties applicationProperties, final MessageContentStrategyFactory messageContentStrategyFactory) {
-        this.messageContentStrategyFactory = messageContentStrategyFactory;
-        loadConfig(applicationProperties);
-    }
-
     public DefaultConfigImpl(final String filename, final MessageContentStrategyFactory messageContentStrategyFactory) {
         this.messageContentStrategyFactory = messageContentStrategyFactory;
         loadConfig(filename);
     }
 
+    @Override
     public void loadConfig(final String filename) {
         Logger.info("using config file: " + filename);
         Properties properties = PropertyUtils.loadProperties(filename);
         loadConfig(properties);
     }
 
+    @Override
     public void loadConfig(final Properties config) {
         Logger.info("using properties: " + config);
         this.properties = config;
@@ -136,6 +137,8 @@ public class DefaultConfigImpl implements Config {
             timeToLive = parseLong(TIME_TO_LIVE);
 
             connectionFactory = parseString(CONNECTION_FACTORY);
+            connectionFactoryUsername = parseString(CONNECTION_FACTORY_USERNAME);
+            connectionFactoryPassword = parseString(CONNECTION_FACTORY_PASSWORD);
             listenToDestination = parseString(LISTEN_TO_DEST);
             sendToDestination = parseString(SEND_TO_DEST);
             messageContentStrategy = parseString(MESSAGE_CONTENT_STRATEGY);
@@ -147,7 +150,7 @@ public class DefaultConfigImpl implements Config {
             pauseBetweenPrintProgress = parseInt(PAUSE_PROGRESS) * Constants.MILLIS_FACTOR;
 
             subscriberWaitFor = eachSubscriberWaitFor * subscribersToStart;
-            
+
             setMessagesToSend(getMessageContentStrategy().getMessageCount());
 
             debugOutputStrategy = OutputStrategyFactory.getOutputStrategy(parseString(DEBUG_OUT_STRATEGY));
@@ -221,82 +224,96 @@ public class DefaultConfigImpl implements Config {
         return value == null ? null : String.valueOf(value);
     }
 
+    @Override
     public int getSubscribersToStart() {
         return subscribersToStart;
     }
 
+    @Override
     public int getSendersToStart() {
         return publishersToStart;
     }
 
+    @Override
     public int getMessagesToSend() {
         return messagesToSend;
     }
 
+    @Override
     public String getConnectionFactory() {
         return connectionFactory;
     }
 
     // TODO move this somewhere else?
     // we always create a new one
+    @Override
     public MessageContentStrategy getMessageContentStrategy() {
         return messageContentStrategyFactory.getMessageContentStrategy(messageContentStrategy);
     }
 
+    @Override
     public String getListenToDestination() {
         return listenToDestination;
     }
 
+    @Override
     public String getSendToDestination() {
         return sendToDestination;
     }
 
+    @Override
     public int getPubSleepMillis() {
         return pubSleepMillis;
     }
 
+    @Override
     public OutputStrategy getDebugOutputStrategy() {
         return debugOutputStrategy;
     }
 
+    @Override
     public OutputStrategy getResultOutputStrategy() {
         return resultOutputStrategy;
     }
 
+    @Override
     public OutputStrategy getMessageOutputStrategy() {
         return messageOutputStrategy;
     }
 
+    @Override
     public int getExpectedMessageSentCount() {
         return expectedMessageSentCount;
     }
 
+    @Override
     public boolean doCreateDestinationIfNotExistent() {
         return createJndiDestinationIfNotFound;
     }
 
+    @Override
     public int getSubscriberWaitForTotalMessages() {
         return subscriberWaitFor;
     }
 
+    @Override
     public int getEachSubscriberWaitFor() {
         return eachSubscriberWaitFor;
     }
 
+    @Override
     public int getPauseBetweenPrintProgress() {
         return pauseBetweenPrintProgress;
     }
 
+    @Override
     public int getListenerRampup() {
         return listenerRampup;
     }
 
+    @Override
     public int getSenderRampup() {
         return senderRampup;
-    }
-
-    public void setMessageContentStrategyFactory(final MessageContentStrategyFactory messageContentStrategyFactory) {
-        this.messageContentStrategyFactory = messageContentStrategyFactory;
     }
 
     private void setMessagesToSend(final int messagesToSend) {
@@ -304,23 +321,38 @@ public class DefaultConfigImpl implements Config {
         calculateExpectedMessageCounts();
     }
 
+    @Override
     public List<MessageInterceptor> getMessageInterceptors() {
         return messageInterceptors;
     }
 
+    @Override
     public boolean isExplicitAcknowledgeMessage() {
         return listenerExplicitAckMessage;
     }
 
+    @Override
     public String getDeliveryMode() {
         return deliveryMode;
     }
 
+    @Override
     public int getPriority() {
         return priority;
     }
 
+    @Override
     public long getTimeToLive() {
         return timeToLive;
+    }
+
+    @Override
+    public String getConnectionUsername() {
+        return connectionFactoryUsername;
+    }
+
+    @Override
+    public String getConnectionPassword() {
+        return connectionFactoryPassword;
     }
 }

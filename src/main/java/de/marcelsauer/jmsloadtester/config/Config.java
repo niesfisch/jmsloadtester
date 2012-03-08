@@ -1,27 +1,28 @@
 package de.marcelsauer.jmsloadtester.config;
 
-import java.util.Properties;
-import java.util.List;
 import de.marcelsauer.jmsloadtester.message.MessageContentStrategy;
 import de.marcelsauer.jmsloadtester.message.MessageInterceptor;
 import de.marcelsauer.jmsloadtester.output.OutputStrategy;
 
+import java.util.List;
+import java.util.Properties;
+
 /**
  * JMS Load Tester Copyright (C) 2008 Marcel Sauer
  * <marcel[underscore]sauer[at]gmx.de>
- * 
+ * <p/>
  * This file is part of JMS Load Tester.
- * 
+ * <p/>
  * JMS Load Tester is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
  * Software Foundation, either version 3 of the License, or (at your option) any
  * later version.
- * 
+ * <p/>
  * JMS Load Tester is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ * <p/>
  * You should have received a copy of the GNU General Public License along with
  * JMS Load Tester. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -51,9 +52,13 @@ public interface Config {
     int getSenderRampup();
 
     boolean doCreateDestinationIfNotExistent();
-    
+
     boolean isExplicitAcknowledgeMessage();
-    
+
+    String getConnectionUsername();
+
+    String getConnectionPassword();
+
     String getConnectionFactory();
 
     String getListenToDestination();
@@ -67,7 +72,7 @@ public interface Config {
     OutputStrategy getMessageOutputStrategy();
 
     MessageContentStrategy getMessageContentStrategy();
-    
+
     List<MessageInterceptor> getMessageInterceptors();
 
     String getDeliveryMode();
@@ -75,5 +80,5 @@ public interface Config {
     int getPriority();
 
     long getTimeToLive();
-    
+
 }

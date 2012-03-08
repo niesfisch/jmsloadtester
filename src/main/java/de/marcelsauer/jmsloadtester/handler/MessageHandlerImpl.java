@@ -1,43 +1,33 @@
 package de.marcelsauer.jmsloadtester.handler;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.MessageConsumer;
-import javax.jms.MessageListener;
-import javax.jms.MessageProducer;
-import javax.jms.Session;
-
 import de.marcelsauer.jmsloadtester.config.Config;
 import de.marcelsauer.jmsloadtester.core.JmsException;
-import de.marcelsauer.jmsloadtester.message.JmsMessage;
-import de.marcelsauer.jmsloadtester.message.MessageFactory;
-import de.marcelsauer.jmsloadtester.message.MessageInterceptor;
-import de.marcelsauer.jmsloadtester.message.MessageSentAware;
-import de.marcelsauer.jmsloadtester.message.Payload;
+import de.marcelsauer.jmsloadtester.message.*;
 import de.marcelsauer.jmsloadtester.tools.Logger;
 import de.marcelsauer.jmsloadtester.tracker.MessageTracker;
 import de.marcelsauer.jmsloadtester.tracker.ThreadTracker;
 
+import javax.jms.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 /**
  * JMS Load Tester Copyright (C) 2008 Marcel Sauer
  * <marcel[underscore]sauer[at]gmx.de>
- * 
+ * <p/>
  * This file is part of JMS Load Tester.
- * 
+ * <p/>
  * JMS Load Tester is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
  * Software Foundation, either version 3 of the License, or (at your option) any
  * later version.
- * 
+ * <p/>
  * JMS Load Tester is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ * <p/>
  * You should have received a copy of the GNU General Public License along with
  * JMS Load Tester. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -55,6 +45,7 @@ public class MessageHandlerImpl implements MessageHandler {
     private ConnectionHandler connectionHandler;
     private Config config;
 
+    @Override
     public void sendMessage(final JmsMessage message) {
         Message msg = getMessageFactory().toMessage(message.getMessage(), getSession());
         callMessageInterceptors(msg);
@@ -67,6 +58,7 @@ public class MessageHandlerImpl implements MessageHandler {
         informMessageSentAware(msg);
     }
 
+    @Override
     public void attachMessageListener(final String destination, final MessageListener listener) {
         try {
             getConsumer(destination).setMessageListener(listener);
@@ -75,6 +67,7 @@ public class MessageHandlerImpl implements MessageHandler {
         }
     }
 
+    @Override
     public JmsMessage getMessage(final Payload message, final String destination) {
         return new JmsMessage(message, destination);
     }
@@ -87,14 +80,17 @@ public class MessageHandlerImpl implements MessageHandler {
         this.destinationHandler = destinationHandler;
     }
 
+    @Override
     public void addMessageInterceptor(final MessageInterceptor interceptor) {
         this.interceptors.add(interceptor);
     }
 
+    @Override
     public void addMessageSentAware(final MessageSentAware sentAware) {
         this.sentAwares.add(sentAware);
     }
 
+    @Override
     public void addMessageSentAware(final List<MessageSentAware> sentAwares) {
         this.sentAwares.addAll(sentAwares);
     }
@@ -103,10 +99,12 @@ public class MessageHandlerImpl implements MessageHandler {
         this.messageProducer = messageProducer;
     }
 
+    @Override
     public void sendMessage(final Payload message, final String destination) {
         sendMessage(getMessage(message, destination));
     }
 
+    @Override
     public void addMessageInterceptors(Collection<MessageInterceptor> interceptors) {
         this.interceptors.addAll(interceptors);
     }
@@ -140,7 +138,7 @@ public class MessageHandlerImpl implements MessageHandler {
     }
 
     private MessageProducer getProducer(final String destination) {
-        MessageProducer messageProducer = producer.get(); 
+        MessageProducer messageProducer = producer.get();
         if (messageProducer == null) {
             try {
                 messageProducer = getSession().createProducer(getDestinationHandler().getDestination(destination));
@@ -160,7 +158,10 @@ public class MessageHandlerImpl implements MessageHandler {
     }
 
     private Session getSession() {
-        return getSessionHandler().getSession(getConnectionHandler().getConnection(), getConfig());
+        String username = getConfig().getConnectionUsername();
+        String password = getConfig().getConnectionPassword();
+        Connection connection = getConnectionHandler().getConnection(username, password);
+        return getSessionHandler().getSession(connection, getConfig());
     }
 
     private void informMessageSentAware(final Message message) {

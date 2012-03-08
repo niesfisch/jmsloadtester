@@ -1,12 +1,5 @@
 package de.marcelsauer.jmsloadtester.client;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.MessageListener;
-
 import de.marcelsauer.jmsloadtester.core.Constants;
 import de.marcelsauer.jmsloadtester.core.JmsException;
 import de.marcelsauer.jmsloadtester.handler.MessageHandler;
@@ -16,22 +9,28 @@ import de.marcelsauer.jmsloadtester.output.OutputStrategy;
 import de.marcelsauer.jmsloadtester.tools.Logger;
 import de.marcelsauer.jmsloadtester.tools.ThreadTools;
 
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * JMS Load Tester Copyright (C) 2008 Marcel Sauer
  * <marcel[underscore]sauer[at]gmx.de>
- * 
+ * <p/>
  * This file is part of JMS Load Tester.
- * 
+ * <p/>
  * JMS Load Tester is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
  * Software Foundation, either version 3 of the License, or (at your option) any
  * later version.
- * 
+ * <p/>
  * JMS Load Tester is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ * <p/>
  * You should have received a copy of the GNU General Public License along with
  * JMS Load Tester. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -42,7 +41,7 @@ public class Listener extends JmsClient {
     private MessageParser messageParser;
     private List<MessageNotifyable> messageNotifyables = new ArrayList<MessageNotifyable>();
     private boolean explicitAckMessage;
-    
+
     public void run() {
         try {
             MessageHandler messageHandler = getMessageHandler();
@@ -59,7 +58,7 @@ public class Listener extends JmsClient {
         public void onMessage(Message message) {
             printMessageDetails(message);
             messageReceived(message);
-            if(isExplicitAckMessage()){
+            if (isExplicitAckMessage()) {
                 try {
                     Logger.debug("trying to acknowledge message" + message.getJMSMessageID());
                     message.acknowledge();
@@ -78,7 +77,7 @@ public class Listener extends JmsClient {
         sb.append(messageParser.getSummary(message));
         return sb.toString();
     }
-    
+
     private void printMessageDetails(final Message message) {
         getMessageOutStrategy().output(getMessageDetails(message));
     }
@@ -105,14 +104,14 @@ public class Listener extends JmsClient {
         this.messageParser = messageParser;
     }
 
-    public void setExplicitAckMessage(boolean explicitAckMessage){
+    public void setExplicitAckMessage(boolean explicitAckMessage) {
         this.explicitAckMessage = explicitAckMessage;
     }
-    
-    public boolean isExplicitAckMessage(){
+
+    public boolean isExplicitAckMessage() {
         return explicitAckMessage;
     }
-    
+
     private OutputStrategy getMessageOutStrategy() {
         return messageOutStrategy;
     }

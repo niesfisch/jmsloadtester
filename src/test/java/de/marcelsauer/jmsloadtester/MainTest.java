@@ -1,32 +1,33 @@
 package de.marcelsauer.jmsloadtester;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import de.marcelsauer.jmsloadtester.Main;
-import junit.framework.TestCase;
 import de.marcelsauer.jmsloadtester.config.Config;
 import de.marcelsauer.jmsloadtester.output.OutputStrategy;
 import de.marcelsauer.jmsloadtester.spring.SpringFactory;
 import de.marcelsauer.jmsloadtester.tools.Logger;
 import de.marcelsauer.jmsloadtester.tools.StringUtils;
+import junit.framework.TestCase;
+import org.junit.Ignore;
+import org.junit.Test;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * JMS Load Tester Copyright (C) 2008 Marcel Sauer
  * <marcel[underscore]sauer[at]gmx.de>
- * 
+ * <p/>
  * This file is part of JMS Load Tester.
- * 
+ * <p/>
  * JMS Load Tester is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
  * Software Foundation, either version 3 of the License, or (at your option) any
  * later version.
- * 
+ * <p/>
  * JMS Load Tester is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ * <p/>
  * You should have received a copy of the GNU General Public License along with
  * JMS Load Tester. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -35,7 +36,8 @@ public class MainTest extends TestCase {
     private static Set<String> uniqMessagesSent = new HashSet<String>();
     private static Set<String> uniqMessagesReceived = new HashSet<String>();
 
-    public void testXXX(){
+    @Test
+    public void testXXX() {
 
     }
 
@@ -45,10 +47,12 @@ public class MainTest extends TestCase {
      * receives messages, then asserts if we sent and received everything a bit
      * unperfect, i know :)
      */
+    @Test
+    @Ignore("TBD")
     public void xxtestAll() {
         // spring needs to know where to find the properties file
         System.setProperty("app.properties.file", ".\\test\\resources\\config\\integrationtest.app.properties");
-        
+
         final Main main = new Main(false);
 
         // here we overwrite to capture the output that would otherwise be

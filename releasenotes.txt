@@ -1,5 +1,14 @@
-Release 1.0 (2010-09-22)
+Release 1.1 (TBD)
+************************
++ new property javax.jms.ConnectionFactory.username
++ new property javax.jms.ConnectionFactory.password
+
+- converted tests from junit 3 to junit 4
+- moved from Eclipse to Intellij IDEA
+
+Release 1.0 (2012-03-07)
 ************************
 + initial release 1.0
 + ported from google code to github
 + moved from ant to maven
++ first release of old codebase from 2009

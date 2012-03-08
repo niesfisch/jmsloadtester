@@ -6,19 +6,19 @@ import java.util.Iterator;
 /**
  * JMS Load Tester Copyright (C) 2008 Marcel Sauer
  * <marcel[underscore]sauer[at]gmx.de>
- * 
+ * <p/>
  * This file is part of JMS Load Tester.
- * 
+ * <p/>
  * JMS Load Tester is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
  * Software Foundation, either version 3 of the License, or (at your option) any
  * later version.
- * 
+ * <p/>
  * JMS Load Tester is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ * <p/>
  * You should have received a copy of the GNU General Public License along with
  * JMS Load Tester. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -30,7 +30,7 @@ public class SizeMessageContentStrategy implements MessageContentStrategy {
     private Payload message;
 
     public SizeMessageContentStrategy(final int bytes, final int messageCount) {
-        if(bytes < 0){
+        if (bytes < 0) {
             throw new IllegalArgumentException("the bytes must be greater than zero");
         }
         this.messageCount = messageCount;
@@ -38,18 +38,22 @@ public class SizeMessageContentStrategy implements MessageContentStrategy {
         generateMessage();
     }
 
+    @Override
     public Payload next() {
         return message;
     }
 
+    @Override
     public boolean hasNext() {
         return count++ < messageCount;
     }
 
+    @Override
     public int getMessageCount() {
         return messageCount;
     }
 
+    @Override
     public String getDescription() {
         return "Size: always returning random " + bytes + " bytes as message content";
     }
@@ -61,14 +65,16 @@ public class SizeMessageContentStrategy implements MessageContentStrategy {
 
     private void generateMessage() {
         byte[] data = new byte[bytes];
-        Arrays.fill(data, "1".getBytes()[0]);     
+        Arrays.fill(data, "1".getBytes()[0]);
         this.message = new Payload(data);
     }
 
+    @Override
     public void remove() {
         throw new UnsupportedOperationException("not supported");
     }
 
+    @Override
     public Iterator<Payload> iterator() {
         return this;
     }
