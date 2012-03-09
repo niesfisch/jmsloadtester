@@ -39,12 +39,15 @@ e.g. a typical SonicMQ setup
 
 5. close the files and save them
 
-//-- pictures here .....
+<a href="http://tech.marcel-sauer.de/wp-content/uploads/2008/05/sonic_admin1.jpg" class="none"><img title="sonic admin" src="http://tech.marcel-sauer.de/wp-content/uploads/2008/05/sonic_admin1-150x150.jpg" alt="sonic admin" width="150" height="150"></a>
+<a href="http://tech.marcel-sauer.de/wp-content/uploads/2008/05/sonic_admin2.jpg" class="none"><img title="sonic admin" src="http://tech.marcel-sauer.de/wp-content/uploads/2008/05/sonic_admin2-150x150.jpg" alt="sonic admin" width="150" height="150"></a>
+<a href="http://tech.marcel-sauer.de/wp-content/uploads/2008/05/openjms_screen.jpg" class="none"><img title="openjms" src="http://tech.marcel-sauer.de/wp-content/uploads/2008/05/openjms_screen-150x150.jpg" alt="openjms" width="150" height="150"></a>
 
 in order to use the application you have to place certain vendor jar files in the classpath, which are not part of JMS Load Tester itself. when the application is starting it is trying to connect to the JNDI repository you provided in the jndi.properties files. it then tries to get a javax.jms.ConnectionFactory object(instance) via JNDI. to get this working the JRE/JVM needs these provider specific implementations in the classpath. if they are not present you will get the infamous "ClassNotFoundException". consult the documentation of your JMS provider. the selected jar files in the following screenshots give you an idea:
 
-//-- pictures here .....
-
+<a href="http://tech.marcel-sauer.de/wp-content/uploads/2008/05/openjms_libs.jpg" class="none"><img title="typical openjms libs" src="http://tech.marcel-sauer.de/wp-content/uploads/2008/05/openjms_libs-150x150.jpg" alt="typical openjms libs" width="150" height="150"></a>
+<a href="http://tech.marcel-sauer.de/wp-content/uploads/2008/05/weblogic_libs.jpg" class="none"><img title="typical weblogic libs" src="http://tech.marcel-sauer.de/wp-content/uploads/2008/05/weblogic_libs-150x150.jpg" alt="typical weblogic libs" width="150" height="150"></a>
+<a href="http://tech.marcel-sauer.de/wp-content/uploads/2008/05/sonic_libs.jpg" class="none"><img title="typical sonic libs" src="http://tech.marcel-sauer.de/wp-content/uploads/2008/05/sonic_libs-150x150.jpg" alt="typical sonic libs" width="150" height="150"></a>
 
 1. open the file **jmsloadtester.bat** (Windows) or **jmsloadtester.sh** (Un*x) and point the "YOUR_CP" to all the jars that should be included (i.e. the vendor jars we just talked about)
 2. look at the example lines starting with "set YOUR_CP=..." (Windows) or "YOUR_CP=..." (Un*x) and use them (delete the "REM" or "#") in front of them
@@ -377,13 +380,14 @@ follow these steps to overwrite the default session handler and call you own one
 1. create a new eclipse project -> e.g. JmsLoady
 2. copy the "conf" and "lib" directories from the jms load tester distribution into the new projects root folder (see image)
 
-// -- picture
+<a href="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_eclipse_project_11.jpg"><img class="alignnone size-thumbnail wp-image-39" title="ext_eclipse_project_11" src="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_eclipse_project_11-150x150.jpg" alt="" width="150" height="150"></a>
 
 3. now open the project settings
 - add all the jar files found in the libs directory to the "libraries" tab (see image)
 - add the "conf" directory on the "source" tab (see image)
 
-// -- picture
+<a href="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_libs_2.jpg"><img class="alignnone size-thumbnail wp-image-35" title="ext_libs_2" src="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_libs_2-150x150.jpg" alt="" width="150" height="150"></a>
+<a href="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_source_3.jpg"><img class="alignnone size-thumbnail wp-image-30" title="ext_source_3" src="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_source_3-150x150.jpg" alt="" width="150" height="150"></a>
 
 4. now add all your necessary jms api libs to the classpath (like sonic jars, openmq etc.)
 5. open the "conf/app.properties" and "conf/jndi.properties" file and change to your appropriate values
@@ -392,24 +396,28 @@ follow these steps to overwrite the default session handler and call you own one
 - open the "arguments" tab and add the line "-Dapp.properties.file=./conf/app.properties" to the "VM arguments" (see image)
 - save and run the app
 
-// -- picture
+<a href="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_run_as1_4.jpg"><img class="alignnone size-thumbnail wp-image-36" title="ext_run_as1_4" src="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_run_as1_4-150x150.jpg" alt="" width="150" height="150"></a>
+<a href="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_run_as2_5.jpg"><img class="alignnone size-thumbnail wp-image-37" title="ext_run_as2_5" src="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_run_as2_5-150x150.jpg" alt="" width="150" height="150"></a>
+
 
 if everything is running then we can go ahead and actually create our own classes
 1. create a new package "samples" in src
 2. create a new class "TheSampleSessionHandler.java" which extends "AbstractThreadAwareSessionHandler" (take the sample one from the image)
 
-// -- picture
+<a href="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_sessionhandler_6.jpg"><img class="alignnone size-thumbnail wp-image-41" title="ext_sessionhandler_6" src="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_sessionhandler_6-150x150.jpg" alt="" width="150" height="150"></a>
 
 3. create two new classes "TheSampleInterceptor1" and "TheSampleInterceptor2" which implement "MessageInterceptor" (take the sample one from the image)
 
-// -- picture
+<a href="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_interceptor_7.jpg"><img class="alignnone size-thumbnail wp-image-34" title="ext_interceptor_7" src="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_interceptor_7-150x150.jpg" alt="" width="150" height="150"></a>
 
 4. now open the "conf/app.properties" and add/change the values (see image)
 
-// -- picture
+<a href="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_appconfig_8.jpg"><img class="alignnone size-thumbnail wp-image-32" title="ext_appconfig_8" src="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_appconfig_8-150x150.jpg" alt="" width="150" height="150"></a>
 
 5. build and run the application again
 6. check the console window for the "system.out.println" lines (see image) which prove that our new classes are used
+
+<a href="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_sysout_9.jpg"><img class="alignnone size-thumbnail wp-image-31" title="ext_sysout_9" src="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_sysout_9-150x150.jpg" alt="" width="150" height="150"></a>
 
 you should now have an idea of how these "pluggable" features work and create some real stuff
 the rest is up to you :)
