@@ -53,20 +53,20 @@ in order to use the application you have to place certain vendor jar files in th
 
 now open the file **app.properties** again. it’s time to configure the actual load test.
 
-1.  change the the lines starting with "app.listener.*"
+change the the lines starting with "app.listener.*"
 
     app.listener.thread.count=1
     app.listener.wait.for.message.count=1
     app.listener.listen.to.destination=name of your Topic or Queue, must be available in the JNDI repository
 
-2. change the the lines starting and "app.sender.*"
+change the the lines starting and "app.sender.*"
 
     app.sender.threads.to.start=1
     app.sender.send.to.destination=name of your Topic or Queue, must be available in the JNDI repository
     app.sender.message.content.strategy=STATIC#1#this is the test message
     app.sender.pause.millis.between.send=0
 
-3. setup how much output you want to see
+setup how much output you want to see
 
     app.output.debug.strategy=STDOUT
     app.output.result.strategy=STDOUT
