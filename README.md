@@ -78,6 +78,137 @@ if everything is working then you can continue with doing some real load testing
 
 to be continued.........
 
+## the different app.properties settings:
+
+<table class="guidetable" border="0">
+<tbody>
+<tr>
+<th>setting</th>
+<th>values</th>
+<th>explanation</th>
+</tr>
+<tr>
+<td valign="top">jndi.properties</td>
+<td valign="top">a filename, e.g. &#8220;c:/tmp/jndi.properties&#8221;</td>
+<td valign="top">points to the directory and file that holds the jndi connection properties. <span style="color: #ff0000;">make sure you provide forward slashes &#8220;/&#8221; for directories.</span></td>
+</tr>
+<tr>
+<td valign="top">javax.jms.ConnectionFactory</td>
+<td valign="top">a name, e.g. SonicMQTopicConnectionFactory</td>
+<td valign="top">the name of the connection factory that is setup in your JNDI repository</td>
+</tr>
+<tr>
+<td valign="top">app.listener.thread.count</td>
+<td valign="top">a number &gt;= 0; e.g. 20</td>
+<td valign="top">how many listener threads should be started</td>
+</tr>
+<tr>
+<td valign="top">app.listener.wait.for.message.count</td>
+<td valign="top">a number &gt;= 0, e.g. 1000</td>
+<td valign="top">a number telling each thread how many messages to wait for</td>
+</tr>
+<tr>
+<td valign="top">app.listener.listen.to.destination</td>
+<td valign="top">a name, e.g. FooQueue or FooTopic or Foo.Test.Topic</td>
+<td valign="top">the name of the JMS destination (Queue or Topic) each listener thread should connect to and wait for incoming messages</td>
+</tr>
+<tr>
+<td valign="top">app.sender.threads.to.start</td>
+<td valign="top">a number &gt;= 0; e.g. 20</td>
+<td valign="top">how many sender threads should be started</td>
+</tr>
+<tr>
+<td valign="top">app.sender.send.to.destination</td>
+<td valign="top">a name, e.g. FooQueue or FooTopic or Foo.Test.Topic</td>
+<td valign="top">the name of the JMS destination (Queue or Topic) each sender thread should send the messages to</td>
+</tr>
+<tr>
+<td valign="top">app.sender.message.content.strategy</td>
+<td valign="top">STATIC or FOLDER (<a href="#app.sender.message.content.strategy">detailed explanation</a>)</td>
+<td valign="top">tells each sender what message content to send. always the same (=STATIC) or all files in a specific folder(FOLDER). can match files on regular expressions and embed custom fields that change for each message sent.</td>
+</tr>
+<tr>
+<td valign="top">app.sender.pause.millis.between.send</td>
+<td valign="top">a number &gt;= 0; e.g. 20</td>
+<td valign="top">tells each sender thread how many milliseconds to pause between each send</td>
+</tr>
+<tr>
+<td valign="top">app.output.pause.seconds.between.printing.progress</td>
+<td valign="top">a number &gt;= 1; e.g. 2</td>
+<td valign="top">how long to wait before the next progress message is printed. 1 should be sufficient</td>
+</tr>
+<tr>
+<td valign="top">app.output.debug.strategy</td>
+<td valign="top">one of STDOUT, STDERR, SILENT, FILE (<a href="#app.output.XXX.strategy">detailed explanation</a>)</td>
+<td valign="top">tells the application what to do with the debug output, useful for debugging <img src='http://tech.marcel-sauer.de/wp-includes/images/smilies/icon_wink.gif' alt=';-)' class='wp-smiley' /> and seeing what goes on</td>
+</tr>
+<tr>
+<td valign="top">app.output.result.strategy</td>
+<td valign="top">one of STDOUT, STDERR, SILENT, FILE (<a href="#app.output.XXX.strategy">detailed explanation</a>)</td>
+<td valign="top">tells the application what to do with the result/summary after the app is finished</td>
+</tr>
+<tr>
+<td valign="top">app.output.message.strategy</td>
+<td valign="top">one of STDOUT, STDERR, SILENT, FILE (<a href="#app.output.XXX.strategy">detailed explanation</a>)</td>
+<td valign="top">tells the application what to do with each message that is received</td>
+</tr>
+<tr>
+<td valign="top">app.listener.ramp.up.millis</td>
+<td valign="top">a number &gt;= 0, e.g. 0 or 500 (in milliseconds)</td>
+<td valign="top">the milliseconds pause before the next listener thread is started (makes sense if you start more than one listener)</td>
+</tr>
+<tr>
+<td valign="top">app.sender.ramp.up.millis</td>
+<td valign="top">a number &gt;= 0, e.g. 0 or 500 (in milliseconds)</td>
+<td valign="top">the milliseconds pause before the next listener thread is started (makes sense if you start more than one sender)</td>
+</tr>
+<tr>
+<td valign="top">javax.jms.message.factory</td>
+<td valign="top">de.marcelsauer.jmsloadtester.message.TextMessageFactory or de.marcelsauer.jmsloadtester.message.ByteMessageFactory</td>
+<td valign="top">determines which message type will be used, TextMessageFactory -&gt; javax.jms.TextMessage, ByteMessage -&gt; javax.jms.BytesMessage</td>
+</tr>
+<tr>
+<td valign="top">app.message.interceptors</td>
+<td valign="top">de.marcelsauer.jmsloadtester.client.Sender which is the default one or a comma separated list. they all need to implement de.marcelsauer.jmsloadtester.message.MessageInterceptor</td>
+<td valign="top">each interceptor will be called before the message is sent. they get the message and some other framework instances to alter the message</td>
+</tr>
+<tr>
+<td valign="top">javax.jms.session.handler</td>
+<td valign="top">the default one is de.marcelsauer.jmsloadtester.handler.DefaultSessionHandlerImpl</td>
+<td valign="top">responsible to create the jms session, gets a connection, sets the acknowledge mode based on &#8220;javax.jms.session.acknowledge.mode&#8221;, should extend de.marcelsauer.jmsloadtester.handler.AbstractThreadAwareSessionHandler which will handle the thread context</td>
+</tr>
+<tr>
+<td valign="top">javax.jms.session.acknowledge.mode</td>
+<td valign="top">one of AUTO_ACKNOWLEDGE, CLIENT_ACKNOWLEDGE or DUPS_OK_ACKNOWLEDGE see <a href="http://java.sun.com/j2ee/1.4/docs/api/javax/jms/Session.html#AUTO_ACKNOWLEDGE"title="http://java.sun.com/j2ee/1.4/docs/api/javax/jms/Session.html#AUTO_ACKNOWLEDGE"  onclick="javascript:urchinTracker ('/outbound/article/java.sun.com');">jms spec</a> for details</td>
+<td valign="top">will set the ack mode on the session</td>
+</tr>
+<tr>
+<td valign="top">app.listener.explicit.acknowledge.message</td>
+<td valign="top">true or false(default)</td>
+<td valign="top">will force the call to &#8220;message.acknowledge();&#8221; on receive of a message. you could set this to true if you are using the &#8220;CLIENT_ACKNOWLEDGE&#8221; as javax.jms.session.acknowledge.mode. if you set it to false and use CLIENT_ACKNOWLEDGE then the broker keeps a message until it is consumed and acknowledged. when the app finishes and hasn&#8217;t acknowledged the messages it has received(which &#8220;false&#8221; will do) the broker will recover the messages as the client session has stopped and the broker thinks it has to redeliver the message, which it will the next time a client connects to the destination(queue here).</p>
+<p>AUTO_ACKNOWLEDGE and DUPS_OK_ACKNOWLEDGE will autmatically acknowledge the message so &#8220;false&#8221; is fine.</td>
+</tr>
+<tr>
+<td valign="top">javax.jms.delivery.mode</td>
+<td valign="top">PERSISTENT or NON_PERSISTENT</td>
+<td valign="top"><a href="http://java.sun.com/j2ee/1.4/docs/api/javax/jms/DeliveryMode.html"title="http://java.sun.com/j2ee/1.4/docs/api/javax/jms/DeliveryMode.html"  onclick="javascript:urchinTracker ('/outbound/article/java.sun.com');">http://java.sun.com/j2ee/1.4/docs/api/javax/jms/DeliveryMode.html</a></td>
+</tr>
+<tr>
+<td valign="top">javax.jms.message.producer.time.to.live</td>
+<td valign="top">time in milliseconds or &#8220;0&#8243; for messages that will not expire</td>
+<td valign="top"><a href="http://java.sun.com/j2ee/1.4/docs/api/javax/jms/MessageProducer.html#setTimeToLive(long)"title="http://java.sun.com/j2ee/1.4/docs/api/javax/jms/MessageProducer.html#setTimeToLive(long)"  onclick="javascript:urchinTracker ('/outbound/article/java.sun.com');">http://java.sun.com/j2ee/1.4/docs/api/javax/jms/MessageProducer.html#setTimeToLive(long)</a></td>
+</tr>
+<tr>
+<td valign="top">javax.jms.message.producer.priority</td>
+<td valign="top">0(lowest) - 9(highest)</td>
+<td valign="top"><a href="http://java.sun.com/j2ee/1.4/docs/api/javax/jms/MessageProducer.html#setPriority(int)"title="http://java.sun.com/j2ee/1.4/docs/api/javax/jms/MessageProducer.html#setPriority(int)"  onclick="javascript:urchinTracker ('/outbound/article/java.sun.com');">http://java.sun.com/j2ee/1.4/docs/api/javax/jms/MessageProducer.html#setPriority(int)</a></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
 ## the "app.sender.message.content.strategy"
 
 tells the application what message content to send.
