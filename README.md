@@ -76,5 +76,5 @@ save and close all the open files. execute the “jmsloadtester.bat” or “jms
 
 if everything is working then you can continue with doing some real load testing by changing the settings and "burning down" your JMS broker. Have a look at some useful settings to start with (further down). Try to watch the load on the broker and network in parallel.
 
-to be continued........
+to be continued.........
 
