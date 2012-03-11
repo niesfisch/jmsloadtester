@@ -19,8 +19,6 @@ or clone the repository and build from scratch with maven
     mvn clean package
     cd target/dist
 
-the rest is explained [here](http://jmsloadtester.marcel-sauer.de)
-
 # Basic Setup
 
 1. download the zip file and extract it to any location you like.
@@ -81,7 +79,11 @@ if everything is working then you can continue with doing some real load testing
 
 to be continued.........
 
-## the different app.properties settings:
+## the different app.properties settings
+
+    jndi.properties
+    a filename, e.g. “c:/tmp/jndi.properties”
+    points to the directory and file that holds the jndi connection properties. make sure you provide forward slashes “/” for directories.
 
 <table class="guidetable" border="0">
 <tbody>
