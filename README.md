@@ -239,8 +239,6 @@ at the moment JMS Load Tester is starting as many threads as you have defined in
 
 when you define listeners and senders for the same destination then you should see that messages sent arrive back in the application because they share the same destination. some typical scenarios (we assume the same destination is set):
 
-XXXXXXXXXXX
-
 <table border="1">
 <tbody>
 <tr>
