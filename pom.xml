@@ -180,22 +180,27 @@
                 </configuration>
             </plugin>
             <!-- license stuff -->
-            <!--
+
             <plugin>
                 <groupId>com.mycila.maven-license-plugin</groupId>
                 <artifactId>maven-license-plugin</artifactId>
-                <version>1.6.0</version>
+                <version>1.9.0</version>
                 <inherited>false</inherited>
                 <configuration>
                     <header>${basedir}/license.txt</header>
                     <aggregate>true</aggregate>
                     <failIfMissing>true</failIfMissing>
                     <encoding>UTF-8</encoding>
+                    <includes>
+                        <include>**/*.java</include>
+                    </includes>
                     <excludes>
-                        <exclude>target/**</exclude>
-                        <exclude>releasenotes.txt</exclude>
+                        <exclude>**/*.bat</exclude>
+                        <exclude>**/*.sh</exclude>
+                        <exclude>**/*.xml</exclude>
+                        <exclude>**/*.properties</exclude>
+                        <exclude>**/*.txt</exclude>
                     </excludes>
-
                 </configuration>
                 <executions>
                     <execution>
@@ -206,7 +211,7 @@
                     </execution>
                 </executions>
             </plugin>
-            -->
+
         </plugins>
     </build>
     <!--
