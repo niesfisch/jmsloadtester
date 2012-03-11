@@ -19,11 +19,11 @@ or clone the repository and build from scratch with maven
     mvn clean package
     cd target/dist <----- here you will find the package application
 
-## Licence
+# Licence
 
 Apache 2.0 http://www.apache.org/licenses/LICENSE-2.0.txt
 
-## Release Notes
+# Release Notes
 
 [Release Notes](https://github.com/niesfisch/jmsloadtester/blob/master/releasenotes.txt)
 
