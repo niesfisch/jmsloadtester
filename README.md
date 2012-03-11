@@ -27,6 +27,18 @@ Apache 2.0 http://www.apache.org/licenses/LICENSE-2.0.txt
 
 [Release Notes](https://github.com/niesfisch/jmsloadtester/blob/master/releasenotes.txt)
 
+# Screenshots
+
+<p>
+    <a href="http://tech.marcel-sauer.de/wp-content/uploads/2008/05/silent.jpg" class="none"><img class="" title="running JMS Load Tester with minimal configured output" src="http://tech.marcel-sauer.de/wp-content/uploads/2008/05/silent-300x124.jpg" alt="running JMS Load Tester with minimal configured output" width="300" height="124"></a>
+    <a href="http://tech.marcel-sauer.de/wp-content/uploads/2008/05/appconf.jpg" class="none"><img class="none" title="running JMS Load Tester with minimal configured output" src="http://tech.marcel-sauer.de/wp-content/uploads/2008/05/appconf-300x166.jpg" alt="app.properties config file used to setup JMS Load Tester" width="300" height="166"></a>
+</p>
+<p>
+    <a href="http://tech.marcel-sauer.de/wp-content/uploads/2008/05/debug.jpg" class="none"><img class="alignnone size-medium wp-image-12" title="running JMS Load Tester with debug output to STDOUT enabled" src="http://tech.marcel-sauer.de/wp-content/uploads/2008/05/debug-300x234.jpg" alt="running JMS Load Tester with debug output to STDOUT enabled" width="300" height="234"></a>
+    <a href="http://tech.marcel-sauer.de/wp-content/uploads/2008/05/jndi3.jpg" class="none"><img class="alignnone size-medium wp-image-13" title="typical JNDI configuration examples" src="http://tech.marcel-sauer.de/wp-content/uploads/2008/05/jndi3-300x267.jpg" alt="typical JNDI configuration examples" width="300" height="267"></a>
+    <a href="http://tech.marcel-sauer.de/wp-content/uploads/2008/05/messages.jpg" class="none"><img class="alignnone size-medium wp-image-14" title="running JMS Load Tester printing all sent/received messages to STDOUT" src="http://tech.marcel-sauer.de/wp-content/uploads/2008/05/messages-300x234.jpg" alt="running JMS Load Tester printing all sent/received messages to STDOUT" width="300" height="234"></a>
+</p>
+
 # Basic Setup
 
 1. download the zip file and extract it to any location you like.
