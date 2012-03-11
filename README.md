@@ -1,8 +1,8 @@
 # What's that for? 
 
-JMS Load Tester is a small open source command line based Java (>1.6) application to load test JMS brokers like SonicMQ, ActiveMQ, OpenJMS and others. 
+JMS Load Tester is a small open source command line based Java (>1.6) application to load test JMS brokers like SonicMQ, ActiveMQ, OpenJMS, HornetQ and others.
 
-It is configured using a properties file and should run under Windows and Un*x systems(i've used it with Ubuntu).
+It is configured using a properties file and should run under Windows and Un*x systems.
 
 The tool can start multiple Threads (Listeners, Senders) that "penetrate" the JMS broker by sending and/or receiving loads of messages. That's already all - no magic at all. It can be configured with a property file and all the broker and destination lookup is done via JNDI. At the moment the tool handles everything as generic JMS "destination". It is not aware of the underlaying implementations like Queue or Topic. The destination lookup is also done via JNDI. Have a look at the Screenshots, the User Guide and the different property values which should give you a fairly good understanding of what this tool does and how it works.
 
@@ -10,14 +10,14 @@ Please let me know which features are missing, what does not work as expected or
 
 # Getting JMS Load Tester
 
-just take the latest zip from the [downloads](http://github.com/niesfisch/jmsloadtester/downloads)
+just take the latest zip from the [downloads](http://github.com/niesfisch/jmsloadtester/downloads) and follow the setup instructions further down.
 
 or clone the repository and build from scratch with maven
 
     git clone git://github.com/niesfisch/jmsloadtester.git
     cd jmsloadtester.git
     mvn clean package
-    cd target/dist
+    cd target/dist <----- here you will find the package application
 
 # Basic Setup
 
@@ -77,142 +77,9 @@ save and close all the open files. execute the "jmsloadtester.bat" or "jmsloadte
 
 if everything is working then you can continue with doing some real load testing by changing the settings and "burning down" your JMS broker. Have a look at some useful settings to start with (further down). Try to watch the load on the broker and network in parallel.
 
-to be continued.........
+## app.properties
 
-## the different app.properties settings
-
-    jndi.properties
-    a filename, e.g. “c:/tmp/jndi.properties”
-    points to the directory and file that holds the jndi connection properties. make sure you provide forward slashes “/” for directories.
-
-<table class="guidetable" border="0">
-<tbody>
-<tr>
-<th>setting</th>
-<th>values</th>
-<th>explanation</th>
-</tr>
-<tr>
-<td valign="top">jndi.properties</td>
-<td valign="top">a filename, e.g. &#8220;c:/tmp/jndi.properties&#8221;</td>
-<td valign="top">points to the directory and file that holds the jndi connection properties. <span style="color: #ff0000;">make sure you provide forward slashes &#8220;/&#8221; for directories.</span></td>
-</tr>
-<tr>
-<td valign="top">javax.jms.ConnectionFactory</td>
-<td valign="top">a name, e.g. SonicMQTopicConnectionFactory</td>
-<td valign="top">the name of the connection factory that is setup in your JNDI repository</td>
-</tr>
-<tr>
-<td valign="top">app.listener.thread.count</td>
-<td valign="top">a number &gt;= 0; e.g. 20</td>
-<td valign="top">how many listener threads should be started</td>
-</tr>
-<tr>
-<td valign="top">app.listener.wait.for.message.count</td>
-<td valign="top">a number &gt;= 0, e.g. 1000</td>
-<td valign="top">a number telling each thread how many messages to wait for</td>
-</tr>
-<tr>
-<td valign="top">app.listener.listen.to.destination</td>
-<td valign="top">a name, e.g. FooQueue or FooTopic or Foo.Test.Topic</td>
-<td valign="top">the name of the JMS destination (Queue or Topic) each listener thread should connect to and wait for incoming messages</td>
-</tr>
-<tr>
-<td valign="top">app.sender.threads.to.start</td>
-<td valign="top">a number &gt;= 0; e.g. 20</td>
-<td valign="top">how many sender threads should be started</td>
-</tr>
-<tr>
-<td valign="top">app.sender.send.to.destination</td>
-<td valign="top">a name, e.g. FooQueue or FooTopic or Foo.Test.Topic</td>
-<td valign="top">the name of the JMS destination (Queue or Topic) each sender thread should send the messages to</td>
-</tr>
-<tr>
-<td valign="top">app.sender.message.content.strategy</td>
-<td valign="top">STATIC or FOLDER (<a href="#app.sender.message.content.strategy">detailed explanation</a>)</td>
-<td valign="top">tells each sender what message content to send. always the same (=STATIC) or all files in a specific folder(FOLDER). can match files on regular expressions and embed custom fields that change for each message sent.</td>
-</tr>
-<tr>
-<td valign="top">app.sender.pause.millis.between.send</td>
-<td valign="top">a number &gt;= 0; e.g. 20</td>
-<td valign="top">tells each sender thread how many milliseconds to pause between each send</td>
-</tr>
-<tr>
-<td valign="top">app.output.pause.seconds.between.printing.progress</td>
-<td valign="top">a number &gt;= 1; e.g. 2</td>
-<td valign="top">how long to wait before the next progress message is printed. 1 should be sufficient</td>
-</tr>
-<tr>
-<td valign="top">app.output.debug.strategy</td>
-<td valign="top">one of STDOUT, STDERR, SILENT, FILE (<a href="#app.output.XXX.strategy">detailed explanation</a>)</td>
-<td valign="top">tells the application what to do with the debug output, useful for debugging <img src='http://tech.marcel-sauer.de/wp-includes/images/smilies/icon_wink.gif' alt=';-)' class='wp-smiley' /> and seeing what goes on</td>
-</tr>
-<tr>
-<td valign="top">app.output.result.strategy</td>
-<td valign="top">one of STDOUT, STDERR, SILENT, FILE (<a href="#app.output.XXX.strategy">detailed explanation</a>)</td>
-<td valign="top">tells the application what to do with the result/summary after the app is finished</td>
-</tr>
-<tr>
-<td valign="top">app.output.message.strategy</td>
-<td valign="top">one of STDOUT, STDERR, SILENT, FILE (<a href="#app.output.XXX.strategy">detailed explanation</a>)</td>
-<td valign="top">tells the application what to do with each message that is received</td>
-</tr>
-<tr>
-<td valign="top">app.listener.ramp.up.millis</td>
-<td valign="top">a number &gt;= 0, e.g. 0 or 500 (in milliseconds)</td>
-<td valign="top">the milliseconds pause before the next listener thread is started (makes sense if you start more than one listener)</td>
-</tr>
-<tr>
-<td valign="top">app.sender.ramp.up.millis</td>
-<td valign="top">a number &gt;= 0, e.g. 0 or 500 (in milliseconds)</td>
-<td valign="top">the milliseconds pause before the next listener thread is started (makes sense if you start more than one sender)</td>
-</tr>
-<tr>
-<td valign="top">javax.jms.message.factory</td>
-<td valign="top">de.marcelsauer.jmsloadtester.message.TextMessageFactory or de.marcelsauer.jmsloadtester.message.ByteMessageFactory</td>
-<td valign="top">determines which message type will be used, TextMessageFactory -&gt; javax.jms.TextMessage, ByteMessage -&gt; javax.jms.BytesMessage</td>
-</tr>
-<tr>
-<td valign="top">app.message.interceptors</td>
-<td valign="top">de.marcelsauer.jmsloadtester.client.Sender which is the default one or a comma separated list. they all need to implement de.marcelsauer.jmsloadtester.message.MessageInterceptor</td>
-<td valign="top">each interceptor will be called before the message is sent. they get the message and some other framework instances to alter the message</td>
-</tr>
-<tr>
-<td valign="top">javax.jms.session.handler</td>
-<td valign="top">the default one is de.marcelsauer.jmsloadtester.handler.DefaultSessionHandlerImpl</td>
-<td valign="top">responsible to create the jms session, gets a connection, sets the acknowledge mode based on &#8220;javax.jms.session.acknowledge.mode&#8221;, should extend de.marcelsauer.jmsloadtester.handler.AbstractThreadAwareSessionHandler which will handle the thread context</td>
-</tr>
-<tr>
-<td valign="top">javax.jms.session.acknowledge.mode</td>
-<td valign="top">one of AUTO_ACKNOWLEDGE, CLIENT_ACKNOWLEDGE or DUPS_OK_ACKNOWLEDGE see <a href="http://java.sun.com/j2ee/1.4/docs/api/javax/jms/Session.html#AUTO_ACKNOWLEDGE"title="http://java.sun.com/j2ee/1.4/docs/api/javax/jms/Session.html#AUTO_ACKNOWLEDGE"  onclick="javascript:urchinTracker ('/outbound/article/java.sun.com');">jms spec</a> for details</td>
-<td valign="top">will set the ack mode on the session</td>
-</tr>
-<tr>
-<td valign="top">app.listener.explicit.acknowledge.message</td>
-<td valign="top">true or false(default)</td>
-<td valign="top">will force the call to &#8220;message.acknowledge();&#8221; on receive of a message. you could set this to true if you are using the &#8220;CLIENT_ACKNOWLEDGE&#8221; as javax.jms.session.acknowledge.mode. if you set it to false and use CLIENT_ACKNOWLEDGE then the broker keeps a message until it is consumed and acknowledged. when the app finishes and hasn&#8217;t acknowledged the messages it has received(which &#8220;false&#8221; will do) the broker will recover the messages as the client session has stopped and the broker thinks it has to redeliver the message, which it will the next time a client connects to the destination(queue here).</p>
-<p>AUTO_ACKNOWLEDGE and DUPS_OK_ACKNOWLEDGE will autmatically acknowledge the message so &#8220;false&#8221; is fine.</td>
-</tr>
-<tr>
-<td valign="top">javax.jms.delivery.mode</td>
-<td valign="top">PERSISTENT or NON_PERSISTENT</td>
-<td valign="top"><a href="http://java.sun.com/j2ee/1.4/docs/api/javax/jms/DeliveryMode.html"title="http://java.sun.com/j2ee/1.4/docs/api/javax/jms/DeliveryMode.html"  onclick="javascript:urchinTracker ('/outbound/article/java.sun.com');">http://java.sun.com/j2ee/1.4/docs/api/javax/jms/DeliveryMode.html</a></td>
-</tr>
-<tr>
-<td valign="top">javax.jms.message.producer.time.to.live</td>
-<td valign="top">time in milliseconds or &#8220;0&#8243; for messages that will not expire</td>
-<td valign="top"><a href="http://java.sun.com/j2ee/1.4/docs/api/javax/jms/MessageProducer.html#setTimeToLive(long)"title="http://java.sun.com/j2ee/1.4/docs/api/javax/jms/MessageProducer.html#setTimeToLive(long)"  onclick="javascript:urchinTracker ('/outbound/article/java.sun.com');">http://java.sun.com/j2ee/1.4/docs/api/javax/jms/MessageProducer.html#setTimeToLive(long)</a></td>
-</tr>
-<tr>
-<td valign="top">javax.jms.message.producer.priority</td>
-<td valign="top">0(lowest) - 9(highest)</td>
-<td valign="top"><a href="http://java.sun.com/j2ee/1.4/docs/api/javax/jms/MessageProducer.html#setPriority(int)"title="http://java.sun.com/j2ee/1.4/docs/api/javax/jms/MessageProducer.html#setPriority(int)"  onclick="javascript:urchinTracker ('/outbound/article/java.sun.com');">http://java.sun.com/j2ee/1.4/docs/api/javax/jms/MessageProducer.html#setPriority(int)</a></td>
-</tr>
-</tbody>
-</table>
-
-
-
+... [gives you an overview](https://github.com/niesfisch/jmsloadtester/blob/master/src/main/assembly/conf/app.properties) of what you can setup
 
 ## the "app.sender.message.content.strategy"
 
@@ -372,7 +239,167 @@ at the moment JMS Load Tester is starting as many threads as you have defined in
 
 when you define listeners and senders for the same destination then you should see that messages sent arrive back in the application because they share the same destination. some typical scenarios (we assume the same destination is set):
 
-// ----- table ....
+XXXXXXXXXXX
+
+<table border="1">
+<tbody>
+<tr>
+<th></th>
+<th>count</th>
+<th>messages</th>
+<th>total</th>
+</tr>
+<tr>
+<td>senders</td>
+<td>10</td>
+<td>100</td>
+<td>1000</td>
+</tr>
+<tr>
+<td>listeners</td>
+<td>10</td>
+<td>100</td>
+<td>1000</td>
+</tr>
+<tr>
+<td><b>result</b></td>
+<td colspan="3">1000 messages should have been sent and received on the same destination. the program exits and prints the result.</td>
+</tr>
+<tr>
+<td colspan="4">&nbsp;</td>
+</tr>
+<tr>
+<td>senders</td>
+<td>20</td>
+<td>500</td>
+<td>10000</td>
+</tr>
+<tr>
+<td>listeners</td>
+<td>500</td>
+<td>20</td>
+<td>10000</td>
+</tr>
+<tr>
+<td><b>result</b></td>
+<td colspan="3">10000 messages should have been sent and received on the same destination. the program exits and prints the result.</td>
+</tr>
+<tr>
+<td colspan="4">&nbsp;</td>
+</tr>
+<tr>
+<td>senders</td>
+<td>100</td>
+<td>40</td>
+<td>4000</td>
+</tr>
+<tr>
+<td>listeners</td>
+<td>1</td>
+<td>1000</td>
+<td>1000</td>
+</tr>
+<tr>
+<td><b>result</b></td>
+<td colspan="3">4000 messages should have been sent. 4000 should have been received, even if only 1000 were expected. the program exits and prints the result.</td>
+</tr>
+<tr>
+<td colspan="4">&nbsp;</td>
+</tr>
+<tr>
+<td>senders</td>
+<td>70</td>
+<td>100</td>
+<td>7000</td>
+</tr>
+<tr>
+<td>listeners</td>
+<td>70</td>
+<td>1000</td>
+<td>70000</td>
+</tr>
+<tr>
+<td><b>result</b></td>
+<td colspan="3">7000 messages should have been sent. 7000 of 70000 expected should have been received. the program will wait until all of the 70000 expected messages are received.</td>
+</tr>
+<tr>
+<td colspan="4">&nbsp;</td>
+</tr>
+<tr>
+<td>senders</td>
+<td>60</td>
+<td>10000</td>
+<td>600000</td>
+</tr>
+<tr>
+<td>listeners</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td><b>result</b></td>
+<td colspan="3">600000 messages should have been sent. 600000 should have been received, even if only 1 was expected. the program exits and prints the result.</td>
+</tr>
+<tr>
+<td colspan="4">&nbsp;</td>
+</tr>
+<tr>
+<td>senders</td>
+<td>0</td>
+<td>100</td>
+<td>0</td>
+</tr>
+<tr>
+<td>listeners</td>
+<td>2</td>
+<td>100</td>
+<td>200</td>
+</tr>
+<tr>
+<td><b>result</b></td>
+<td colspan="3">0 messages should have been sent. 0 of 200 expected should have been received (because nothing is sending). the program will wait until all of the 200 expected messages are received.</td>
+</tr>
+<tr>
+<td colspan="4">&nbsp;</td>
+</tr>
+<tr>
+<td>senders</td>
+<td>10</td>
+<td>10</td>
+<td>100</td>
+</tr>
+<tr>
+<td>listeners</td>
+<td>11</td>
+<td>10</td>
+<td>110</td>
+</tr>
+<tr>
+<td><b>result</b></td>
+<td colspan="3">100 messages should have been sent. 100 of 110 expected should have been received. the program will wait until all of the 110 expected messages are received.</td>
+</tr>
+<tr>
+<td colspan="4">&nbsp;</td>
+</tr>
+<tr>
+<td>senders</td>
+<td>10</td>
+<td>10</td>
+<td>100</td>
+</tr>
+<tr>
+<td>listeners</td>
+<td>0</td>
+<td>100</td>
+<td>0</td>
+</tr>
+<tr>
+<td><b>result</b></td>
+<td colspan="3">100 messages should have been sent. nothing is listening for incoming messages. the program exits and prints the result.</td>
+</tr>
+</tbody>
+</table>
 
 listeners can receive more than they were waiting for as long as they get the messages they were waiting for based on the configuration.
 
@@ -401,7 +428,6 @@ follow these steps to overwrite the default session handler and call you own one
 <a href="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_run_as1_4.jpg"><img class="alignnone size-thumbnail wp-image-36" title="ext_run_as1_4" src="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_run_as1_4-150x150.jpg" alt="" width="150" height="150"></a>
 <a href="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_run_as2_5.jpg"><img class="alignnone size-thumbnail wp-image-37" title="ext_run_as2_5" src="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_run_as2_5-150x150.jpg" alt="" width="150" height="150"></a>
 
-
 if everything is running then we can go ahead and actually create our own classes
 1. create a new package "samples" in src
 2. create a new class "TheSampleSessionHandler.java" which extends "AbstractThreadAwareSessionHandler" (take the sample one from the image)
@@ -425,6 +451,27 @@ you should now have an idea of how these "pluggable" features work and create so
 the rest is up to you :)
 feel free to contact me if something is wrong or unclear or you know a better way to do things.
 
+# How it works - some details
+
+just a short wrap up of how JMS Load Tester works
+
+- Java > 1.6, purely based on Java interfaces, provider specific implementations are not bundled, they have to be provided by you (in form of "jar" files)
+- all lookup and retrieving is done via JNDI (Factories, Queues, Topics)
+- the application creates a Thread for each listener and sender (as configured in the app.properties)
+- two central pieces keep track of everything created (ThreadTracker) and messages sent&received (MessageTracker)
+- each Thread gets its own javax.jms.Session instance (via ThreadLocal)
+- one javax.jms.Connection is reused and shared
+- the javax.naming.Context is reused and shared
+- the javax.jms.Destination instances are cached
+- the javax.jms.MessageProducer instances are cached (per Thread)
+- the application uses Runtime.getRuntime().addShutdownHook to register certain components for cleanup
+- currently supports javax.jms.BytesMessage and  javax.jms.TextMessage
+- messages loaded from the file system are cached once they are loaded the first time
+- message loaded from the file system are stored as byte array until they are actually send
+- the timer works based on System.nanoTime()
+- different acknowledgement modes are supported when creating the sender sessions
+
+can this be done better? i am sure it can. as i am neither a JMS nor a Threading expert there are loads of things that could be improved i guess. why not give some suggestions after you have tried the tool?
 
 
 
