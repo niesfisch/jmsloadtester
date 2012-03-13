@@ -17,7 +17,8 @@ or clone the repository and build from scratch with maven
     git clone git://github.com/niesfisch/jmsloadtester.git
     cd jmsloadtester.git
     mvn clean package
-    cd target/dist <----- here you will find the package application
+    cd target/dist/jmsloadtester_xxx <----- here you will find the package application
+    chmod a+x jmsloadtester.sh
 
 # Licence
 
