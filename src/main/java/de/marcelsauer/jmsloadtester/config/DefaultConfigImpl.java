@@ -97,6 +97,14 @@ public class DefaultConfigImpl implements Config {
 
     private Properties properties;
 
+    /**
+     * used by spring setup
+     */
+    public DefaultConfigImpl(final Properties applicationProperties, final MessageContentStrategyFactory messageContentStrategyFactory) {
+        this.messageContentStrategyFactory = messageContentStrategyFactory;
+        loadConfig(applicationProperties);
+    }
+
     public DefaultConfigImpl(final String filename, final MessageContentStrategyFactory messageContentStrategyFactory) {
         this.messageContentStrategyFactory = messageContentStrategyFactory;
         loadConfig(filename);
