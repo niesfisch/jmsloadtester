@@ -1,4 +1,4 @@
-# What's that for? 
+# What's that for?
 
 JMS Load Tester is a small open source command line based Java (>1.6) application to load test JMS brokers like SonicMQ, ActiveMQ, OpenJMS, HornetQ and others.
 
@@ -44,7 +44,7 @@ Apache 2.0 http://www.apache.org/licenses/LICENSE-2.0.txt
 
 1. download the zip file and extract it to any location you like.
 2. change into that directory
-3. 
+3.
 open the file **conf/jndi.properties** and use the JNDI provider settings that the app should use to lookup the connection factories and destinations. this is just to make sure the application can connect to a local or remote JNDI repository, nothing more.typical examples can be found in the conf/samples folder. have a look at the JNDI setup instructions of the provider you are using or ask you sysadmins for the connection details. the application is using this information to create the JNDI ["InitialContext"](http://java.sun.com/products/jndi/tutorial/basics/prepare/initial.html) and holds this for the rest of the runtime.
 
 e.g. a typical SonicMQ setup
@@ -238,13 +238,13 @@ will send 40 * 1000 = 40000 messages to the broker
 
 will send 80 * 1000 = 80000 messages to the broker
 
-now it's time for some real action 
+now it's time for some real action
 
     # sender setup
     app.sender.threads.to.start=1000
     app.sender.message.content.strategy=STATIC#1000#test message :datetime: :random: :nanotime:
     app.sender.pause.millis.between.send=0
-    
+
 
 will send 1000 * 1000 = 1000000 messages to the broker
 
@@ -428,14 +428,14 @@ follow these steps to overwrite the default session handler and call you own one
 1. create a new eclipse project -> e.g. JmsLoady
 2. copy the "conf" and "lib" directories from the jms load tester distribution into the new projects root folder (see image)
 
-<a href="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_eclipse_project_11.jpg"><img class="alignnone size-thumbnail wp-image-39" title="ext_eclipse_project_11" src="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_eclipse_project_11-150x150.jpg" alt="" width="150" height="150"></a>
+<a href="https://raw.githubusercontent.com/niesfisch/jmsloadtester/master/doc/images/ext_eclipse_project_11.jpg"><img class="alignnone size-thumbnail wp-image-39" title="ext_eclipse_project_11" src="https://raw.githubusercontent.com/niesfisch/jmsloadtester/master/doc/images/ext_eclipse_project_11-150x150.jpg" alt="" width="150" height="150"></a>
 
 3. now open the project settings
 - add all the jar files found in the libs directory to the "libraries" tab (see image)
 - add the "conf" directory on the "source" tab (see image)
 
-<a href="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_libs_2.jpg"><img class="alignnone size-thumbnail wp-image-35" title="ext_libs_2" src="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_libs_2-150x150.jpg" alt="" width="150" height="150"></a>
-<a href="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_source_3.jpg"><img class="alignnone size-thumbnail wp-image-30" title="ext_source_3" src="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_source_3-150x150.jpg" alt="" width="150" height="150"></a>
+<a href="https://raw.githubusercontent.com/niesfisch/jmsloadtester/master/doc/images/ext_libs_2.jpg"><img class="alignnone size-thumbnail wp-image-35" title="ext_libs_2" src="https://raw.githubusercontent.com/niesfisch/jmsloadtester/master/doc/images/ext_libs_2-150x150.jpg" alt="" width="150" height="150"></a>
+<a href="https://raw.githubusercontent.com/niesfisch/jmsloadtester/master/doc/images/ext_source_3.jpg"><img class="alignnone size-thumbnail wp-image-30" title="ext_source_3" src="https://raw.githubusercontent.com/niesfisch/jmsloadtester/master/doc/images/ext_source_3-150x150.jpg" alt="" width="150" height="150"></a>
 
 4. now add all your necessary jms api libs to the classpath (like sonic jars, openmq etc.)
 5. open the "conf/app.properties" and "conf/jndi.properties" file and change to your appropriate values
@@ -444,27 +444,27 @@ follow these steps to overwrite the default session handler and call you own one
 - open the "arguments" tab and add the line "-Dapp.properties.file=./conf/app.properties" to the "VM arguments" (see image)
 - save and run the app
 
-<a href="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_run_as1_4.jpg"><img class="alignnone size-thumbnail wp-image-36" title="ext_run_as1_4" src="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_run_as1_4-150x150.jpg" alt="" width="150" height="150"></a>
-<a href="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_run_as2_5.jpg"><img class="alignnone size-thumbnail wp-image-37" title="ext_run_as2_5" src="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_run_as2_5-150x150.jpg" alt="" width="150" height="150"></a>
+<a href="https://raw.githubusercontent.com/niesfisch/jmsloadtester/master/doc/images/ext_run_as1_4.jpg"><img class="alignnone size-thumbnail wp-image-36" title="ext_run_as1_4" src="https://raw.githubusercontent.com/niesfisch/jmsloadtester/master/doc/images/ext_run_as1_4-150x150.jpg" alt="" width="150" height="150"></a>
+<a href="https://raw.githubusercontent.com/niesfisch/jmsloadtester/master/doc/images/ext_run_as2_5.jpg"><img class="alignnone size-thumbnail wp-image-37" title="ext_run_as2_5" src="https://raw.githubusercontent.com/niesfisch/jmsloadtester/master/doc/images/ext_run_as2_5-150x150.jpg" alt="" width="150" height="150"></a>
 
 if everything is running then we can go ahead and actually create our own classes
 1. create a new package "samples" in src
 2. create a new class "TheSampleSessionHandler.java" which extends "AbstractThreadAwareSessionHandler" (take the sample one from the image)
 
-<a href="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_sessionhandler_6.jpg"><img class="alignnone size-thumbnail wp-image-41" title="ext_sessionhandler_6" src="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_sessionhandler_6-150x150.jpg" alt="" width="150" height="150"></a>
+<a href="https://raw.githubusercontent.com/niesfisch/jmsloadtester/master/doc/images/ext_sessionhandler_6.jpg"><img class="alignnone size-thumbnail wp-image-41" title="ext_sessionhandler_6" src="https://raw.githubusercontent.com/niesfisch/jmsloadtester/master/doc/images/ext_sessionhandler_6-150x150.jpg" alt="" width="150" height="150"></a>
 
 3. create two new classes "TheSampleInterceptor1" and "TheSampleInterceptor2" which implement "MessageInterceptor" (take the sample one from the image)
 
-<a href="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_interceptor_7.jpg"><img class="alignnone size-thumbnail wp-image-34" title="ext_interceptor_7" src="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_interceptor_7-150x150.jpg" alt="" width="150" height="150"></a>
+<a href="https://raw.githubusercontent.com/niesfisch/jmsloadtester/master/doc/images/ext_interceptor_7.jpg"><img class="alignnone size-thumbnail wp-image-34" title="ext_interceptor_7" src="https://raw.githubusercontent.com/niesfisch/jmsloadtester/master/doc/images/ext_interceptor_7-150x150.jpg" alt="" width="150" height="150"></a>
 
 4. now open the "conf/app.properties" and add/change the values (see image)
 
-<a href="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_appconfig_8.jpg"><img class="alignnone size-thumbnail wp-image-32" title="ext_appconfig_8" src="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_appconfig_8-150x150.jpg" alt="" width="150" height="150"></a>
+<a href="https://raw.githubusercontent.com/niesfisch/jmsloadtester/master/doc/images/ext_appconfig_8.jpg"><img class="alignnone size-thumbnail wp-image-32" title="ext_appconfig_8" src="https://raw.githubusercontent.com/niesfisch/jmsloadtester/master/doc/images/ext_appconfig_8-150x150.jpg" alt="" width="150" height="150"></a>
 
 5. build and run the application again
 6. check the console window for the "system.out.println" lines (see image) which prove that our new classes are used
 
-<a href="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_sysout_9.jpg"><img class="alignnone size-thumbnail wp-image-31" title="ext_sysout_9" src="http://tech.marcel-sauer.de/wp-content/uploads/2008/09/ext_sysout_9-150x150.jpg" alt="" width="150" height="150"></a>
+<a href="https://raw.githubusercontent.com/niesfisch/jmsloadtester/master/doc/images/ext_sysout_9.jpg"><img class="alignnone size-thumbnail wp-image-31" title="ext_sysout_9" src="https://raw.githubusercontent.com/niesfisch/jmsloadtester/master/doc/images/ext_sysout_9-150x150.jpg" alt="" width="150" height="150"></a>
 
 you should now have an idea of how these "pluggable" features work and create some real stuff
 the rest is up to you :)
@@ -491,30 +491,3 @@ just a short wrap up of how JMS Load Tester works
 - different acknowledgement modes are supported when creating the sender sessions
 
 can this be done better? i am sure it can. as i am neither a JMS nor a Threading expert there are loads of things that could be improved i guess. why not give some suggestions after you have tried the tool?
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
